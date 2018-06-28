@@ -1,0 +1,42 @@
+.cardProduct{
+    box-shadow: 0 0 15px #777; border: 1px solid; border-radius: 7px; display: flex; padding: 10px 40px 10px 40px}
+
+.box-flexslider{
+    width: 400px; margin-right: 50px}
+
+.topics{
+    font-size: 18px; color: #555; display: block; font-weight: 900;
+    }
+
+.span-text{
+    width: 200px; display: block; word-wrap: break-word; font-size: 16px; color: #777;
+    }
+
+#selectForm{
+        font-size: 17px; width: 150px; padding-left: 4px; border-radius: 5px; margin: 10px 0 10px 0;}
+
+.size-cell{
+    border: 1px solid; border-radius: 4px; width: 35px; height: 35px; margin: 3px; line-height: 35px}
+
+
+@media only screen and (max-width: 480px) {
+    .cardProduct{
+        box-shadow: 0 0 10px #777; border: 1px solid; border-radius: 7px; display: flex; padding: 5px}
+    
+    .box-flexslider{
+        width: 250px; margin-right: 5px}
+
+    .topics{
+        font-size: 14px; color: #555; display: block; font-weight: 900;
+        }
+    .span-text{
+        width: 100px; display: block;  word-wrap: break-word; font-size: 13px; color: #777;
+        }
+    #selectForm{
+        font-size: 13px; width: 100px; border-radius: 4px;}
+
+    .size-cell{
+        border: 1px solid; border-radius: 4px; width: 20px; height: 20px; margin: 2px; line-height: 20px}
+    
+
+    }

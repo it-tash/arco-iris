@@ -1,0 +1,148 @@
+<div style="align-self: flex-end; height: 25px; width: 80px; border: 1px solid #eeeeee; font-size: 20px; border-radius: 7px; text-align: center; line-height: 20px; color: #999">
+    <span id="resp">info</span>
+</div>
+
+<div style="display: flex; justify-content: space-around;">
+
+    <div style="display: flex; flex-direction: column; height: 250px; justify-content: space-around; ">
+        <input type="hidden" id="idGroup" value="<%=idGroup %>">
+        <input type="hidden" id="checkMainId" value="true">
+        <input type="file" name="photo" id="foto" accept="image/*,image/jpeg" style="border-radius: 17px;">
+
+        
+        <label><input type="text" name="artikul" id="artikulId" placeholder="строгий артикул" style="font-size: 20px; height: 30px; width: 300px; line-height: 20px; border-radius: 7px;"> </label>
+
+        <label><input type="text" name="descript" id="descrId" placeholder="Опишите товар" style="font-size: 20px; height: 30px; width: 300px; line-height: 20px; border-radius: 7px;"> </label>
+
+        <!-- <label><input type="text" name="price" id="priceId" placeholder="Цена товара" style="font-size: 20px; height: 30px; width: 300px; line-height: 20px; border-radius: 7px;"> </label> -->
+
+        <button onclick="sendImage()" style="font-size: 20px; height: 30px; width: 100px; line-height: 20px; border-radius: 7px; background-color: #00ff00">Добавить</button>
+    </div>
+
+</div>
+
+<script>
+    const info = document.getElementById('resp');
+    
+    let globalFilePhoto;
+    const fotoInput = document.getElementById('foto');
+    fotoInput.onchange = function (e) {
+        const fotos = e.target.files;
+        globalFilePhoto = fotos[0];
+    }
+
+ function sendImage() {
+     const idGroup = document.getElementById('idGroup').value;
+     const descriptImg = document.getElementById('descrId').value;
+    //  const price = document.getElementById('priceId').value;
+     const isMainImg = document.getElementById('checkMainId').value;
+     const artikul = document.getElementById('artikulId').value;
+     const fd = new FormData();
+     fd.append('photo', globalFilePhoto);
+     fd.append('idGroup', idGroup);
+     fd.append('descriptImg', descriptImg);
+    //  fd.append('price', price);
+     fd.append('isMainImg', isMainImg);
+     fd.append('artikul', artikul);
+
+     axios.post('/images', fd)
+         .then(response => {
+             window.location.href = '/cardAdd/<%=idGroup %>';
+             info.innerText = response.data;
+         })
+         .catch(function (err) {
+             alert(err.message);
+         });
+ }
+
+        
+
+
+
+
+
+    ////                     window.location.href = '/';
+    ////                     // `/${res}`
+
+    //    const xhr = getXmlHttp();
+//     const xhr = new XMLHttpRequest();
+//     xhr.open('post', '/images', true);
+//     xhr.send(fd);
+//
+//     xhr.onreadystatechange = function () {
+//         if (this.readyState == 4) {
+//             alert(this.readyState)
+//         }
+//     }
+//     if(xhr.responseText){
+//         alert(xhr.responseText);
+//     }
+
+
+
+
+
+
+//     xhr.onreadystatechange = function() {
+//         if (xhr.readyState !== 4) {
+//             alert('return')
+//         }
+//     }
+//            clearTimeout(xhrTimeout) // очистить таймаут при наступлении readyState 4
+//         alert(xhr.responseText)
+//
+//         if (xhr.status === 200) {
+//                // Все ок
+//                window.location.href = '/';
+////                document.getElementById('response').innerHTML = xhr.responseText;
+//            } else {
+//                handleError('status !== 200') // вызвать обработчик ошибки с текстом ответа
+//            }
+//
+//
+//
+////         Таймаут 10 секунд
+//        const xhrTimeout = setTimeout(function(){ xhr.abort(); handleError("сервер долго не отвечает") }, 10000);
+//
+//        function handleError(message) {
+//            // обработчик ошибки
+//            alert(message)
+//        }
+//
+//
+//
+//    function getXmlHttp(){
+//        let xmlhttp;
+//        try {
+//            xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
+//        } catch (e) {
+//            try {
+//                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+//            } catch (E) {
+//                xmlhttp = false;
+//            }
+//        }
+//        if (!xmlhttp && typeof XMLHttpRequest!=='undefined') {
+//            xmlhttp = new XMLHttpRequest();
+//        }
+//        return xmlhttp;
+//    }
+
+
+
+
+
+
+
+
+
+    //        axios.post(`/images`, {id})
+    //            .then(response => {
+    //                console.log('client response: ', response)
+    //            })
+    //            .catch(function (err) {
+    //                console.log(err.message)
+    //            });
+</script>
+
+

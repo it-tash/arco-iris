@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Document</title>
+
+        <link rel="stylesheet" href="/public/style.css">
+        <link rel="stylesheet" href="/public/styleMobile.css">
+        <link rel="stylesheet" href="/public/styleProductCard.css">
+
+
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    
+        <script
+        src="https://code.jquery.com/jquery-2.2.4.js"
+        integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="
+        crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="/fslider/flexslider.css" type="text/css">
+        <script src="/fslider/jquery.flexslider.js"></script>
+        <script>
+         $(window).load(function() {
+              $('#carousel').flexslider({
+                animation: "slide",
+                controlNav: false,
+                animationLoop: false,
+                slideshow: false,
+                itemWidth: 80,
+                itemMargin: 5,
+                asNavFor: '#slider'
+              });
+            
+              $('#slider').flexslider({
+                animation: "slide",
+                controlNav: false,
+                animationLoop: false,
+                slideshow: false,
+                sync: "#carousel"
+              });
+         });
+
+   
+      </script>
+</head>
+<body>
+<%- include ../common/shapka %>
+
+
+<div class="cardProduct">
+    <input type="hidden" id="idGroup" value="<%=idGroup %>">
+    <input type="hidden" id="artikul" value="<%=artikul %>">
+
+    <div class="box-flexslider">
+      <div id="slider" class="flexslider">
+        <ul class="slides">
+          <% for(var i=0; i<img.length;i++) {%>
+          <li style="text-align: center">
+            <img src="<%=img[i].imgPath %>" >
+            <span style="color: #777"><%=img[i].descriptImg %></span>
+
+          </li>
+          <%} %>
+        </ul>
+      </div>
+      <div id="carousel" class="flexslider">
+        <ul class="slides">
+          <% for(var i=0; i<img.length;i++) {%>
+          <li>
+            <img src="<%=img[i].imgPath %>" >
+          </li>
+          <%} %>
+        </ul>
+      </div>
+    </div>
+
+    <div style="display: flex; flex-direction: column">
+
+      <div class="box-text" style="margin-bottom: 20px;">
+          <span class="topics">Описание товара:</span>
+          <span class="topics">арт: <%=artikul %></span>
+          <span class="span-text"><%=textCard.text %></span>
+      </div>
+
+      <div class="cardInfo">
+          <span class="topics">Наличие на складе(шт):</span>
+          <select id="selectForm"> 
+            <% for(var i=0; i<colors.length;i++) {%>
+                <option id="selectColorId" value=<%=colors[i].color %>><%=colors[i].color %></option> 
+            <%} %>
+          </select>
+         
+      </div>
+
+      <div style="display: flex; text-align: center; "> 
+          <div style="display: flex; flex-direction: column;">
+              <label for="s">S</label>
+              <span id="s" class="size-cell" ></span>
+          </div>
+          <div style="display: flex; flex-direction: column">
+              <label for="m">M</label>
+              <span id="m" class="size-cell" ></span>
+          </div>
+            <div style="display: flex; flex-direction: column">
+              <label for="l">L</label>
+              <span id="l" class="size-cell" ></span>
+          </div>
+          <div style="display: flex; flex-direction: column">
+              <label for="xl">XL</label>
+              <span id="xl" class="size-cell" ></span>
+          </div>
+      </div>
+
+      <% if(access === 'true'){%>
+        <span class="topics" style="margin-top: 40px">Цена: <%=textCard.price %> грн.</span>
+      <%} else{%>
+        <span class="span-text" style="margin-top: 30px; font-size: 12px;">просмотр оптовых цен доступен после регистрации</span>
+      <%} %>
+
+   </div>
+<script>
+    const s = document.getElementById('s');
+    const m = document.getElementById('m');
+    const l = document.getElementById('l');
+    const xl = document.getElementById('xl');
+
+    const selectForm = document.getElementById('selectForm');
+    const firstColor = selectForm.value;
+    const idGroup = document.getElementById('idGroup').value;
+    const artikul = document.getElementById('artikul').value;
+
+    axios.post(`/getFirstColorSizes`, {firstColor, idGroup, artikul})
+                .then(response => {
+                  s.innerText = response.data.sizeS;
+                  m.innerText = response.data.sizeM; 
+                  l.innerText = response.data.sizeL;
+                  xl.innerText = response.data.sizeXL;
+                })
+                .catch(function (err) {
+                      alert(err.message);
+                });
+
+   selectForm.onchange = function (e) {
+      const onchangeColor= selectForm.value;
+      axios.post(`/getOnchangeColorSizes`, {onchangeColor, idGroup, artikul})
+                .then(response => {
+                  s.innerText = response.data.sizeS;
+                  m.innerText = response.data.sizeM; 
+                  l.innerText = response.data.sizeL;
+                  xl.innerText = response.data.sizeXL;
+                })
+                .catch(function (err) {
+                      alert(err.message);
+                });
+    }
+</script>
+
+  </div>
+
+</body>
+</html>

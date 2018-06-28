@@ -1,0 +1,66 @@
+
+h3, h5, span, label{
+	text-align:center;
+	font-family: sans-serif;
+	color:#070;
+	text-shadow: 1px 1px 2px #888;
+ }
+h5{
+	margin-top: -5px;
+}
+.fSize14{
+	font-size: 14px;
+	line-height: 14px;
+}
+.head {
+	margin-bottom: 10px;
+}
+
+input{
+	width:100%;
+	margin-bottom:20px;
+	padding:5px;
+	height:30px;
+	box-shadow: 1px 1px 7px #777;
+	border-radius:7px;
+	/*border:none;*/
+ }
+
+textarea{
+    width:100%;
+	height:80px;
+	margin-top:10px;
+	padding:5px;
+	box-shadow: 1px 1px 8px #777;
+	border-radius:7px;
+ }
+#send{
+	margin-top:15px;
+	width:100%;
+	height:45px;
+	font-family: sans-serif;
+	font-size:18px;
+	cursor:pointer;
+	color: #333;
+	background: linear-gradient(to top, #22bb55, #fff);
+	border-radius: 10px;
+	box-shadow: 5px 5px 10px #111;
+}
+
+#feedback{
+	text-align:center;
+	height:530px;
+	width:400px;
+	padding:0 25px 10px 15px;
+	background-color:#fff;
+	border:2px solid gray;
+	border-radius:10px;
+	font-family:sans-serif;
+	box-shadow: 0 0 5px #777;
+	}
+.container{
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	}

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ru">
+<%- include ../common/head %>
+
+<body>
+<%- include ../common/shapka %>
+<h2 style="margin: 10px; text-align: center">База регистраций</h2>
+
+<div style="display: flex; flex-direction: row-reverse; width:98%; margin: auto; flex-wrap: wrap-reverse;">
+
+    <% for(let i=0; i<base.length;i++) {%>
+    <!--<div class="inCatalogImgBox" >-->
+    <div style="display: flex;flex-direction: column;flex-grow: 1; align-items: center; border: 1px solid; border-radius: 7px; font-size: 20px;">
+
+
+        <span style="color: brown"><%=base[i].date.toDateString() %></span>
+        <span><%=base[i].name %></span>
+        <span><%=base[i].telNo %></span>
+        <span><%=base[i].business %></span>
+        <span><%=base[i].email %></span>
+        <span><%=base[i].viber %></span>
+
+    </div>
+    <%} %>
+</div>
+
+
+</body>
+
+</html>

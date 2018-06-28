@@ -1,0 +1,54 @@
+.wrap-boxes{
+    display: flex; }
+
+.box-forms{
+    display: flex; flex-direction: column; justify-content: flex-start; border: 1px solid #777; border-radius: 4px; margin-bottom: 4px; padding: 2px;}
+
+.button-add{
+    font-size: 20px; height: 30px; width: 100px; line-height: 20px; border-radius: 7px; background-color: #00ff00;}
+
+.size-cell-add{
+    font-size: 20px; height: 30px; width: 40px; line-height: 20px; border-radius: 7px; text-align: center;}
+
+.inputs{
+    font-size: 16px; height: 30px; width: 300px; line-height: 20px; border-radius: 7px; margin: 5px 0 5px 0;}
+
+.topics{
+    font-size: 14px; color: #555; display: block; font-weight: 700;}
+
+.box-ediForms{display: flex;}   
+
+
+#selectForm{
+    font-size: 17px; width: 150px; padding-left: 4px; border-radius: 5px; margin: 10px 0 10px 0;}
+
+.size-cell{
+    border: 1px solid; border-radius: 4px; width: 35px; height: 35px; margin: 0 3px 3px 3px; line-height: 35px; text-align: center;}
+
+label{
+    line-height: 0; text-align: center; margin-top: 5px;
+}
+
+
+ 
+@media only screen and (max-width: 480px) {
+    
+    .wrap-boxes{
+        display: flex; flex-direction: column;}
+   
+    .topics{
+        font-size: 12px; color: #555; display: block; font-weight: 700;
+        }
+    .box-ediForms{
+        display: flex; flex-direction: column; margin: auto;} 
+
+    #selectForm{
+        font-size: 15px; width: 120px; border-radius: 4px;}
+
+    .size-cell{
+        border: 1px solid; border-radius: 4px; width: 35px; height: 35px; margin: 2px; line-height: 20px; text-align: center;}
+    
+        
+
+    
+    }

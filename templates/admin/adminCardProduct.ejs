@@ -1,0 +1,259 @@
+<div style="align-self: flex-end; height: 10px; width: 80px; font-size: 20px;  text-align: center; line-height: 20px; color: #999">
+    <span id="resp">info</span>
+</div>
+
+<span class="topics">СОЗДАТЬ</span>
+
+<div  class="wrap-boxes">
+
+    <div class="box-forms">
+        <span class="topics">Добавить фото</span>
+        <input type="hidden" id="idGroup" value="<%=idGroup %>">
+        <input type="hidden" id="checkMainId" value="false">
+        <input type="hidden" id="artikulId" value="<%=artikul %>">
+        <input type="file" name="photo" id="foto" accept="image/*,image/jpeg" style="margin-bottom: 10px;">
+
+        <input class="inputs" type="text" id="descrId" placeholder="Опишите товар">
+
+        <button class="button-add" onclick="sendImage()">Добавить</button>
+    </div>
+        <!-- ----------------------------------------------------------------- -->
+    <%if(!textCard){%>
+            <div class="box-forms">
+                <span class="topics">Добавить текст</span>
+                <textarea class="inputs" type="text" id="descrCardTextId" placeholder="Опишите товар"></textarea>
+
+                <input class="inputs" type="text" id="priceCardTextId" placeholder="Цена товара" style="width: 120px;"> 
+
+                <button class="button-add" onclick="sendTextCard()">Добавить</button>
+            </div>
+     <%}%>
+
+        <!-- ----------------------------------------------------------------- -->
+        <div class="box-forms">
+            <span class="topics">Добавить цвет</span>
+            <input class="inputs" type="text" name="colorCard" id="colorCardId" placeholder="цвет">
+            <div style="display: flex;">
+                <input class="size-cell-add" type="number" name="sizeS" id="sizeSId" placeholder="S">
+                <input class="size-cell-add" type="number" name="sizeM" id="sizeMId" placeholder="M">
+                <input class="size-cell-add" type="number" name="sizeL" id="sizeLId" placeholder="L">
+                <input class="size-cell-add" type="number" name="sizeXL" id="sizeXLId" placeholder="XL">
+            </div>
+            <button class="button-add" onclick="sendColorCard()">Добавить</button>
+
+        </div>
+
+</div>
+
+
+<%if(textCard || colors.length > 0){%>
+    <span class="topics">РЕДАКТИРОВАТЬ</span>
+<%}%> 
+
+<div class="wrap-boxes">
+    <%if(textCard){%>
+        <div class="box-forms" >
+            <span class="topics">Текст</span>
+            <textarea class="inputs" type="text" id="editTextCardId"><%=textCard.text %></textarea>
+
+            <button class="button-add" onclick="editTextCard()">Edit</button>
+            <span class="topics">Цена</span>
+            <input class="inputs" type="text" id="editPriceCardId" value="<%=textCard.price %>" style="width: 120px;">
+            <button class="button-add" onclick="editPriceCard()">Edit</button>
+        </div>
+    <%}%> 
+    <%if(colors.length > 0){%>
+        <div class="box-forms">
+            <div>
+                <span class="topics">Наличие на складе:</span>
+                <select id="selectForm"> 
+                <% for(var i=0; i<colors.length;i++) {%>
+                    <option id="selectColorId" value=<%=colors[i].color %>><%=colors[i].color %></option> 
+                <%} %>
+                </select>
+            </div>
+  
+            <div style="display: flex;"> 
+
+                <div style="display: flex; flex-direction: column;">
+                    <label for="s">S</label>
+                    <input class="size-cell" type="number" id="edit-SId" >
+                </div>
+                <div style="display: flex; flex-direction: column">
+                    <label for="m">M</label>
+                    <input class="size-cell" type="number" id="edit-MId" >
+                </div>
+                <div style="display: flex; flex-direction: column">
+                    <label for="l">L</label>
+                    <input class="size-cell" type="number" id="edit-LId" >
+                </div>
+                <div style="display: flex; flex-direction: column">
+                    <label for="xl">XL</label>
+                    <input class="size-cell" type="number" id="edit-XLId" >
+                </div>
+                
+            </div>
+            <button class="button-add" onclick="editSizesCard()">Edit</button>
+        </div>
+    <%}%> 
+
+</div>
+
+<script>
+
+    const info = document.getElementById('resp');
+    const idGroup = document.getElementById('idGroup').value;
+    const artikul = document.getElementById('artikulId').value;
+    
+    // --------------------getColorSizes-------------------------------------------
+    const editS = document.getElementById('edit-SId');
+    const editM = document.getElementById('edit-MId');
+    const editL = document.getElementById('edit-LId');
+    const editXL= document.getElementById('edit-XLId');
+    
+                    if(document.getElementById('selectForm')){
+        const selectForm = document.getElementById('selectForm');
+        const firstColor = selectForm.value;
+    
+
+        axios.post(`/getFirstColorSizes`, {firstColor, idGroup, artikul})
+                    .then(response => {
+                        editS.value = response.data.sizeS;
+                        editM.value = response.data.sizeM; 
+                        editL.value = response.data.sizeL;
+                        editXL.value = response.data.sizeXL;
+                    })
+                    .catch(function (err) {
+                        alert(err.message);
+                    });
+
+        selectForm.onchange = function (e) {
+            const onchangeColor= selectForm.value;
+            axios.post(`/getOnchangeColorSizes`, {onchangeColor, idGroup, artikul})
+                        .then(response => {
+                        editS.value = response.data.sizeS;
+                        editM.value = response.data.sizeM; 
+                        editL.value = response.data.sizeL;
+                        editXL.value = response.data.sizeXL;
+                        })
+                        .catch(function (err) {
+                            alert(err.message);
+                        });
+        }
+    }
+    // -----------------------------------------------------------------------------
+    
+    let globalFilePhoto;
+    const fotoInput = document.getElementById('foto');
+    fotoInput.onchange = function (e) {
+        const fotos = e.target.files;
+        globalFilePhoto = fotos[0];
+    }
+
+ function sendImage() {
+     const descriptImg = document.getElementById('descrId').value;
+     const isMainImg = document.getElementById('checkMainId').value;
+     const fd = new FormData();
+     fd.append('photo', globalFilePhoto);
+     fd.append('idGroup', idGroup);
+     fd.append('descriptImg', descriptImg);
+     fd.append('isMainImg', isMainImg);
+     fd.append('artikul', artikul);
+
+     axios.post('/images', fd)
+         .then(response => {
+            window.location.href = '/openCard/<%=idGroup %>/<%=artikul %> ';
+            info.innerText = response.data;
+         })
+         .catch(function (err) {
+             alert(err.message);
+         });
+ }
+
+ function sendTextCard(){
+    const idGroup = document.getElementById('idGroup').value;
+    const descrCardText = document.getElementById('descrCardTextId').value;
+    const priceCardText = document.getElementById('priceCardTextId').value;
+
+    axios.post(`/sendTextCard`, {idGroup, priceCardText, artikul, descrCardText})
+               .then(response => {
+                window.location.href = '/openCard/<%=idGroup %>/<%=artikul %> ';
+                // info.innerText = response.data;
+               })
+               .catch(function (err) {
+                    alert(err.message);
+               });
+}
+
+function sendColorCard(){
+    const idGroup = document.getElementById('idGroup').value;
+    const colorCard = document.getElementById('colorCardId').value;
+    const sizeS = document.getElementById('sizeSId').value;
+    const sizeM = document.getElementById('sizeMId').value;
+    const sizeL = document.getElementById('sizeLId').value;
+    const sizeXL = document.getElementById('sizeXLId').value;
+
+    axios.post(`/sendColorCard`, {idGroup, artikul, colorCard, sizeS, sizeM, sizeL, sizeXL})
+               .then(response => {
+                // info.innerText = response.data;
+                window.location.href = '/openCard/<%=idGroup %>/<%=artikul %> ';
+               })
+               .catch(function (err) {
+                    alert(err.message);
+               });
+ }
+
+//  -------------------------edit----------------------------------
+
+function editTextCard(){
+    const idGroup = document.getElementById('idGroup').value;
+    const editTextCard = document.getElementById('editTextCardId').value;
+
+    axios.post(`/sendEditTextCard`, {idGroup, artikul, editTextCard})
+               .then(response => {
+                // info.innerText = response.data;
+                window.location.href = '/openCard/<%=idGroup %>/<%=artikul %> ';
+               })
+               .catch(function (err) {
+                    alert(err.message);
+               });
+}
+
+function editPriceCard(){
+    const idGroup = document.getElementById('idGroup').value;
+    const priceCardText = document.getElementById('editPriceCardId').value;
+
+    axios.post(`/sendEditPriceCard`, {idGroup, priceCardText, artikul})
+               .then(response => {
+                // info.innerText = response.data;
+                window.location.href = '/openCard/<%=idGroup %>/<%=artikul %> ';
+               })
+               .catch(function (err) {
+                    alert(err.message);
+               });
+}
+
+
+function editSizesCard(){
+    const idGroup = document.getElementById('idGroup').value;
+    // const priceCardText = document.getElementById('editPriceCardId').value;
+    const editingColor= selectForm.value;
+    const edS=editS.value;
+    const edM=editM.value;
+    const edL=editL.value;
+    const edXL=editXL.value;
+
+
+    axios.post(`/sendEditSizesCard`, {idGroup, editingColor, artikul, edS, edM, edL, edXL})
+               .then(response => {
+                window.location.href = '/openCard/<%=idGroup %>/<%=artikul %> ';
+                // info.innerText = response.data;
+               })
+               .catch(function (err) {
+                    alert(err.message);
+               });
+}
+
+</script>
+
+

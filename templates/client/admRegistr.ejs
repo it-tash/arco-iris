@@ -1,0 +1,31 @@
+<div class="modal fade" id="registrModalAdm" tabindex="-1" role="dialog" aria-labelledby="registrModalLabel" aria-hidden="true">
+
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+
+                <form action="/registrAdm" method="POST">
+                    <div class="form-group">
+                        <label for="registrInputLog"><b>Регистрация Админа</b></label>
+                        <input type="text" class="form-control" id="registrInputLogAdm" placeholder="Логин" name="name">
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="registrInputPassword1">Придумайте пароль</label>
+                        <input type="password" class="form-control" id="registrInputPasswordAdm" placeholder="Пароль" name="pass">
+                    </div>
+
+                    <div class="form-group">
+                        <input type="password" class="form-control" id="registrInputPassword2Adm" placeholder="повторите пароль" name="pass2">
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Регистрация</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

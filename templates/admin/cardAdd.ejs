@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ru">
+<%- include ../common/head %>
+<body>
+<%- include ../common/shapka %>
+
+
+<% if(includePage === 'inCard'){ %>
+    <%- include adminCardProduct.ejs %>
+<%}else{ %>
+    <%- include formImgAdd.ejs %>
+<%} %>
+
+<div id="inCatalogBox" onmousedown="return false">
+    <% for(var i=0; i<img.length;i++) {%>
+    <div class="inCatalogImgBox" style="margin-top: 10px">
+        <img src="<%=img[i].imgPath %>" style="width: 100px; height: auto">
+        <span style="font-size: 8px; line-height: 1;"><%=img[i].strictArtikul%></span>
+        <span style="font-size: 8px; line-height: 1;"><%=img[i].descriptImg%></span>
+        <span style="font-size: 8px; line-height: 1;"><%=img[i].price%></span>
+        <div style="display: flex">
+
+                <% if(includePage === 'inCard'){ %>
+                    <a href="/delImg/<%=img[i]._id %>/<%=img[i].idGroup%>">del</a>
+                <%}else{ %>
+                    <a href="/openCard/<%=img[i].idGroup%>/<%=img[i].strictArtikul%>">open</a>
+                <%} %>
+        </div>
+    </div>
+    <%} %>
+</div>
+
+
+</body>
+</html>

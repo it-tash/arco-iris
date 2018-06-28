@@ -1,0 +1,28 @@
+{
+  "name": "myEngine",
+  "version": "3.0.0",
+  "description": "nodejs with ejs & mongo",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "keywords": [
+    "arcoiris"
+  ],
+  "author": "Taushev",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "body-parser": "^1.18.3",
+    "cookie-parser": "^1.4.3",
+    "ejs": "2.5.6",
+    "express": "^4.16.3",
+    "express-favicon": "^2.0.0",
+    "express-session": "^1.15.6",
+    "imagemagick": "^0.1.3",
+    "mongoose": "^4.9.0",
+    "multer": "1.3.0",
+    "nodemon": "^1.17.5"
+  }
+}

@@ -1,0 +1,684 @@
+/**
+                /////////////  MOBILE Version css  ////////////////
+ */
+@media only screen and (max-width: 480px) {
+    /*-------------------shapka----------------------*/
+    /** {*/
+        /*margin: 0;*/
+        /*padding: 0;*/
+        /*line-height: 0;*/
+    /*}*/
+    body {
+        display: flex;
+        align-items: center; /*центрируем по ширине*/
+        flex-direction: column;
+        overflow: scroll;
+    }
+    header {
+        width: 98%;
+        height: 30px;
+        margin-top: 5px;
+        display: flex;
+        justify-content: space-around; /* to child */
+        align-items: center;
+        background-color: black;
+    }
+
+    header #brand>span {
+        font-family: "Footlight MT Light", sans-serif;
+        font-size: 20px;
+        color: #fff;
+    }
+    header span {
+        font-family: sans-serif;
+        color: #fff;
+    }
+    #street, #tel2{
+        display: none;
+    }
+    nav {
+        width: 98%;
+        height: 40px;
+        display: flex;
+        justify-content: space-between; /* to child */
+        align-items: center;
+    }
+
+    nav>a {
+        font-family: sans-serif;
+        font-size: 14px;
+        color: #777;
+        text-decoration: none;
+    }
+
+    /*-----------------------------------------------*/
+
+    #blinkerBox {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center; /* to child */
+        width: 98%;
+        margin-top: 10px;
+    }
+
+    #blinkerBox > img {
+        display: none;
+        width: 100%;
+        border-radius: 3px;
+        opacity: 0;
+    }
+
+    #nameCompan {
+        line-height: 40px;
+        font-family: "Juice ITC", sans-serif;
+        font-size: 26px;
+        color: #777;
+    }
+
+    article {
+        width: 94%;
+        margin-top: 1px;
+        margin-bottom: 30px;
+        display: flex;
+        justify-content: flex-start; /* to child */
+        flex-direction: column;
+    }
+
+    #novisible {
+        opacity: 0;
+        font-size: 12px;
+        line-height: 12px;
+    }
+
+    article > span, h2, h1 {
+        text-indent: 10px; /* Отступ первой строки в пикселах */
+        font-size: 16px;
+        color: #555;
+        text-align: justify;
+        line-height: normal;
+    }
+
+    h1 {
+        font-size: 20px;
+        text-align: center;
+        color: #777;
+    }
+
+    h2 {
+        font-size: 19px;
+        text-align: center;
+        color: #777;
+        line-height: 25px;
+    }
+
+    #spanMobNon{
+        display: none;
+    }
+
+    main {
+        display: flex;
+        justify-content: space-around; /* to child */
+        margin-left: 5px;
+        width: 98%;
+        flex-direction: column;
+        /*height: 600px;*/
+        /*border: 1px solid;*/
+    }
+
+    #hght {
+        width: 100%;
+        height: auto;
+        /*border: 1px solid;*/
+    }
+
+    #hght > img {
+        width: 100%;
+        height: auto;
+    }
+
+    #rightBox {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        flex-direction: column;
+        width: 100%;
+        height: auto;
+        /*border: 1px solid red;*/
+    }
+
+    #wdth {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        height: auto;
+        /*border: 1px solid;*/
+    }
+
+    #wdth>img {
+        width: 100%;
+        height: 50%;
+    }
+
+    #trplBox {
+        display: flex;
+        justify-content: space-around;
+        width: 100%;
+        height: auto;
+        /*border: 1px solid red;*/
+    }
+
+    #trplBox > img {
+        width: 33%;
+        height: 50%;
+    }
+
+    main img {
+        border-radius: 3px;
+        /*box-shadow: 0 0 100px #333;*/
+    }
+
+    footer {
+        display: flex;
+        justify-content: space-around;
+        width: 100%;
+        height: 150px;
+        background-color: #333;
+        font-size: 12px;
+        color: #ddd;
+    }
+
+    #footLeftBox {
+        display: flex;
+    }
+
+    #footRightBox, .followTextIcons, #footAdress {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center; /*центрируем по ширине*/
+    }
+
+    .followTextIcons, #footAdress {
+        align-items: stretch; /*центрируем по ширине*/
+    }
+
+    .followTextIcons > span, #footAdress > span {
+        line-height: 25px;
+    }
+
+    #footCentrBox {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center; /*центрируем по ширине*/
+    }
+
+    #footCentrBox span {
+        line-height: 18px;
+        text-align: center;
+    }
+
+    /**
+    //////// CATALOG Main
+ */
+    #sectionsBox{
+        width: 80%;
+        margin-top: 25px;
+        margin-bottom: 30px;
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .sectionsImgs{
+        width: 25%;
+        /*height: 280px;*/
+        border-radius: 4px;
+        overflow: hidden;
+        background-color: white;
+        box-shadow: 0 5px 15px #aaa;
+        cursor: pointer;
+    }
+    .rightShadow{
+        box-shadow: 10px 5px 10px #999;
+    }
+    .leftShadow{
+        box-shadow: -10px 5px 10px #999;
+    }
+    .sectionsImgs img{
+        width: 100%;
+        /*border-radius: 7px;*/
+    }
+    .sectionsImgs>img::selection{
+        background:transparent;
+    }
+    .sectionsImgs span{
+        font-family: sans-serif;
+        font-size: 1.7vw;
+        color: #555;
+        line-height: 1.7vw;
+    }
+    .catalogMainText{
+        padding: 10px;
+        width: 70%;
+        box-shadow: 0 0 10px #111;
+        border-radius: 5px;
+        margin-bottom: 150px;
+        text-align: center;
+    }
+
+    .catalogMainText span{
+        font-family: sans-serif;
+        font-size: 2.6vw;
+        color: #555;
+        line-height: 2.6vw;
+    }
+
+
+    /** inCatalog**/
+
+    #inCatalogBox{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        width: 95%;
+        margin-top: 30px;
+    }
+    .inCatalogImgBox{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        /*border: 1px solid;*/
+    }
+    .inCatalogImgBox span{
+        font-size: 12px;
+        color: #555;
+        line-height: 12px;
+    }
+    .inCatalogImgBox img{
+        width: 100px;
+        border-radius: 4px;
+        border: 1px solid #555;
+    }
+    .navBoxInCatalogs{
+        border: 3px solid #eee;
+        border-radius: 7px;
+        padding: 10px 0 10px 0;
+        margin: 50px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 90%;
+    }
+    .arrowBox{
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        /*text-align: center;*/
+    }
+    .vertSpanArrLeft{
+        writing-mode: vertical-lr;
+        -webkit-writing-mode: vertical-lr;
+        font-size: 3.5vw;
+        line-height: 3.5vw;
+    }
+    .vertSpanArrRight{
+        writing-mode: vertical-rl;
+        -webkit-writing-mode: vertical-rl;
+        font-size: 3.5vw;
+        line-height: 3.5vw;
+    }
+    .arrowBox img{
+        width: 80%;
+        height: 100%;
+        border-radius: 5px;
+    }
+    .navBoxInCatalogs button{
+        background-color: white;
+        cursor: pointer;
+        border-radius: 10px;
+        background: linear-gradient(to top, #22bb55, #fff);
+        width: 40%;
+        height: 40px;
+        font-size: 1.5vw;
+    }
+
+
+    /**aboutUs**/
+    #aboutMainBox{
+        width: 80%;
+        border: 1px solid #555;
+        margin: 30px;
+        padding: 10px;
+        border-radius: 5px;
+
+    }
+    .aboutTextBox{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+    }
+    .aboutTextBox span{
+        font-size: 20px;
+        line-height: 25px;
+        text-align: justify;
+        text-indent: 10px;
+        color: #555;
+    }
+    #telEmail{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    /* cabinet */
+
+
+    #inp{
+        font-size: 22px;
+        width: 150px;
+    }
+    .buttPassw{
+        padding: 2px 7px 2px 7px;
+        margin: 0 5px 0 3px;
+        font-size: 14px;
+        line-height: 20px;
+        border-radius: 7px;
+    }
+    #cabinetMainBox{
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end; /*центрируем по ширине*/
+        width: 100%;
+        margin-bottom: 20px;
+    }
+    #passwBox{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 30px;
+    }
+    #showpass{
+        padding: 2px;
+        border: 1px solid #999;
+    }
+    #uncorectPasBox{
+        height: 30px;
+        margin-bottom: 50px;
+        text-align: center;
+        /*margin-right: 60px;*/
+    }
+    .spanPrice{
+        font-size: 18px;
+        line-height: 30px;
+        color: green;
+    }
+    #spanUncorectPas{
+        display: none;
+        font-size: 18px;
+        line-height: 20px;
+        color: red;
+        margin-bottom: 30px;
+    }
+    #cabinetTextBox{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+
+    }
+    #boxInTextBox{
+        margin-left: 5%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 90%;
+        border: 1px solid;
+        border-radius: 4px;
+        padding: 5px;
+    }
+    #boxInTextBox>span{
+        text-indent: 10px;
+        font-size: 22px;
+        line-height: normal;
+        text-align: justify;
+        color: #555;
+    }
+
+
+    /* enter */
+
+    .enterMainBox img{
+        width: 150px;
+    }
+    .enterMainBox span{
+        font-size: 13px;
+        line-height: 18px;
+    }
+    #spanShtan{
+        font-size: 12px;
+        line-height: 18px;
+    }
+
+    /*   HomeWear */
+
+    .blogHwMainBox{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 95%;
+        margin: 30px;
+    }
+    .fotosPngTextBox{
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        width: 100%;
+    }
+    .fotoPng{
+        margin: -50px 20px -50px 20px;
+        display: flex;
+        justify-content: space-between;
+        width: 90%;
+    }
+    .fotosPngTextBox img{
+        width: 40%;
+        height: 40%;
+    }
+    .fotosPngTextBox span{
+        margin: 14vw 4vw 14vw 4vw;
+        width: 40%;
+        height: 50%;
+        font-size: 2vw;
+        line-height: normal;
+        text-align: justify;
+        color: #555;
+        box-shadow: 0 0 15px #333;
+        padding: 15px;
+    }
+
+    /* blog Xal*/
+
+    .blogXalMainBox{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 99%;
+        margin: 30px;
+    }
+    .blogXalMainBox img{
+        margin: 0 10px 0 10px;
+        width: 30%;
+        height: 30%;
+    }
+    .blogXalMainBox>.fotosFramesTextBox span{
+        /*margin-top: 8vw;*/
+        height: 60%;
+    }
+    h3{
+        color:#777;
+        margin-top: 30px;
+        line-height: normal;
+        text-align: center;
+    }
+    .just{
+        justify-content: space-between;
+    }
+    .telEmail button{
+        font-size: 2.2vw;
+        color: #111;
+        background: linear-gradient(to top, #22bb55, #fff);
+        margin: 20px;
+        width: 50vw;
+        height: 10vw;
+        border-radius: 10px;
+        box-shadow: 5px 5px 10px #111;
+    }
+
+    .outSpan {
+        margin-top: 20px;
+        text-indent: 10px;
+        font-size: 3.5vw;
+        line-height: normal;
+        text-align: justify;
+        color: #555;
+    }
+    .telEmail{
+        margin: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+    .telEmail span{
+        text-indent: 10px;
+        font-size: 3.5vw;
+        line-height: normal;
+        text-align: justify;
+        color: #555;
+    }
+    .blogImg1{
+        width: 100%;
+        margin-top: 20px;
+    }
+    .fotosFramesTextBox{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+    }
+    .fotoFrame{
+        margin: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+    }
+    .fotosFramesTextBox img{
+        width: 45%;
+        height: 45%;
+    }
+    .fotosFramesTextBox span{
+        margin: 3vw;
+        width: 40%;
+        font-size: 2.2vw;
+        line-height: normal;
+        text-align: justify;
+        color: #555;
+        box-shadow: 0 0 15px #333;
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+
+    /*  blogMain */
+
+    .blogMainMainBox{
+        margin: 10px 5px 10px 5px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        width: 100%;
+    }
+    .blogMainMainBox img{
+        width: 100%;
+        height: 100%;
+    }
+    .horizontBoxMainBlog{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+    }
+
+    .horizontBoxMainBlog span{
+        font-size: 4vw;
+        line-height: 3.5vw;
+        writing-mode: vertical-lr;
+        -webkit-writing-mode: vertical-lr;
+    }
+
+    .rightBoxMainBlog {
+        margin-left: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+    }
+    .leftBoxMainBlog{
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        box-shadow: 0 0 5px #333;
+    }
+
+
+    .UpFotoBox, .bottomFotoBox{
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        margin: 20px 10px 10px 20px;
+        box-shadow: 0 0 5px #333;
+    }
+
+
+    .UpFotoBox span, .bottomFotoBox span{
+        font-size: 2.2vw;
+        line-height: 2vw;
+    }
+
+/*----------------------------------------------------*/
+    .logInRegButt{
+        margin-right: 10px;
+        padding: 0;
+        /*height: 30px;*/
+        border: 1px solid;
+        border-radius: 4px;
+        background: linear-gradient(#777, #111);
+        color: #ddd;
+        font-size: 3vw;
+        line-height: 2.2vw;
+
+
+    }
+
+
+
+
+}
+
+
+
+
+
+
