@@ -16,9 +16,11 @@
         <span style="color: brown"><%=base[i].date.toDateString() %></span>
         <span><%=base[i].name %></span>
         <span><%=base[i].telNo %></span>
+        <span><%=base[i].town %></span>
         <span><%=base[i].business %></span>
         <span><%=base[i].email %></span>
         <span><%=base[i].viber %></span>
+        <button onclick="location.href='/delUser/<%=base[i]._id %>'">Delete</button>
 
     </div>
     <%} %>

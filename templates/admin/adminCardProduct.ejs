@@ -65,7 +65,7 @@
     <%if(colors.length > 0){%>
         <div class="box-forms">
             <div>
-                <span class="topics">Наличие на складе:</span>
+                <span class="topics">Редактировать наличие:</span>
                 <select id="selectForm"> 
                 <% for(var i=0; i<colors.length;i++) {%>
                     <option id="selectColorId" value=<%=colors[i].color %>><%=colors[i].color %></option> 
@@ -93,10 +93,37 @@
                 </div>
                 
             </div>
+            <span id="infoSizeId">info</span>
             <button class="button-add" onclick="editSizesCard()">Edit</button>
         </div>
     <%}%> 
 
+    
+
+</div>
+
+<div class="existence"  style="display: flex; flex-wrap: wrap;">
+    <% for(var i=0; i<colors.length;i++) {%>
+        <div style="display: flex; border: 1px solid; margin: 2px;">
+            <span id="existenceColorId" style="border: .5px solid; padding: 0 2px 0 2px; background-color: #777; color: #fff"><%=colors[i].color %></span> 
+            <div style="display: flex; flex-direction: column; border: .2px solid; padding: 0 3px 0 3px">
+                <label for="existenceSId" style="font-size: 9px;" >s</label>
+                <span id="existenceSId" style="line-height: 5px;"><%=colors[i].sizeS %></span>
+            </div> 
+            <div style="display: flex; flex-direction: column; border: .2px solid; padding: 0 3px 0 3px">
+                <label for="existenceMId" style="font-size: 9px;" >m</label>
+                <span id="existenceMId" style="line-height: 5px;"><%=colors[i].sizeM %></span>
+            </div>  
+            <div style="display: flex; flex-direction: column; border: .2px solid; padding: 0 3px 0 3px">
+                <label for="existenceLId" style="font-size: 9px;" >l</label>
+                <span id="existenceLId" style="line-height: 5px;"><%=colors[i].sizeL %></span> 
+             </div> 
+            <div style="display: flex; flex-direction: column; border: .2px solid; padding: 0 3px 0 3px">
+                <label for="existenceXLId" style="font-size: 9px;" >xl</label>
+                <span id="existenceXLId" style="line-height: 5px;"><%=colors[i].sizeXL %></span> 
+            </div> 
+        </div>
+    <%} %>
 </div>
 
 <script>
@@ -128,6 +155,7 @@
                     });
 
         selectForm.onchange = function (e) {
+            const infoSizes = document.getElementById('infoSizeId');
             const onchangeColor= selectForm.value;
             axios.post(`/getOnchangeColorSizes`, {onchangeColor, idGroup, artikul})
                         .then(response => {
@@ -135,9 +163,11 @@
                         editM.value = response.data.sizeM; 
                         editL.value = response.data.sizeL;
                         editXL.value = response.data.sizeXL;
+                        infoSizes.innerText = 'info';
+
                         })
                         .catch(function (err) {
-                            alert(err.message);
+                            infoSizes.innerText = 'error';
                         });
         }
     }
@@ -237,6 +267,7 @@ function editPriceCard(){
 function editSizesCard(){
     const idGroup = document.getElementById('idGroup').value;
     // const priceCardText = document.getElementById('editPriceCardId').value;
+    const infoSizes = document.getElementById('infoSizeId');
     const editingColor= selectForm.value;
     const edS=editS.value;
     const edM=editM.value;
@@ -246,8 +277,8 @@ function editSizesCard(){
 
     axios.post(`/sendEditSizesCard`, {idGroup, editingColor, artikul, edS, edM, edL, edXL})
                .then(response => {
-                window.location.href = '/openCard/<%=idGroup %>/<%=artikul %> ';
-                // info.innerText = response.data;
+                // window.location.href = '/openCard/<%=idGroup %>/<%=artikul %> ';
+                infoSizes.innerText = response.data;
                })
                .catch(function (err) {
                     alert(err.message);

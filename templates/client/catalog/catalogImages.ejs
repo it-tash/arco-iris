@@ -6,6 +6,7 @@
 
         <img src="<%=img[i].imgPath %>" onclick="location.href='/openCardProduct/<%=img[i].idGroup %>/<%=img[i].strictArtikul %>'">
         <span><%=img[i].descriptImg%></span>
+        <span>арт.<%=img[i].strictArtikul%></span>
 
         <% if(userName !== 'Гость'){%>
             <span><%=img[i].price%> грн.</span>

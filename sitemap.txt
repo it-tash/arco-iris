@@ -1,0 +1,16 @@
+﻿https://arco-iris.com.ua
+https://arco-iris.com.ua/catalogSatin
+https://arco-iris.com.ua/catalogDonafen
+https://arco-iris.com.ua/catalogTrik
+https://arco-iris.com.ua/catalogBody
+https://arco-iris.com.ua/catalogSwimwears
+https://arco-iris.com.ua/openCardProduct/
+https://arco-iris.com.ua/openCardProduct/*
+https://arco-iris.com.ua/zhenskoe-bele.html
+https://arco-iris.com.ua/buy-dressing-gowns.html
+https://arco-iris.com.ua/buy-home-wear.html
+https://arco-iris.com.ua/catalogMain.html
+https://arco-iris.com.ua/contacts.html
+https://arco-iris.com.ua/cabinet.html
+https://arco-iris.com.ua/aboutUs.html
+https://arco-iris.com.ua/blogMain.html

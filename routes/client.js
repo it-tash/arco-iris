@@ -71,7 +71,7 @@ module.exports = function (app) {
             function (err, groupDonafen) {
                 if(groupDonafen.length>0) {
                     const idGroup = groupDonafen[0]._id.toString();
-                    DbImg.find({idGroup: idGroup},
+                    DbImg.find({idGroup: idGroup, isMainImg: 'true'},
                         function (err, img) {
                                 res.locals.img = img;
                                 res.locals.catalogName = "Бюстгалтеры и комплекты Donafen";
@@ -113,7 +113,7 @@ module.exports = function (app) {
                 if(groupSwim.length>0) {
 
                     const idGroup = groupSwim[0]._id.toString();
-                    DbImg.find({idGroup: idGroup}, function (err, img) {
+                    DbImg.find({idGroup: idGroup, isMainImg: 'true'}, function (err, img) {
                         if (err) {
                             next(err);
                         }
@@ -208,7 +208,7 @@ module.exports = function (app) {
                 if(groupBody.length>0) {
 
                     const idGroup = groupBody[0]._id.toString();
-                    DbImg.find({idGroup: idGroup}, function (err, img) {
+                    DbImg.find({idGroup: idGroup, isMainImg: 'true'}, function (err, img) {
                         if (err) {
                             next(err);
                         }
@@ -255,7 +255,7 @@ module.exports = function (app) {
                 if(groupTrik.length>0) {
 
                     const idGroup = groupTrik[0]._id.toString();
-                    DbImg.find({idGroup: idGroup}, function (err, img) {
+                    DbImg.find({idGroup: idGroup, isMainImg: 'true'}, function (err, img) {
                         if (err) {
                             next(err);
                         }

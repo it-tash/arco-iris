@@ -7,8 +7,8 @@ const bodyParser = require('body-parser');
 const multer = require('multer');
 const favicon = require('express-favicon');
 
-// const privateKey = fs.readFileSync('configure/credentials/private.key', 'utf8');
-// const certificate = fs.readFileSync('configure/credentials/arco-iris_com_ua.crt', 'utf8');
+// const privateKey = fs.readFileSync('credentials/private.key', 'utf8');
+// const certificate = fs.readFileSync('credentials/arco-iris_com_ua.crt', 'utf8');
 // const credentials = {key: privateKey, cert: certificate};
 
 const app = express();
@@ -63,7 +63,7 @@ app.use((err, req, res, next)=>{
     // const httpsServer = https.createServer(credentials, app);
     //
     //
-    // httpsServer.listen(8443, '127.0.0.1', ()=>console.log('listening on 8443...'));
+    // httpsServer.listen(443, ()=>console.log('listening on 443...'));
 
 
 

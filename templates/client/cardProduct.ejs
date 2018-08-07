@@ -2,9 +2,14 @@
 <html lang="ru">
 <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>Document</title>
+
+        <link rel="stylesheet" 
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
+        <%- include ./registrForm %>
+        <%- include ./enterForm %>
 
         <link rel="stylesheet" href="/public/style.css">
         <link rel="stylesheet" href="/public/styleMobile.css">
@@ -77,10 +82,10 @@
 
     <div style="display: flex; flex-direction: column">
 
-      <div class="box-text" style="margin-bottom: 20px;">
+      <div class="box-text" style="margin-bottom: 5px;">
           <span class="topics">Описание товара:</span>
-          <span class="topics">арт: <%=artikul %></span>
-          <span class="span-text"><%=textCard.text %></span>
+          <span class="topics">арт. <%=artikul %></span>
+          <span class="span-textCard"><%=textCard.text %></span>
       </div>
 
       <div class="cardInfo">
@@ -113,9 +118,19 @@
       </div>
 
       <% if(access === 'true'){%>
-        <span class="topics" style="margin-top: 40px">Цена: <%=textCard.price %> грн.</span>
+        <span class="topics" style="margin-top: 20px">Цена: <%=textCard.price %> грн.</span>
       <%} else{%>
-        <span class="span-text" style="margin-top: 30px; font-size: 12px;">просмотр оптовых цен доступен после регистрации</span>
+        <span class="span-textCard" style="margin-top: 5px; font-size: 12px;">просмотр оптовых цен доступен после регистрации</span>
+        <div style="display: flex; justify-content: flex-end; flex-direction: column;">
+            <button class="logInRegButt" style="width: fit-content; font-size: 10px; line-height: 5px;">
+                <a class="nav-link" id="reg" data-toggle="modal" data-target="#registrModal">Регистрация</a>
+              </button>
+          <button class="logInRegButt" style="width: fit-content; font-size: 10px; line-height: 5px;">
+            <a class="nav-link" id="enter" data-toggle="modal" data-target="#enterModal">Войти</a>
+          </button>
+      </div>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
       <%} %>
 
    </div>

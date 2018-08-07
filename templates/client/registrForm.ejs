@@ -34,7 +34,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="registrInputPassword1">Придумайте пароль</label>
+                    <label for="registrInputPassword">Придумайте пароль</label>
                     <input type="text" class="form-control" id="registrInputPassword" placeholder="Пароль" name="pass">
                 </div>
 
@@ -47,11 +47,20 @@
                     <input type="email" class="form-control" id="inputEmail" aria-describedby="emailHelp" placeholder="Ваш email" name="email">
                 </div>
 
-                <div class="form-check">
+                <!-- <div class="form-check">
                     <label class="form-check-label">
                         <input class="form-check-input" type="checkbox" value="vibergroup" checked name="viber">
                         хочу присоединиться к группе Viber
                     </label>
+                </div> -->
+
+                <div class="form-group">
+                    <label for="selectviber">Заявка на добавление в группу Viber</label>
+                    <select required class="form-control" id="selectviber" name="selectvibername">
+                        <option value="" disabled selected hidden>Подать заявку...</option>
+                        <option>Да</option>
+                        <option>Нет</option>
+                    </select>
                 </div>
 
                 <div class="modal-footer">

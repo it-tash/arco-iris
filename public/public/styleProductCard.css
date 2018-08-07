@@ -8,8 +8,8 @@
     font-size: 18px; color: #555; display: block; font-weight: 900;
     }
 
-.span-text{
-    width: 200px; display: block; word-wrap: break-word; font-size: 16px; color: #777;
+.span-textCard{
+    width: 250px; display: block; word-wrap: break-word; font-size: 16px; color: #777;
     }
 
 #selectForm{
@@ -29,8 +29,8 @@
     .topics{
         font-size: 14px; color: #555; display: block; font-weight: 900;
         }
-    .span-text{
-        width: 100px; display: block;  word-wrap: break-word; font-size: 13px; color: #777;
+    .span-textCard{
+        width: fit-content; overflow-wrap: break-word; word-break: break-all; font-size: 13px; 
         }
     #selectForm{
         font-size: 13px; width: 100px; border-radius: 4px;}

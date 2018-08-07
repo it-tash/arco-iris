@@ -8,19 +8,36 @@ app.post('/registr', (req, res) => {
         telNo = req.body.telNo,
         business = req.body.select,
         email = req.body.email,
-        viber = Boolean(req.body.viber);
+        selectviber = req.body.selectvibername,
+        viber;
+        
+        if (selectviber === 'Да'){
+            viber = true;
+       }else{
+            viber = false;
+       }
 
     // if (pass !== pass2) {
     //     res.render('message', {message: 'пароли не совпадают'});
     // }
 
     const userFilter = /^([а-яА-ЯёЁa-zA-Z0-9_\-])+$/;
+    const userTown = /^([а-яА-ЯёЁa-zA-Z0-9_\- ])+$/;
+    const userTel =  /^([z0-9])+$/;
     const passFilter = /^[а-яА-ЯёЁa-zA-Z0-9,!,%,&,@,#,$,\^,*,?,_,~,+]*$/;
     const emailFilter = /^[-\w.]+@([A-z0-9][-A-z0-9]+\.)+[A-z]{2,4}$/;
 
 
-    if (!userFilter.test(name) || !passFilter.test(pass) || !emailFilter.test(email) || !userFilter.test(town)) {
-        res.render('message', {message: 'опасный логин или пароль, не используйте спецсимволы !'});
+    if (!userFilter.test(name)) {
+        res.render('message', {message: 'Опасный логин, не используйте пробелы и спецсимволы ! Разрешены все буквы и цифры русского и латинского алфавитов а также тире и нижнее подчеркивание. Проверте отсутствие пробелов перед и после логина.'});
+    } else if(!passFilter.test(pass)){
+        res.render('message', {message: 'Опасный пароль, не используйте пробелы ! Проверте отсутствие пробелов перед и после пароля.'});
+    } else if(!emailFilter.test(email)){
+        res.render('message', {message: 'Неверный формат email'});
+    } else if(!userTown.test(town)){
+        res.render('message', {message: 'Неверный формат поля "Город", не используйте спецсимволы ! Разрешены все буквы и цифры русского и латинского алфавитов а также тире и нижнее подчеркивание.'});
+    } else if(!userTel.test(telNo)){
+        res.render('message', {message: 'Неверный формат телефона'});
     } else {
 
         const client = new User({

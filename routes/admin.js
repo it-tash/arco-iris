@@ -32,22 +32,16 @@ module.exports = function (app) {
 
     app.get('/markUser/:id', (req, res, next)=>{
         if(req.session.admin){
-            const markingId = String(req.params.id);
-            User.findById(markingId, function (err, user) {
+            const userId = req.params.id;
+            User.findByIdAndUpdate(userId, {mark: 'yes'}, function (err, user) {
                 if(err) {next(err);}
-
-                user.mark = 'yes';
-
-                user.save(function (err) {
+                DbGroup.find({}, function (err, groups) {
                     if (err) {next(err);}
-                    DbGroup.find({}, function (err, groups) {
-                        if (err) {next(err);}
-                        User.find({mark: 'no'}, function (err, users) {
-                            if(err) {next(err);}
-                            res.render('admin/main', {groups,base:users })
-                        })
+                    User.find({mark: 'no'}, function (err, users) {
+                        if(err) {next(err);}
+                        res.render('admin/main', {groups,base:users })
                     })
-                });
+                })
             })
         }else {
             res.render('message', {message: 'Error of rights'});
@@ -60,6 +54,21 @@ module.exports = function (app) {
             User.find({mark: 'yes'}, function (err, users) {
                 if(err) {next(err);}
                 res.render('./admin/basaUsers', {base:users})
+            })
+        }else{
+            res.render('message', {message: 'Error of rights'});
+        }
+    });
+
+    app.get('/delUser/:id', (req, res, next)=>{
+        if(req.session.admin){
+            const userId = req.params.id;
+            User.findByIdAndRemove(userId, function (err, user) {
+                if(err) {next(err);}
+                User.find({mark: 'yes'}, function (err, users) {
+                    if(err) {next(err);}
+                    res.render('./admin/basaUsers', {base:users})
+                })
             })
         }else{
             res.render('message', {message: 'Error of rights'});
