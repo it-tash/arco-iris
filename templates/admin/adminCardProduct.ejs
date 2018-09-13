@@ -2,7 +2,10 @@
     <span id="resp">info</span>
 </div>
 
-<span class="topics">СОЗДАТЬ</span>
+<!-- <div style="display: flex; width: 400px;;"> -->
+    <span class="topics">арт.<%=artikul %></span>
+    <span class="topics">СОЗДАТЬ</span>
+<!-- </div> -->
 
 <div  class="wrap-boxes">
 
@@ -11,6 +14,7 @@
         <input type="hidden" id="idGroup" value="<%=idGroup %>">
         <input type="hidden" id="checkMainId" value="false">
         <input type="hidden" id="artikulId" value="<%=artikul %>">
+        <input type="hidden" id="colorsLength" value="<%=colors.length %>">
         <input type="file" name="photo" id="foto" accept="image/*,image/jpeg" style="margin-bottom: 10px;">
 
         <input class="inputs" type="text" id="descrId" placeholder="Опишите товар">
@@ -68,7 +72,7 @@
                 <span class="topics">Редактировать наличие:</span>
                 <select id="selectForm"> 
                 <% for(var i=0; i<colors.length;i++) {%>
-                    <option id="selectColorId" value=<%=colors[i].color %>><%=colors[i].color %></option> 
+                    <option id="selectColorId" value="<%=colors[i].color %>"><%=colors[i].color %></option> 
                 <%} %>
                 </select>
             </div>
@@ -76,25 +80,28 @@
             <div style="display: flex;"> 
 
                 <div style="display: flex; flex-direction: column;">
-                    <label for="s">S</label>
+                    <label>S</label>
                     <input class="size-cell" type="number" id="edit-SId" >
                 </div>
                 <div style="display: flex; flex-direction: column">
-                    <label for="m">M</label>
+                    <label>M</label>
                     <input class="size-cell" type="number" id="edit-MId" >
                 </div>
                 <div style="display: flex; flex-direction: column">
-                    <label for="l">L</label>
+                    <label>L</label>
                     <input class="size-cell" type="number" id="edit-LId" >
                 </div>
                 <div style="display: flex; flex-direction: column">
-                    <label for="xl">XL</label>
+                    <label>XL</label>
                     <input class="size-cell" type="number" id="edit-XLId" >
                 </div>
                 
             </div>
             <span id="infoSizeId">info</span>
-            <button class="button-add" onclick="editSizesCard()">Edit</button>
+            <div>
+                <button class="button-add" onclick="editSizesCard()">Edit</button>
+                <button onclick="delColor()">Del</button>
+            </div>
         </div>
     <%}%> 
 
@@ -105,22 +112,22 @@
 <div class="existence"  style="display: flex; flex-wrap: wrap;">
     <% for(var i=0; i<colors.length;i++) {%>
         <div style="display: flex; border: 1px solid; margin: 2px;">
-            <span id="existenceColorId" style="border: .5px solid; padding: 0 2px 0 2px; background-color: #777; color: #fff"><%=colors[i].color %></span> 
+            <span id="existenceColorId<%=i %>" style="border: .5px solid; padding: 0 2px 0 2px; background-color: #777; color: #fff"><%=colors[i].color %></span> 
             <div style="display: flex; flex-direction: column; border: .2px solid; padding: 0 3px 0 3px">
-                <label for="existenceSId" style="font-size: 9px;" >s</label>
-                <span id="existenceSId" style="line-height: 5px;"><%=colors[i].sizeS %></span>
+                <label for="existenceSId<%=i %>" style="font-size: 9px;" >s</label>
+                <span id="existenceSId<%=i %>" style="line-height: 5px;"><%=colors[i].sizeS %></span>
             </div> 
             <div style="display: flex; flex-direction: column; border: .2px solid; padding: 0 3px 0 3px">
-                <label for="existenceMId" style="font-size: 9px;" >m</label>
-                <span id="existenceMId" style="line-height: 5px;"><%=colors[i].sizeM %></span>
+                <label for="existenceMId<%=i %>" style="font-size: 9px;" >m</label>
+                <span id="existenceMId<%=i %>" style="line-height: 5px;"><%=colors[i].sizeM %></span>
             </div>  
             <div style="display: flex; flex-direction: column; border: .2px solid; padding: 0 3px 0 3px">
-                <label for="existenceLId" style="font-size: 9px;" >l</label>
-                <span id="existenceLId" style="line-height: 5px;"><%=colors[i].sizeL %></span> 
+                <label for="existenceLId<%=i %>" style="font-size: 9px;" >l</label>
+                <span id="existenceLId<%=i %>" style="line-height: 5px;"><%=colors[i].sizeL %></span> 
              </div> 
             <div style="display: flex; flex-direction: column; border: .2px solid; padding: 0 3px 0 3px">
-                <label for="existenceXLId" style="font-size: 9px;" >xl</label>
-                <span id="existenceXLId" style="line-height: 5px;"><%=colors[i].sizeXL %></span> 
+                <label for="existenceXLId<%=i %>" style="font-size: 9px;" >xl</label>
+                <span id="existenceXLId<%=i %>" style="line-height: 5px;"><%=colors[i].sizeXL %></span> 
             </div> 
         </div>
     <%} %>
@@ -138,39 +145,39 @@
     const editL = document.getElementById('edit-LId');
     const editXL= document.getElementById('edit-XLId');
     
-                    if(document.getElementById('selectForm')){
+    if(document.getElementById('selectForm')){
         const selectForm = document.getElementById('selectForm');
         const firstColor = selectForm.value;
     
 
         axios.post(`/getFirstColorSizes`, {firstColor, idGroup, artikul})
-                    .then(response => {
-                        editS.value = response.data.sizeS;
-                        editM.value = response.data.sizeM; 
-                        editL.value = response.data.sizeL;
-                        editXL.value = response.data.sizeXL;
-                    })
-                    .catch(function (err) {
-                        alert(err.message);
-                    });
+            .then(response => {
+                editS.value = response.data.sizeS;
+                editM.value = response.data.sizeM; 
+                editL.value = response.data.sizeL;
+                editXL.value = response.data.sizeXL;
+            })
+            .catch(function (err) {
+                alert(err.message);
+            });
 
         selectForm.onchange = function (e) {
             const infoSizes = document.getElementById('infoSizeId');
             const onchangeColor= selectForm.value;
             axios.post(`/getOnchangeColorSizes`, {onchangeColor, idGroup, artikul})
-                        .then(response => {
-                        editS.value = response.data.sizeS;
-                        editM.value = response.data.sizeM; 
-                        editL.value = response.data.sizeL;
-                        editXL.value = response.data.sizeXL;
-                        infoSizes.innerText = 'info';
+                .then(response => {
+                editS.value = response.data.sizeS;
+                editM.value = response.data.sizeM; 
+                editL.value = response.data.sizeL;
+                editXL.value = response.data.sizeXL;
+                infoSizes.innerText = 'info';
 
-                        })
-                        .catch(function (err) {
-                            infoSizes.innerText = 'error';
-                        });
+                })
+                .catch(function (err) {
+                    infoSizes.innerText = 'error';
+                });
         }
-    }
+    }//if
     // -----------------------------------------------------------------------------
     
     let globalFilePhoto;
@@ -201,22 +208,19 @@
  }
 
  function sendTextCard(){
-    const idGroup = document.getElementById('idGroup').value;
     const descrCardText = document.getElementById('descrCardTextId').value;
     const priceCardText = document.getElementById('priceCardTextId').value;
 
     axios.post(`/sendTextCard`, {idGroup, priceCardText, artikul, descrCardText})
-               .then(response => {
-                window.location.href = '/openCard/<%=idGroup %>/<%=artikul %> ';
-                // info.innerText = response.data;
-               })
-               .catch(function (err) {
-                    alert(err.message);
-               });
+        .then(response => {
+        window.location.href = '/openCard/<%=idGroup %>/<%=artikul %> ';
+        })
+        .catch(function (err) {
+            alert(err.message);
+        });
 }
 
 function sendColorCard(){
-    const idGroup = document.getElementById('idGroup').value;
     const colorCard = document.getElementById('colorCardId').value;
     const sizeS = document.getElementById('sizeSId').value;
     const sizeM = document.getElementById('sizeMId').value;
@@ -224,49 +228,43 @@ function sendColorCard(){
     const sizeXL = document.getElementById('sizeXLId').value;
 
     axios.post(`/sendColorCard`, {idGroup, artikul, colorCard, sizeS, sizeM, sizeL, sizeXL})
-               .then(response => {
-                // info.innerText = response.data;
-                window.location.href = '/openCard/<%=idGroup %>/<%=artikul %> ';
-               })
-               .catch(function (err) {
-                    alert(err.message);
-               });
+        .then(response => {
+        window.location.href = '/openCard/<%=idGroup %>/<%=artikul %> ';
+        })
+        .catch(function (err) {
+            alert(err.message);
+        });
  }
 
 //  -------------------------edit----------------------------------
 
 function editTextCard(){
-    const idGroup = document.getElementById('idGroup').value;
     const editTextCard = document.getElementById('editTextCardId').value;
 
     axios.post(`/sendEditTextCard`, {idGroup, artikul, editTextCard})
-               .then(response => {
-                // info.innerText = response.data;
-                window.location.href = '/openCard/<%=idGroup %>/<%=artikul %> ';
-               })
-               .catch(function (err) {
-                    alert(err.message);
-               });
+        .then(response => {
+        window.location.href = '/openCard/<%=idGroup %>/<%=artikul %> ';
+        })
+        .catch(function (err) {
+            alert(err.message);
+        });
 }
 
 function editPriceCard(){
-    const idGroup = document.getElementById('idGroup').value;
     const priceCardText = document.getElementById('editPriceCardId').value;
 
     axios.post(`/sendEditPriceCard`, {idGroup, priceCardText, artikul})
-               .then(response => {
-                // info.innerText = response.data;
-                window.location.href = '/openCard/<%=idGroup %>/<%=artikul %> ';
-               })
-               .catch(function (err) {
-                    alert(err.message);
-               });
+        .then(response => {
+        window.location.href = '/openCard/<%=idGroup %>/<%=artikul %> ';
+        })
+        .catch(function (err) {
+            alert(err.message);
+        });
 }
 
 
 function editSizesCard(){
-    const idGroup = document.getElementById('idGroup').value;
-    // const priceCardText = document.getElementById('editPriceCardId').value;
+    const colorsLength =  document.getElementById('colorsLength').value;
     const infoSizes = document.getElementById('infoSizeId');
     const editingColor= selectForm.value;
     const edS=editS.value;
@@ -274,15 +272,37 @@ function editSizesCard(){
     const edL=editL.value;
     const edXL=editXL.value;
 
-
     axios.post(`/sendEditSizesCard`, {idGroup, editingColor, artikul, edS, edM, edL, edXL})
-               .then(response => {
-                // window.location.href = '/openCard/<%=idGroup %>/<%=artikul %> ';
-                infoSizes.innerText = response.data;
-               })
-               .catch(function (err) {
-                    alert(err.message);
-               });
+        .then(response => {
+            infoSizes.innerText = response.data;
+            if(infoSizes.innerText == 'edit success'){
+                document.getElementById('existenceSId'+ selectForm.selectedIndex).innerHTML = edS;
+                document.getElementById('existenceMId'+ selectForm.selectedIndex).innerHTML = edM;
+                document.getElementById('existenceLId'+ selectForm.selectedIndex).innerHTML = edL;
+                document.getElementById('existenceXLId'+ selectForm.selectedIndex).innerHTML = edXL;
+            }
+        })
+        .catch(function (err) {
+            alert(err.message);
+        });
+}
+
+function delColor(){
+    const editingColor= selectForm.value;
+    const infoSizes = document.getElementById('infoSizeId');
+    axios.post('/delColor', {idGroup, editingColor, artikul})
+         .then(response => {
+             if(response.data == 'delete success'){
+                window.location.href = '/openCard/<%=idGroup %>/<%=artikul %> ';
+             }else{
+                infoSizes.innerText = "ошибка, попробуй ещё";
+             }
+         })
+         .catch(function (err) {
+             alert(err.message);
+         });
+
+
 }
 
 </script>

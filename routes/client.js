@@ -6,6 +6,9 @@ const User = require('../models/userReg').User;
 const Admin = require('../models/adminReg').Admin;
 const DbCardText = require('../models/cardText').DbCardText;
 const DbColors = require('../models/colors').DbColors;
+const Order = require('../models/order').Order;
+const DbFullOrder = require('../models/fullOrder').FullOrder;
+const Buyer = require('../models/buyer').Buyer;
 
 
 
@@ -320,9 +323,12 @@ module.exports = function (app) {
                     if(err) {next(err);}
                     res.locals.img = img;
                     (req.session.user || req.session.admin)? res.locals.access = 'true' : res.locals.access = 'false';
+                    (req.session.admin)? res.locals.adminSesion = 'true' : res.locals.adminSesion = 'false';
+
                     (textCard)?res.locals.textCard = textCard: res.locals.textCard = false;
                     res.locals.colors = colors;
-                    res.render('./client/cardProduct', {idGroup, artikul})
+                    // res.locals.userId = req.session.user;
+                    res.render('./client/cardProduct', {idGroup, artikul});
                 })
             })
         })
@@ -352,7 +358,168 @@ module.exports = function (app) {
                     res.send(obj);
                  });
             })
+        });
+
+        app.post(`/putInBascket`, (req, res, next)=>{
+            const userId = req.session.user;
+            const idGroup = req.body.idGroup;
+            const artikul = req.body.artikul;
+            const img = req.body.img;
+            const colorOrder = req.body.colorOrder;
+            const sInner = req.body.sInner;
+            const mInner = req.body.mInner;
+            const lInner = req.body.lInner;
+            const xlInner = req.body.xlInner;
+
+
+            Order.findOne({userId, idGroup, strictArtikul: artikul, color: colorOrder}, function (err, orderDb) {
+                if(err) {next(err);}
+                    if(!orderDb){
+                        const order = new Order({
+                            userId: userId,
+                            color: colorOrder,
+                            idGroup: idGroup,
+                            strictArtikul: artikul,
+                            img: img,
+                            sizeS: sInner,
+                            sizeM: mInner,
+                            sizeL: lInner,
+                            sizeXL: xlInner
+                        });
+                        order.save(function (err) {
+                            if(err) {next(err);}
+                                res.send('добавлено в заказ');
+                        });
+                    }else{
+                        res.send('позиция уже существует, колличество можно добавить в корзине');
+                    }
+            });
+        
+        });
+
+
+        app.get('/bascket', (req, res, next)=>{
+            if(req.session.user){
+                Order.find({userId: req.session.user}, function (err, bascket) {
+                    if(err) {next(err);}
+                    User.findById(req.session.user, function (err, user) {
+                        if(err) {next(err);}
+                        Buyer.findOne({userId: req.session.user}, function (err, buyer) {
+                            if(err) {next(err);}
+                            res.locals.bascket = bascket;
+                            buyer ? res.locals.buyerTel = buyer.telNo :  res.locals.buyerTel = user.telNo;
+                            buyer ? res.locals.buyerTown = buyer.town :  res.locals.buyerTown = user.town;
+                            buyer ? res.locals.buyerName = buyer.name : res.locals.buyerName = '';
+                            buyer ? res.locals.buyerSoname = buyer.soname : res.locals.buyerSoname = '';
+                            buyer ? res.locals.novPost = buyer.novPost : res.locals.novPost = '';
+                            res.render('./client/bascket');
+                        });
+                     });
+                });
+            } else {
+                res.render(('message'), {message: 'необходимо войти или зарегистрироваться'});
+            }
+        });
+
+        app.post('/sendBuyerData', (req, res, next)=>{
+            const userId = req.session.user;
+            const buyerName = req.body.buyerName;
+            const buyerSoname = req.body.buyerSoname;
+            const buyerTel = req.body.buyerTel;
+            const buyerTown = req.body.buyerTown;
+            const novPost = req.body.novPost;
+                
+            Buyer.findOne({userId:req.session.user}, function (err, buyer) {
+                if(!buyer){
+                const buyer = new Buyer({
+                    userId: userId,
+                    name: buyerName,
+                    soname: buyerSoname,
+                    telNo: buyerTel,
+                    town: buyerTown,
+                    novPost: novPost
+                });
+                buyer.save(function (err) {
+                    if(err) {next(err);}
+                        res.send('данные записаны');
+                });
+                }else{
+                    buyer.name = buyerName;
+                    buyer.soname = buyerSoname;
+                    buyer.telNo = buyerTel;
+                    buyer.town = buyerTown;
+                    buyer.novPost = novPost;
+
+                    buyer.save(function (err) {
+                        if(err) {next(err);}
+                            res.send('данные перезаписаны');
+                    });
+                }
+            });
+           
+        });  
+
+    app.post('/getLatestBase', (req, res, next)=>{
+        const color = req.body.color;
+        const idGroup = req.body.idGroup;
+        const artikul = req.body.artikul;
+            
+        DbColors.find({idGroup, strictArtikul: artikul, color}, function (err, base ) {
+            if(err) {next(err);}
+            DbCardText.findOne({idGroup, strictArtikul: artikul}, function (err, cardText) {
+                if(err) {next(err);}
+                const price = cardText.price;
+                base.map(obj=>{
+                    res.send({obj, price});
+                });
+            })
+
         })
+       
+    });
+
+    app.post('/buy', (req, res, next)=>{
+        
+        const fullOrder = req.body._bascket;
+       
+        const fullDbOrder = new DbFullOrder({
+            userId: req.session.user,
+            fullOrderObj: fullOrder,
+            complete: 'no'
+        });
+        fullDbOrder.save(function (err) {
+            if(err) {next(err);}
+
+            fullOrder.map(order => {
+            const idGroup = order.idGroup;
+            const strictArtikul = order.strictArtikul;
+            const color = order.color;
+                DbColors.findOne({idGroup, strictArtikul, color}, function (err, oldColor) {
+                    if(err) {next(err);}
+                
+                    const newSizeS = oldColor.sizeS - order.sizeS;
+                    const newSizeM = oldColor.sizeM - order.sizeM;
+                    const newSizeL = oldColor.sizeL - order.sizeL;
+                    const newSizeXL = oldColor.sizeXL - order.sizeXL;
+                    
+
+                    DbColors.findOneAndUpdate({idGroup, strictArtikul, color}, {sizeS: newSizeS, sizeM: newSizeM, sizeL: newSizeL, sizeXL: newSizeXL}, {new: true}, function (err, newColor) {
+                        if(err) {next(err);}
+
+                        Order.findOneAndRemove({userId: req.session.user}, function (err, order) {
+                            if(err) {next(err);}
+
+                        });
+                        
+                    });
+                });
+            });
+            
+        });
+        res.send('success')
+    });
+
+
 
 
 

@@ -6,6 +6,9 @@ const DbGroup = require('../models/groupTovar').Group;
 const User = require('../models/userReg').User;
 const DbCardText = require('../models/cardText').DbCardText;
 const DbColors = require('../models/colors').DbColors;
+const DbFullOrder = require('../models/fullOrder').FullOrder;
+const Buyer = require('../models/buyer').Buyer;
+const Order = require('../models/order').Order;
 
 module.exports = function (app) {
 
@@ -144,32 +147,44 @@ module.exports = function (app) {
                             if (err) { next(err);}
                                 
                                 imageMagic();
+
+                                        const imgPath = filePath.substr(6); // путь к фотке без public/
+                                        const Images = new DbImg({
+                                            imgPath: imgPath,
+                                            idGroup: idGroup,
+                                            descriptImg: descriptImg,
+                                            isMainImg: isMainImg,
+                                            strictArtikul: strictArtikul
+                                        });
+
+                                        Images.save(function (err) {
+                                            if (err) {
+                                                console.dir(err);
+                                            } else {
+                                                console.dir('res.send');
+                                                res.send('Success');
+
+                                            }
+                                        });
                         })
                     }
                 }); 
         });
 
+    });
 
+   
 
-        const imgPath = filePath.substr(6); // путь к фотке без public/
-        const Images = new DbImg({
-            imgPath: imgPath,
-            idGroup: idGroup,
-            descriptImg: descriptImg,
-            isMainImg: isMainImg,
-            strictArtikul: strictArtikul
-         });
-
-        Images.save(function (err) {
-            if (err) {
-                console.dir(err);
-            } else {
-                console.dir('res.send');
-                res.send('Success');
-
-            }
+    app.post('/validateArtikul', (req, res, next)=>{
+        const strictArtikul = req.body.artikul;
+        DbImg.findOne({strictArtikul, isMainImg: 'true'}, function (err, double) {
+            if(err) {next(err);}
+                if(double){
+                    res.send('double')
+                }else{
+                    res.send('free')
+                }
         });
-
     });
 
 
@@ -219,7 +234,7 @@ module.exports = function (app) {
                     (textCard)?res.locals.textCard = textCard: res.locals.textCard = false;
                     res.locals.colors = colors;
                    
-                    res.render('./admin/cardAdd', {idGroup:idGroup, artikul: strictArtikul})
+                    res.render('./admin/cardAdd', {idGroup, artikul: strictArtikul})
                 })
             })
         })
@@ -347,8 +362,97 @@ module.exports = function (app) {
             if (err) {next(err);}
                 res.send('edit success');
         });
-    })
+    });
+
+    app.post(`/delColor`, (req, res, next)=>{
+        const idGroup = req.body.idGroup;
+        const artikul = req.body.artikul;
+        const editingColor = req.body.editingColor;
+        
+        DbColors.findOneAndRemove({idGroup, color: editingColor, strictArtikul: artikul}, function (err, deletedColor) {
+            if (err) {next(err);}
+            if(deletedColor){
+                res.send('delete success');
+            }
+        });
+    });
+
+
+
+    app.get(`/allOrdersInBasckets`, (req, res, next)=>{
+       
+        Order.find({}, function (err, orders) {
+            if (err) {next(err);}
+            const objUnicsIds = {};
+            orders.map(order => {
+                if(order.userId){ // admin order in bascket
+                    const userId = order.userId;
+                    objUnicsIds[userId] = true; // запомнить строку в виде свойства объекта
+                }
+            })
+            unicUsersIds = Object.keys(objUnicsIds);
+                res.render('./admin/allOrdersInBasckets', {unicUsersIds});
+        });
+    });
+
+
+    app.post('/getBascketOfUser', (req, res, next)=>{
+        const userId = req.body.userId;
+        User.findById(userId, function (err, user) {
+            if(err) {next(err);}
+            Order.find({userId}, function (err, orders) {
+                if(err) {next(err);}
+                    res.send({user, orders});
+            });
+        });
+    });
+
+    app.get(`/basaNewFullOrders`, (req, res, next)=>{
+       
+        DbFullOrder.find({complete: 'no'}, function (err, newfullOrders) {
+            if (err) {next(err);}
+                res.render('./admin/basaNewFullOrders', {newfullOrders});
+            });
+      
+    });
+
+    app.get(`/completeOrder/:id`, (req, res, next)=>{
+        const fullOrderId = req.params.id;
+        DbFullOrder.findByIdAndUpdate(fullOrderId, {complete: 'yes'}, function (err, fullOrder) {
+                if(err) {next(err);}
+                DbFullOrder.find({complete: 'no'}, function (err, newfullOrders) {
+                    if (err) {next(err);}
+                        res.render('./admin/basaNewFullOrders', {newfullOrders});
+                });
+           
+        });
+    });
+
+    app.get(`/basaCompletedOrders`, (req, res, next)=>{
+       
+        DbFullOrder.find({complete: 'yes'}, function (err, newfullOrders) {
+            if (err) {next(err);}
+                res.render('./admin/basaCompletedOrders', {newfullOrders});
+        });
+    });
    
+   
+
+    app.post('/getUser', (req, res, next)=>{
+        const userId = req.body.userId;
+        User.findById(userId, function (err, user) {
+            if(err) {next(err);}
+            Buyer.findOne({userId}, function (err, buyer) {
+                if(err) {next(err);}
+                res.send({user, buyer});
+            });
+        });
+    });
+
+   
+
+
+
 
 };
 

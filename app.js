@@ -24,7 +24,10 @@ app.use(bodyParser.json()); // req.body axios
 app.use(require('express-session')({
     resave: false,
     saveUninitialized: false,
-    secret: 'некийкукисекрет'
+    secret: 'некийкукисекрет',
+    cookie: {
+        maxAge: 30 * 24 * 60 * 60 * 1000
+      }
 }));
 
 

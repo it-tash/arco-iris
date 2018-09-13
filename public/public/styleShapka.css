@@ -1,0 +1,11 @@
+#buttonBascketBox {align-self: flex-end; margin: 5px 0 0 -2px; cursor: pointer; }
+#imgBascket {width: 35px; height: 35px;}
+
+@media only screen and (max-width: 480px) {
+   
+    #buttonBascketBox {margin: 0 1px 0 -5px; align-self: center;}
+    #imgBascket {width: 20px; height: 20px;}
+
+
+
+}

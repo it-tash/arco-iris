@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ru">
+<%- include ../common/head %>
+
+<body>
+<%- include ../common/shapka %>
+<h2 style="margin: 10px; text-align: center">Формирующиеся заказы в корзинах</h2>
+<input type="hidden" id="unicUsersIdsLength" value="<%=unicUsersIds.length%>">
+
+
+<div style="display: flex; flex-direction: row-reverse; width:98%; margin: auto; flex-wrap: wrap-reverse;">
+    
+    <% for(let i=0; i<unicUsersIds.length;i++) {%>
+    
+        <input type="hidden" id="unicUsersIds<%=i%>" value="<%=unicUsersIds[i] %>">
+
+        <div style="display: flex;flex-direction: column;flex-grow: 1; align-items: center; border: 1px solid; border-radius: 7px; font-size: 20px;">
+        
+            <div style="display: flex; flex-direction:column; text-align: center; padding: 5px ;border: 1px solid; border-radius: 4px;">
+                <span id="bascketUserName<%=i%>"></span>
+                <span id="bascketUserTown<%=i%>"></span>
+                <span id="bascketUserTel<%=i%>"></span>
+                <span id="bascketUserEmail<%=i%>"></span>
+                <span>--------------</span> 
+
+                <div id="inBascketUserBox<%=i%>" style="display:flex; flex-direction:column;"></div>
+
+            </div>
+        </div>
+
+    <%} %>
+</div>
+
+
+<script>
+    const unicUsersIdsLength = document.getElementById("unicUsersIdsLength").value;
+   
+    for(let i = 0; i < unicUsersIdsLength; i++){
+        const box = document.getElementById('inBascketUserBox'+i);
+        const userId = document.getElementById("unicUsersIds"+i).value;
+         axios.post(`/getBascketOfUser`, {userId})
+            .then(response => {
+                const user = response.data.user;
+                const orders = response.data.orders;
+                document.getElementById('bascketUserName'+i).innerHTML = user.name;
+                document.getElementById('bascketUserTown'+i).innerHTML = user.town;
+                document.getElementById('bascketUserTel'+i).innerHTML = user.telNo;
+                document.getElementById('bascketUserEmail'+i).innerHTML = user.email;
+                orders.map(order =>{
+                    const spanArtikul = document.createElement('span');
+                    // spanArtikul.className = "------";
+                    spanArtikul.innerHTML = order.strictArtikul;
+                    box.appendChild(spanArtikul);
+
+                    const spanColor = document.createElement('span');
+                    spanColor.innerHTML = order.color;
+                    box.appendChild(spanColor);
+
+                    const spanSize = document.createElement('span');
+                    spanSize.innerHTML = "S:" + order.sizeS + " M:" + order.sizeM + " L:" + order.sizeL + " XL:" + order.sizeXL;
+                    box.appendChild(spanSize); 
+                });
+            })
+            .catch(function (err) {
+                    alert(err.message);
+            });
+    }
+        
+</script>
+
+</body>
+
+</html>

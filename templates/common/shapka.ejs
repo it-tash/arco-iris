@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="/public/styleShapka.css">
 <header>
     <div id="brand">
         <span>Arco iris</span>
@@ -19,9 +20,25 @@
     <a href="/contacts.html">КОНТАКТЫ</a>
     <a href="/aboutUs.html">О НАС</a>
     <a href="/cabinet">КАБИНЕТ</a>
+    <div id="buttonBascketBox"  onclick="clickBascket()">
+        <img id="imgBascket" src="/images/buy.svg" alt="корзина">
+    </div>
 </nav>
 
 
+<!-- <div id="buttonBascketBox" style="align-self: flex-end; margin: 0 30px 10px 0; cursor: pointer;" onclick="clickBascket()">
+    <img id="imgBascket" src="/images/buy.svg" style=" width: 40px; height: 40px;" alt="корзина">
+</div> -->
+
+<script>
+    function clickBascket(){
+        document.getElementById('imgBascket').style.opacity = "0.7";
+        location.href='/bascket';
+    }
+</script>
+
+
+<!-- opacity: 0.5; -->
 
 <!--Navbar-->
 

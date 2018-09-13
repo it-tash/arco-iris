@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ru">
+<%- include ../common/head %>
+
+<body>
+<%- include ../common/shapka %>
+<h2 style="margin: 10px; text-align: center">База отправленных заказов</h2>
+
+
+<div style="display: flex; flex-direction: row-reverse; width:98%; margin: auto; flex-wrap: wrap-reverse;">
+<input type="hidden" id="allOrdersLength" value="<%=newfullOrders.length%>">
+    
+    <% for(let i=0; i<newfullOrders.length;i++) {%>
+    
+    <input type="hidden" id="userId<%=i%>" value="<%=newfullOrders[i].userId %>">
+
+    <div style="display: flex;flex-direction: column;flex-grow: 1; align-items: center; border: 1px solid; border-radius: 7px; font-size: 20px;">
+        
+        <% const allOrders = newfullOrders[i]; %>
+        <div style="display: flex; flex-direction:column; text-align: center; padding: 5px ;border: 1px solid; border-radius: 4px;">
+            <div id="registrBox" style="display: none" onclick="openDiv()">   
+                <span id="userName<%=i%>"></span>
+                <span id="userTown<%=i%>"></span>
+                <span id="userTel<%=i%>"></span>
+                <span id="userEmail<%=i%>"></span>
+                <span>--------------------</span>
+            </div>
+            <span id="buyerName<%=i%>"></span>
+            <span id="buyerSoname<%=i%>"></span>
+            <span id="buyerTown<%=i%>"></span>
+            <span id="buyerTel<%=i%>"></span>
+            <span id="buyerNovPost<%=i%>"></span>
+           
+            <span style="width:inherit; padding: 5px ;border: 2px solid; border-radius: 4px; font-weight: 700">Дата:<%=allOrders.date.toDateString() %></span>
+
+            <% if(allOrders.fullOrderObj.length > 0) {%>
+
+                <span style="width:inherit; padding: 5px; border: 2px solid; border-radius: 4px; font-weight: 700">Сумма:<%=allOrders.fullOrderObj[0].totalSum %></span>
+                
+            <%} %>
+        </div>
+
+
+       
+        <% for(let j=0; j<allOrders.fullOrderObj.length;j++) {%>
+            
+            <span><%=allOrders.fullOrderObj[j].strictArtikul %></span>
+            <span><%=allOrders.fullOrderObj[j].color %></span>
+            
+            <span>S-<%=allOrders.fullOrderObj[j].sizeS %></span>
+            <span>M-<%=allOrders.fullOrderObj[j].sizeM %></span>
+            <span>L-<%=allOrders.fullOrderObj[j].sizeL %></span>
+            <span>XL-<%=allOrders.fullOrderObj[j].sizeXL %></span>
+            <span>Цена:<%=allOrders.fullOrderObj[j].price %></span>
+            <span>--------------------------</span>
+            
+           
+
+        <%} %>
+
+    </div>
+    <%} %>
+</div>
+
+
+<script>
+    
+    const allOrdersLength = document.getElementById("allOrdersLength").value;
+    for(let i=0; i<allOrdersLength; i++){
+        const userId = document.getElementById("userId"+i).value;
+         axios.post(`/getUser`, {userId})
+            .then(response => {
+                const user = response.data.user;
+                const buyer = response.data.buyer;
+                document.getElementById('userName'+i).innerHTML = user.name;
+                document.getElementById('userTown'+i).innerHTML = user.town;
+                document.getElementById('userTel'+i).innerHTML = user.telNo;
+                document.getElementById('userEmail'+i).innerHTML = user.email;
+                if(buyer){
+                    document.getElementById('buyerName'+i).innerHTML = buyer.name;
+                    document.getElementById('buyerSoname'+i).innerHTML = buyer.soname;
+                    document.getElementById('buyerTown'+i).innerHTML = buyer.town;
+                    document.getElementById('buyerTel'+i).innerHTML = buyer.telNo;
+                    document.getElementById('buyerNovPost'+i).innerHTML = buyer.novPost;
+                }
+                
+                })
+            .catch(function (err) {
+                    alert(err.message);
+            });
+    }
+        
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+    <%- include ../common/head %>
+
+    <body>
+
+        <%- include ../common/shapka %>
+
+        <span style="height:40px;"></span>
+
+        <link rel="stylesheet" href="/public/styleProductCard.css">
+        <link rel="stylesheet" href="/public/styleBascket.css">
+<div id="bascketBox">
+        
+
+        <div id="mainBox">
+
+            <div style="display: none; flex-direction: column; box-shadow: 0 0 30px red; border-radius: 10px;" id="infoBox" >
+                <div id="infoChange" style="margin: 20px 20px 0 20px;">
+                    <span style="align-self: center;">Уменьшилось кол-во:</span>
+                </div>
+                <button id="butOk" style="margin: 0 0 20px 20px; width: fit-content; border-radius: 7px;" onclick=" document.getElementById('infoBox').innerHTML = ''">ok</button>
+            </div>
+            
+            <div id="box-orders" style=" display: flex; flex-wrap: wrap; justify-content: flex-start; margin: 30px 0 30px 0;" >
+                <% if(bascket) {%>
+                    <input type="hidden" id="bascketLength" value="<%=bascket.length%>">
+                    <input type="hidden" id="bascket" value="<%=bascket%>">
+                
+
+                <% for(var i=0; i<bascket.length;i++) {%>
+
+                    <input type="hidden" id="idGroup<%=i%>" value="<%=bascket[i].idGroup%>">
+
+                    <div class="inCatalogImgBox" style="align-items: flex-start; margin-top: 10px; border: 1px solid; border-radius: 4px; padding: 10px;">
+                        <div style="display: flex; ">
+                            <div  style="align-self: flex-start;">
+                                <img id="img<%=i%>" style="width: 50px;" src="<%=bascket[i].img %>" >
+                            </div>
+                            <div style="margin-left: 10px;">
+                                <span id="strictArtikul<%=i%>" style="font-size: 15px; margin: 5px;"><%=bascket[i].strictArtikul%></span>
+                                <span id="color<%=i%>" style="font-size: 13px;"><%=bascket[i].color%></span>
+                                <div>
+                                    <span id="price<%=i%>" style="font-size: 13px; margin: 5px;"></span>
+                                    <span style="font-size: 13px;">грн/шт</span>
+                                </div>
+                                <span id="sum<%=i%>" style="font-size: 13px; margin: 5px"></span>
+                            </div>
+                        </div>
+
+                        <div class="box-size-cell" style="display: flex; align-self: flex-start; margin-top: 10px; "> 
+                                
+                                <div style="display: flex; flex-direction: column">
+                                    <label >S</label>
+                                    <div style="display: flex">
+
+                                    <span id="s<%=i%>" class="size-cell" ><%=bascket[i].sizeS%></span>
+                                    <input type="hidden" id="maxs<%=i%>">
+
+                                    <div style="display: flex; flex-direction: column;">
+                                        <button onclick="increase('s', '<%=i%>')">+</button> 
+                                        <button onclick="decrease('s', '<%=i%>')">-</button>
+                                    </div>
+                                    </div>
+                                </div>
+                                <div style="display: flex; flex-direction: column">
+                                    <label for="m">M</label>
+                                    <div style="display: flex">
+                                    <span id="m<%=i%>" class="size-cell" ><%=bascket[i].sizeM%></span>
+                                    <input type="hidden" id="maxm<%=i%>">
+
+                                    <div style="display: flex; flex-direction: column;">
+                                        <button onclick="increase('m', '<%=i%>')">+</button>
+                                        <button onclick="decrease('m', '<%=i%>')">-</button>
+                                    </div>
+                                    </div>
+                                </div>
+                                <div style="display: flex; flex-direction: column">
+                                    <label for="l">L</label>
+                                    <div style="display: flex">
+                                    <span id="l<%=i%>" class="size-cell" ><%=bascket[i].sizeL%></span>
+                                    <input type="hidden" id="maxl<%=i%>">
+
+                                    <div style="display: flex; flex-direction: column;">
+                                        <button onclick="increase('l', '<%=i%>')">+</button>
+                                        <button onclick="decrease('l', '<%=i%>')">-</button>
+                                    </div>
+                                    </div>
+                                </div>
+                                <div style="display: flex; flex-direction: column">
+                                    <label for="xl">XL</label>
+                                    <div style="display: flex">
+                                    <span id="xl<%=i%>" class="size-cell" ><%=bascket[i].sizeXL%></span>
+                                    <input type="hidden" id="maxxl<%=i%>">
+
+                                    <div style="display: flex; flex-direction: column;">
+                                        <button onclick="increase('xl', '<%=i%>')">+</button>
+                                        <button onclick="decrease('xl', '<%=i%>')">-</button>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                
+                    
+                    </div>
+                        <%} %>
+            <%} %>   
+        </div>
+    </div>
+
+    <div id="sideBox" style="display: flex;flex-direction: column; align-self: flex-start; margin-left: 50px;">
+        <div id="buyerDataBox" style="display: flex;flex-direction: column; border-radius: 17px;">
+            <input type="text" id="buyerName" placeholder="введите Имя" value="<%=buyerName %>">
+            <input type="text" id="buyerSoname" placeholder="введите Фамилию" value="<%=buyerSoname %>">
+            <input type="text"  id="buyerTel" value="<%=buyerTel %>">
+            <input type="text" id="buyerTown" value="<%=buyerTown %>">
+            <input type="text" id="novPost" placeholder="N отд. Новой Почты" value="<%=novPost %>">
+            <button onclick="sendBuyerData()">Сохранить</button>
+        </div>
+
+        <span style="font-size: 22px; font-weight: 900;" >Сумма заказа</span> 
+        <div>
+            <span id="totalSum" style="font-size: 22px; margin: 5px 0 5px 0; font-weight: 700;" ></span>   
+            <span style="font-size: 22px; margin: 5px 0 5px 0; font-weight: 700;" >грн.</span>   
+        </div> 
+        <button id="butBuy" class="logInRegButt" style="width: fit-content; padding: 10px; line-height: 25px; font-size: 25px; margin: 10px 0 30px 0;" onclick="buy()">Купить</button>
+    </div>
+
+</div>  
+
+        <%- include ../common/footer %>
+
+        <script>
+            const bascketLength = document.getElementById('bascketLength').value;
+            const bascket = document.getElementById('bascket').value;
+            document.getElementById('buttonBascketBox').innerHTML = '';
+            // console.log(bascket);
+
+            function sendBuyerData(){
+               const buyerName = document.getElementById('buyerName').value;
+               const buyerSoname = document.getElementById('buyerSoname').value;
+               const buyerTel = document.getElementById('buyerTel').value;
+               const buyerTown = document.getElementById('buyerTown').value;
+               const novPost = document.getElementById('novPost').value;
+
+                axios.post(`/sendBuyerData`, {buyerName, buyerSoname, buyerTel, buyerTown, novPost})
+                .then(response => {
+                  const resp = response.data;
+                
+                })
+                .catch(function (err) {
+                      alert(err.message);
+                });
+            }
+            
+            
+            function bascketState(){
+                const collectedBascketArr = [];
+                for(let i = 0; i < bascketLength; i++){
+                    const collectedOrder = {};
+                    collectedOrder.idGroup = document.getElementById('idGroup'+i).value;
+                    collectedOrder.strictArtikul = document.getElementById('strictArtikul'+i).innerHTML;
+                    collectedOrder.color = document.getElementById('color'+i).innerHTML;
+                    collectedOrder.price = document.getElementById('price'+i).innerHTML;
+                    collectedOrder.totalSum = document.getElementById('totalSum').innerHTML;
+                    collectedOrder.sizeS = document.getElementById('s'+i).innerHTML;
+                    collectedOrder.sizeM = document.getElementById('m'+i).innerHTML;
+                    collectedOrder.sizeL = document.getElementById('l'+i).innerHTML;
+                    collectedOrder.sizeXL = document.getElementById('xl'+i).innerHTML;
+                    collectedBascketArr.push(collectedOrder);
+                }
+                return collectedBascketArr;
+            }
+
+            function buy(){
+                getLatestBase();
+                const _bascket = bascketState();
+               
+                if(_bascket.length > 0){
+                    if(_bascket[0].totalSum >= 2000){
+                        axios.post(`/buy`, {_bascket})
+                        .then(response => {
+                        const resp = response.data;
+                           if(resp == 'success'){
+                            document.getElementById('box-orders').style = 'display: none';
+                            document.getElementById('infoBox').style = 'display: flex; flex-direction: column; box-shadow: 0 0 30px green; border-radius: 10px;';
+                            document.getElementById('butBuy').style = 'display: none';
+                            document.getElementById('butOk').style = 'opacity: 0';
+                            document.getElementById('infoChange').innerHTML = "Ваш заказ успешно отправлен";
+                           }
+                        })
+                        .catch(function (err) {
+                            alert(err.message);
+                        });
+                    }else{
+                        alert('МИНИМАЛЬНАЯ СУММА ЗАКАЗА - 2000 грн.')
+                    }
+                }else{
+                    alert('пустая корзина')
+                }
+
+            }
+
+            function changeSum(){
+               const _bascket = bascketState();
+               let _totalSum = 0;
+                _bascket.map((order, indx) => {
+                    const sum = (order.sizeS*1+order.sizeM*1+order.sizeL*1+order.sizeXL*1) * order.price*1;
+                    _totalSum = _totalSum + sum;
+                    document.getElementById('sum'+indx).innerHTML = 'сумма ' + sum + ' грн.';
+                    document.getElementById('totalSum').innerHTML = _totalSum;
+                })
+            }
+            
+            function increase(size, i){
+                const elemInner = document.getElementById(size+i);
+                const max = document.getElementById('max'+size+i);
+                if(elemInner.innerHTML < max.value){elemInner.innerHTML = elemInner.innerHTML*1 + 1;}
+                changeSum();
+            }
+
+            function decrease(size, i){
+                
+                const elemInner = document.getElementById(size+i);
+                if(elemInner.innerHTML>0) {elemInner.innerHTML = elemInner.innerHTML*1 - 1}
+                changeSum();
+            }
+
+            getLatestBase()
+
+
+           function getLatestBase(){
+                
+                const _bascket = bascketState();
+                let totalSum = 0;
+               
+                _bascket.map((objOrder, indx) => {
+                    const idGroup = objOrder.idGroup;
+                    const artikul = objOrder.strictArtikul;
+                    const color = objOrder.color;
+                    axios.post(`/getLatestBase`, {idGroup, artikul, color})
+                            .then(response => {
+                                const base = response.data.obj;
+                                const price = response.data.price;
+                                const sum = (objOrder.sizeS*1+objOrder.sizeM*1+objOrder.sizeL*1+objOrder.sizeXL*1) * price*1;
+                                totalSum = totalSum+sum;
+
+                                document.getElementById('maxs'+indx).value = base.sizeS;
+                                document.getElementById('maxm'+indx).value = base.sizeM;
+                                document.getElementById('maxl'+indx).value = base.sizeL;
+                                document.getElementById('maxxl'+indx).value = base.sizeXL;
+
+                                document.getElementById('price'+indx).innerHTML = price;
+                                document.getElementById('sum'+indx).innerHTML = 'сумма ' + sum + ' грн.';
+                                document.getElementById('totalSum').innerHTML = totalSum;
+                                return base;
+
+                            }).then((base)=>{
+                                
+                                if(base.sizeS*1 < objOrder.sizeS*1){
+                                    const diference = objOrder.sizeS*1 - base.sizeS*1
+                                    document.getElementById('s'+indx).innerHTML = base.sizeS*1;
+                                    document.getElementById('infoBox').style = 'display: flex; flex-direction: column; box-shadow: 0 0 30px red; border-radius: 10px;';
+                                    document.getElementById('infoChange').innerHTML += '<br>' + objOrder.strictArtikul+' '+objOrder.color+' S'+'на '+diference+'шт.';
+                                    var timerId = setTimeout(function(){ changeSum();}, 500);
+                                }
+                                if(base.sizeM*1 < objOrder.sizeM*1){
+                                    const diference = objOrder.sizeM*1 - base.sizeM*1;
+                                    document.getElementById('m'+indx).innerHTML = base.sizeM;
+                                    document.getElementById('infoBox').style = 'display: flex; flex-direction: column; box-shadow: 0 0 30px red; border-radius: 10px;';
+                                    document.getElementById('infoChange').innerHTML += '<br>' + objOrder.strictArtikul+' '+objOrder.color+' M'+'на '+diference+'шт.';
+                                    var timerId = setTimeout(function(){ changeSum();}, 500);
+                                }
+                                if(base.sizeL*1 < objOrder.sizeL*1){
+                                    const diference = objOrder.sizeL*1 - base.sizeL*1;
+                                    document.getElementById('l'+indx).innerHTML = base.sizeL;
+                                    document.getElementById('infoBox').style = 'display: flex; flex-direction: column; box-shadow: 0 0 30px red; border-radius: 10px;';
+                                    document.getElementById('infoChange').innerHTML += '<br>' + objOrder.strictArtikul+' '+objOrder.color+' L'+'на '+diference+'шт.';
+                                    var timerId = setTimeout(function(){ changeSum();}, 500);
+                                }
+                                if(base.sizeXL*1 < objOrder.sizeXL*1){
+                                    const diference = objOrder.sizeXL*1 - base.sizeXL*1;
+                                    document.getElementById('xl'+indx).innerHTML = base.sizeXL;
+                                    document.getElementById('infoBox').style = 'display: flex; flex-direction: column; box-shadow: 0 0 30px red; border-radius: 10px;';
+                                    document.getElementById('infoChange').innerHTML += '<br>' + objOrder.strictArtikul+' '+objOrder.color+' XL'+'на '+diference+'шт.';
+                                    var timerId = setTimeout(function(){ changeSum();}, 500);
+                                }
+                            })
+                                .catch(function (err) {
+                                    alert(err.message);
+                                });
+                            })
+                      
+                    }
+
+// _bascket.map(async (objOrder, indx) => {
+//         try {
+//         const idGroup = objOrder.idGroup;
+//         const artikul = objOrder.strictArtikul;
+//         const color = objOrder.color;
+//         const response = await axios.post(`/getLatestBase`, {idGroup, artikul, color});
+//             const base = response.data.obj;
+//         } catch (error) {
+//                 console.error(error);
+//         }
+    
+//     })
+           
+
+        </script>
+
+    </body>
+
+</html>
+

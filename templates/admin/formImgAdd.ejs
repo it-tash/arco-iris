@@ -31,29 +31,56 @@
         globalFilePhoto = fotos[0];
     }
 
- function sendImage() {
-     const idGroup = document.getElementById('idGroup').value;
-     const descriptImg = document.getElementById('descrId').value;
-    //  const price = document.getElementById('priceId').value;
-     const isMainImg = document.getElementById('checkMainId').value;
-     const artikul = document.getElementById('artikulId').value;
-     const fd = new FormData();
-     fd.append('photo', globalFilePhoto);
-     fd.append('idGroup', idGroup);
-     fd.append('descriptImg', descriptImg);
-    //  fd.append('price', price);
-     fd.append('isMainImg', isMainImg);
-     fd.append('artikul', artikul);
-
-     axios.post('/images', fd)
+    function validateArtikul(artikul){
+        axios.post('/validateArtikul', {artikul})
          .then(response => {
-             window.location.href = '/cardAdd/<%=idGroup %>';
-             info.innerText = response.data;
+             doubleArtikul.innerText = response.data;
          })
          .catch(function (err) {
              alert(err.message);
          });
+    }
+
+ function sendImage() {
+    //  console.log(globalFilePhoto);
+     const artikul = document.getElementById('artikulId').value;
+     if(!globalFilePhoto){
+         alert('выберите фото')
+         return;
+        }
+     axios.post('/validateArtikul', {artikul})
+         .then(response => {
+            const doubleArtikul = response.data;
+
+            if(doubleArtikul == 'free'){
+                const idGroup = document.getElementById('idGroup').value;
+                const descriptImg = document.getElementById('descrId').value;
+                const isMainImg = document.getElementById('checkMainId').value;
+                const fd = new FormData();
+                fd.append('photo', globalFilePhoto);
+                fd.append('idGroup', idGroup);
+                fd.append('descriptImg', descriptImg);
+                fd.append('isMainImg', isMainImg);
+                fd.append('artikul', artikul);
+
+                axios.post('/images', fd)
+                    .then(response => {
+                        window.location.href = '/cardAdd/<%=idGroup %>';
+                        info.innerText = response.data;
+                    })
+                    .catch(function (err) {
+                        alert(err.message);
+                    });
+            }else{
+                alert('дублирование артикула запрещено')
+            }
+                    
+    })
+    .catch(function (err) {
+        alert(err.message);
+    });
  }
+    
 
         
 

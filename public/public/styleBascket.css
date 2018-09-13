@@ -1,0 +1,32 @@
+#bascketBox{
+    width: 95%;
+}
+#buyerDataBox input {
+    color: rgb(32, 91, 146);text-align: center; border: none; border-radius: 10px; box-shadow: 0 0 10px rgb(32, 91, 146); margin: 3px;
+}
+
+#buyerDataBox button {
+    width: fit-content; padding: 5px; line-height: 15px; font-size: 15px; margin: 10px 0 10px 5px; border-radius: 7px; 
+    background: linear-gradient(#7dc1e9,rgb(32, 91, 146)); color: #ddd;
+}
+
+#buyerDataBox input::-webkit-input-placeholder {
+    color: rgb(32, 91, 146);
+   } 
+#buyerDataBox input::-moz-placeholder {
+    color: rgb(32, 91, 146);
+   }
+
+#bascketBox{
+    display: flex; justify-content: space-between;
+}
+
+@media only screen and (max-width: 480px) {
+   
+#bascketBox{
+    flex-direction: column;
+}
+
+
+
+}
