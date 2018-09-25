@@ -18,21 +18,58 @@ const schema = new db.Schema({
         type: String,
         require: true,
     },
+    titleGroup:{
+        type: String,
+        require: true,
+    },
     strictArtikul: {
         type: String,
         require: true,
     },
     sizeS:{
-        type: Number
+        type: Number,
+        default: 0
     },
     sizeM:{
-        type: Number
+        type: Number,
+        default: 0
     },
     sizeL:{
-        type: Number
+        type: Number,
+        default: 0
     },
     sizeXL:{
-        type: Number
+        type: Number,
+        default: 0
+    },
+    sizeB1:{
+        type: Number,
+        default: 0
+    },
+    sizeB2:{
+        type: Number,
+        default: 0
+    },
+    sizeB3:{
+        type: Number,
+        default: 0
+    },
+    size1:{
+        type: Number,
+        default: 0
+    },
+    size2:{
+        type: Number,
+        default: 0
+    },size3:{
+        type: Number,
+        default: 0
+    },size4:{
+        type: Number,
+        default: 0
+    },size5:{
+        type: Number,
+        default: 0
     },
     date:{
         type: Date,

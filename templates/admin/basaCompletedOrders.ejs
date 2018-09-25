@@ -4,61 +4,74 @@
 
 <body>
 <%- include ../common/shapka %>
+<link rel="stylesheet" href="/public/styleAdminpanelOrders.css">
+
 <h2 style="margin: 10px; text-align: center">База отправленных заказов</h2>
 
 
-<div style="display: flex; flex-direction: row-reverse; width:98%; margin: auto; flex-wrap: wrap-reverse;">
+<div style="display: flex;  width:98%; margin: auto; flex-direction: row-reverse; flex-wrap: wrap-reverse; justify-content: flex-end;">
 <input type="hidden" id="allOrdersLength" value="<%=newfullOrders.length%>">
     
     <% for(let i=0; i<newfullOrders.length;i++) {%>
     
     <input type="hidden" id="userId<%=i%>" value="<%=newfullOrders[i].userId %>">
 
-    <div style="display: flex;flex-direction: column;flex-grow: 1; align-items: center; border: 1px solid; border-radius: 7px; font-size: 20px;">
+    <div class="fullOrder-box">
         
         <% const allOrders = newfullOrders[i]; %>
-        <div style="display: flex; flex-direction:column; text-align: center; padding: 5px ;border: 1px solid; border-radius: 4px;">
-            <div id="registrBox" style="display: none" onclick="openDiv()">   
-                <span id="userName<%=i%>"></span>
-                <span id="userTown<%=i%>"></span>
-                <span id="userTel<%=i%>"></span>
-                <span id="userEmail<%=i%>"></span>
-                <span>--------------------</span>
-            </div>
+        <div class="userInfo-box">
+            <span id="userName<%=i%>"></span>
+            <span id="userTown<%=i%>"></span>
+            <span id="userTel<%=i%>"></span>
+            <span id="userEmail<%=i%>"></span>
+            <span>--------------------</span>
             <span id="buyerName<%=i%>"></span>
             <span id="buyerSoname<%=i%>"></span>
             <span id="buyerTown<%=i%>"></span>
             <span id="buyerTel<%=i%>"></span>
             <span id="buyerNovPost<%=i%>"></span>
            
+
             <span style="width:inherit; padding: 5px ;border: 2px solid; border-radius: 4px; font-weight: 700">Дата:<%=allOrders.date.toDateString() %></span>
 
             <% if(allOrders.fullOrderObj.length > 0) {%>
 
                 <span style="width:inherit; padding: 5px; border: 2px solid; border-radius: 4px; font-weight: 700">Сумма:<%=allOrders.fullOrderObj[0].totalSum %></span>
-                
+            
             <%} %>
+
         </div>
 
-
-       
-        <% for(let j=0; j<allOrders.fullOrderObj.length;j++) {%>
-            
-            <span><%=allOrders.fullOrderObj[j].strictArtikul %></span>
-            <span><%=allOrders.fullOrderObj[j].color %></span>
-            
-            <span>S-<%=allOrders.fullOrderObj[j].sizeS %></span>
-            <span>M-<%=allOrders.fullOrderObj[j].sizeM %></span>
-            <span>L-<%=allOrders.fullOrderObj[j].sizeL %></span>
-            <span>XL-<%=allOrders.fullOrderObj[j].sizeXL %></span>
-            <span>Цена:<%=allOrders.fullOrderObj[j].price %></span>
-            <span>--------------------------</span>
-            
-           
-
-        <%} %>
-
+        <div class="orders-box">
+            <% for(let j=0; j<allOrders.fullOrderObj.length;j++) {%>
+                <% const order = allOrders.fullOrderObj[j]; %>
+            <div class="oneOrder-box">
+                <span style="align-self:flex-start; font-size: 12px; color: #777; "><%=j+1 %></span>         
+                <span><%=allOrders.fullOrderObj[j].strictArtikul %></span>
+                <span><%=allOrders.fullOrderObj[j].color %></span>
+                <% if(allOrders.fullOrderObj[j].titleGroup != 'donafen') {%>
+                    <% if(order.sizeS > 0) {%> <span>S-<%=allOrders.fullOrderObj[j].sizeS %></span> <%} %>
+                    <% if(order.sizeM > 0) {%> <span>M-<%=allOrders.fullOrderObj[j].sizeM %></span> <%} %>
+                    <% if(order.sizeL > 0) {%> <span>L-<%=allOrders.fullOrderObj[j].sizeL %></span> <%} %>
+                    <% if(order.sizeXL > 0) {%> <span>XL-<%=allOrders.fullOrderObj[j].sizeXL %></span> <%} %>
+                    <% if(order.sizeB1 > 0) {%> <span>XL-battal-<%=allOrders.fullOrderObj[j].sizeB1 %></span> <%} %>
+                    <% if(order.sizeB2 > 0) {%> <span>XXL-<%=allOrders.fullOrderObj[j].sizeB2 %></span> <%} %>
+                    <% if(order.sizeB3 > 0) {%> <span>XXXL-<%=allOrders.fullOrderObj[j].sizeB3 %></span> <%} %>
+                <%}else{%>
+                    <% if(order.size1 > 0) {%> <span>75B-85B-<%=allOrders.fullOrderObj[j].size1 %></span> <%} %>
+                    <% if(order.size2 > 0) {%> <span>75C-85C-<%=allOrders.fullOrderObj[j].size2 %></span> <%} %>
+                    <% if(order.size3 > 0) {%> <span>80C-90C-<%=allOrders.fullOrderObj[j].size3 %></span> <%} %>
+                    <% if(order.size4 > 0) {%>  <span>80D-90D-<%=allOrders.fullOrderObj[j].size4 %></span> <%} %>
+                    <% if(order.size5 > 0) {%> <span>85D-100D-<%=allOrders.fullOrderObj[j].size5 %></span> <%} %>
+                    
+                <%} %>
+                    <span>Цена:<%=allOrders.fullOrderObj[j].price %></span>
+            </div>
+            <%} %>
+        </div>
+        
     </div>
+    
     <%} %>
 </div>
 
@@ -83,8 +96,7 @@
                     document.getElementById('buyerTel'+i).innerHTML = buyer.telNo;
                     document.getElementById('buyerNovPost'+i).innerHTML = buyer.novPost;
                 }
-                
-                })
+            })
             .catch(function (err) {
                     alert(err.message);
             });

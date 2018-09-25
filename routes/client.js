@@ -6,6 +6,7 @@ const User = require('../models/userReg').User;
 const Admin = require('../models/adminReg').Admin;
 const DbCardText = require('../models/cardText').DbCardText;
 const DbColors = require('../models/colors').DbColors;
+const DbColorsDonaf = require('../models/colorsDonaf').DbColorsDonaf;
 const Order = require('../models/order').Order;
 const DbFullOrder = require('../models/fullOrder').FullOrder;
 const Buyer = require('../models/buyer').Buyer;
@@ -74,7 +75,7 @@ module.exports = function (app) {
             function (err, groupDonafen) {
                 if(groupDonafen.length>0) {
                     const idGroup = groupDonafen[0]._id.toString();
-                    DbImg.find({idGroup: idGroup, isMainImg: 'true'},
+                    DbImg.find({idGroup, isMainImg: 'true'},
                         function (err, img) {
                                 res.locals.img = img;
                                 res.locals.catalogName = "Бюстгалтеры и комплекты Donafen";
@@ -90,7 +91,7 @@ module.exports = function (app) {
                             if(req.session.user){
                                 User.findById(req.session.user, function (err, user) {
                                     if(err) {next(err);}
-                                    res.locals.userName = user.name;
+                                    (user) ? res.locals.userName = user.name : res.locals.userName = 'Гость';
                                     res.render('./client/catalog/main');
                                 });
                             }else if(req.session.admin){
@@ -135,7 +136,7 @@ module.exports = function (app) {
                         if(req.session.user){
                             User.findById(req.session.user, function (err, user) {
                                 if(err) {next(err);}
-                                res.locals.userName = user.name;
+                                (user) ? res.locals.userName = user.name : res.locals.userName = 'Гость';
                                 res.render('./client/catalog/main');
                             });
                         }else if(req.session.admin){
@@ -181,8 +182,7 @@ module.exports = function (app) {
                         if(req.session.user){
                             User.findById(req.session.user, function (err, user) {
                                 if(err) {next(err);}
-                                res.locals.userName = user.name;
-
+                                (user) ? res.locals.userName = user.name : res.locals.userName = 'Гость';
                                 res.render('./client/catalog/main');
                             });
                         }else if(req.session.admin){
@@ -230,7 +230,7 @@ module.exports = function (app) {
                         if(req.session.user){
                             User.findById(req.session.user, function (err, user) {
                                 if(err) {next(err);}
-                                res.locals.userName = user.name;
+                                (user) ? res.locals.userName = user.name : res.locals.userName = 'Гость';
                                 res.render('./client/catalog/main');
                             });
                         }else if(req.session.admin){
@@ -277,7 +277,7 @@ module.exports = function (app) {
                         if(req.session.user){
                             User.findById(req.session.user, function (err, user) {
                                 if(err) {next(err);}
-                                res.locals.userName = user.name;
+                                (user) ? res.locals.userName = user.name : res.locals.userName = 'Гость';
                                 res.render('./client/catalog/main');
                             });
                         }else if(req.session.admin){
@@ -317,18 +317,24 @@ module.exports = function (app) {
         const artikul = req.params.artikul;
         DbCardText.findOne({idGroup, strictArtikul: artikul}, function (err, textCard) {
             if(err) {next(err);}
-            DbColors.find({idGroup, strictArtikul: artikul}, function (err, colors) {
+            DbGroup.findById(idGroup, function (err, group) {
                 if(err) {next(err);}
-                DbImg.find({idGroup, strictArtikul: artikul}, function (err, img) {
+                var aliasDbColor;
+                (group.title == 'donafen') ? aliasDbColor = DbColorsDonaf : aliasDbColor = DbColors;
+                aliasDbColor.find({idGroup, strictArtikul: artikul}, function (err, colors) {
                     if(err) {next(err);}
-                    res.locals.img = img;
-                    (req.session.user || req.session.admin)? res.locals.access = 'true' : res.locals.access = 'false';
-                    (req.session.admin)? res.locals.adminSesion = 'true' : res.locals.adminSesion = 'false';
-
-                    (textCard)?res.locals.textCard = textCard: res.locals.textCard = false;
-                    res.locals.colors = colors;
-                    // res.locals.userId = req.session.user;
-                    res.render('./client/cardProduct', {idGroup, artikul});
+                    DbImg.find({idGroup, strictArtikul: artikul}, function (err, img) {
+                        if(err) {next(err);}
+                    
+                        res.locals.img = img;
+                        (req.session.user || req.session.admin)? res.locals.access = 'true' : res.locals.access = 'false';
+                        (req.session.admin)? res.locals.adminSesion = 'true' : res.locals.adminSesion = 'false';
+                        (textCard)?res.locals.textCard = textCard: res.locals.textCard = false;
+                        res.locals.colors = colors;
+                        // console.log(colors)
+                        res.locals.titleGroup = group.title;
+                        res.render('./client/cardProduct', {idGroup, artikul});
+                    })
                 })
             })
         })
@@ -338,7 +344,21 @@ module.exports = function (app) {
         const idGroup = req.body.idGroup;
         const artikul = req.body.artikul;
        
-        DbColors.find({idGroup: idGroup, strictArtikul: artikul, color: onchangedColor}, function (err, selectedcolor) {
+        DbColors.find({idGroup, strictArtikul: artikul, color: onchangedColor}, function (err, selectedcolor) {
+            if(err) {next(err);}
+            selectedcolor.map(obj=>{
+                res.send(obj);
+             });
+        })
+    })
+    
+
+    app.post(`/getOnchangeColorDonafen`, (req, res, next)=>{
+        const onchangedColor = req.body.onchangeColor;
+        const idGroup = req.body.idGroup;
+        const artikul = req.body.artikul;
+       
+        DbColorsDonaf.find({idGroup, strictArtikul: artikul, color: onchangedColor}, function (err, selectedcolor) {
             if(err) {next(err);}
             selectedcolor.map(obj=>{
                 res.send(obj);
@@ -352,7 +372,20 @@ module.exports = function (app) {
             const idGroup = req.body.idGroup;
             const artikul = req.body.artikul;
                 
-            DbColors.find({idGroup: idGroup, strictArtikul: artikul, color: firstColor}, function (err, selectedcolor) {
+            DbColors.find({idGroup, strictArtikul: artikul, color: firstColor}, function (err, selectedcolor) {
+                if(err) {next(err);}
+                selectedcolor.map(obj=>{
+                    res.send(obj);
+                 });
+            })
+        });
+       
+        app.post(`/getFirstColorDonafen`, (req, res, next)=>{
+            const firstColor = req.body.firstColor;
+            const idGroup = req.body.idGroup;
+            const artikul = req.body.artikul;
+                
+            DbColorsDonaf.find({idGroup, strictArtikul: artikul, color: firstColor}, function (err, selectedcolor) {
                 if(err) {next(err);}
                 selectedcolor.map(obj=>{
                     res.send(obj);
@@ -363,6 +396,7 @@ module.exports = function (app) {
         app.post(`/putInBascket`, (req, res, next)=>{
             const userId = req.session.user;
             const idGroup = req.body.idGroup;
+            const titleGroup = req.body.titleGroup;
             const artikul = req.body.artikul;
             const img = req.body.img;
             const colorOrder = req.body.colorOrder;
@@ -370,6 +404,9 @@ module.exports = function (app) {
             const mInner = req.body.mInner;
             const lInner = req.body.lInner;
             const xlInner = req.body.xlInner;
+            const b1 = req.body.b1Inner;
+            const b2 = req.body.b2Inner;
+            const b3 = req.body.b3Inner;
 
 
             Order.findOne({userId, idGroup, strictArtikul: artikul, color: colorOrder}, function (err, orderDb) {
@@ -379,12 +416,59 @@ module.exports = function (app) {
                             userId: userId,
                             color: colorOrder,
                             idGroup: idGroup,
+                            titleGroup: titleGroup,
                             strictArtikul: artikul,
                             img: img,
                             sizeS: sInner,
                             sizeM: mInner,
                             sizeL: lInner,
-                            sizeXL: xlInner
+                            sizeXL: xlInner,
+                            sizeB1: b1,
+                            sizeB2: b2,
+                            sizeB3: b3
+                        });
+                        order.save(function (err) {
+                            if(err) {next(err);}
+                                res.send('добавлено в заказ');
+                        });
+                    }else{
+                        res.send('позиция уже существует, колличество можно добавить в корзине');
+                    }
+            });
+        
+        });
+
+        
+        app.post(`/putInBascketDonafen`, (req, res, next)=>{
+            const userId = req.session.user;
+            const idGroup = req.body.idGroup;
+            const titleGroup = req.body.titleGroup;
+            const artikul = req.body.artikul;
+            const img = req.body.img;
+            const colorOrder = req.body.colorOrder;
+            const d1 = req.body.D1Inner;
+            const d2 = req.body.D2Inner;
+            const d3 = req.body.D3Inner;
+            const d4 = req.body.D4Inner;
+            const d5 = req.body.D5Inner;
+            
+
+
+            Order.findOne({userId, idGroup, strictArtikul: artikul, color: colorOrder}, function (err, orderDb) {
+                if(err) {next(err);}
+                    if(!orderDb){
+                        const order = new Order({
+                            userId: userId,
+                            color: colorOrder,
+                            idGroup: idGroup,
+                            titleGroup: titleGroup,
+                            strictArtikul: artikul,
+                            img: img,
+                            size1: d1,
+                            size2: d2,
+                            size3: d3,
+                            size4: d4,
+                            size5: d5
                         });
                         order.save(function (err) {
                             if(err) {next(err);}
@@ -463,8 +547,12 @@ module.exports = function (app) {
         const color = req.body.color;
         const idGroup = req.body.idGroup;
         const artikul = req.body.artikul;
+        const titleGroup = req.body.titleGroup;
+        let AliasDb;
+
+        (titleGroup != 'donafen') ? AliasDb =  DbColors : AliasDb = DbColorsDonaf;
             
-        DbColors.find({idGroup, strictArtikul: artikul, color}, function (err, base ) {
+        AliasDb.find({idGroup, strictArtikul: artikul, color}, function (err, base ) {
             if(err) {next(err);}
             DbCardText.findOne({idGroup, strictArtikul: artikul}, function (err, cardText) {
                 if(err) {next(err);}
@@ -491,32 +579,54 @@ module.exports = function (app) {
             if(err) {next(err);}
 
             fullOrder.map(order => {
-            const idGroup = order.idGroup;
-            const strictArtikul = order.strictArtikul;
-            const color = order.color;
-                DbColors.findOne({idGroup, strictArtikul, color}, function (err, oldColor) {
+                const idGroup = order.idGroup;
+                const titleGroup = order.titleGroup;
+                const strictArtikul = order.strictArtikul;
+                const color = order.color;
+                let AliasDb;
+
+                (titleGroup != 'donafen') ? AliasDb =  DbColors : AliasDb = DbColorsDonaf;
+
+                AliasDb.findOne({idGroup, strictArtikul, color}, function (err, oldColor) {
                     if(err) {next(err);}
-                
-                    const newSizeS = oldColor.sizeS - order.sizeS;
-                    const newSizeM = oldColor.sizeM - order.sizeM;
-                    const newSizeL = oldColor.sizeL - order.sizeL;
-                    const newSizeXL = oldColor.sizeXL - order.sizeXL;
-                    
 
-                    DbColors.findOneAndUpdate({idGroup, strictArtikul, color}, {sizeS: newSizeS, sizeM: newSizeM, sizeL: newSizeL, sizeXL: newSizeXL}, {new: true}, function (err, newColor) {
-                        if(err) {next(err);}
-
-                        Order.findOneAndRemove({userId: req.session.user}, function (err, order) {
+                    if(titleGroup != 'donafen'){                
+                        const newSizeS = oldColor.sizeS - order.sizeS;
+                        const newSizeM = oldColor.sizeM - order.sizeM;
+                        const newSizeL = oldColor.sizeL - order.sizeL;
+                        const newSizeXL = oldColor.sizeXL - order.sizeXL;
+                        const newSizeB1 = oldColor.sizeB1 - order.sizeB1;
+                        const newSizeB2 = oldColor.sizeB2 - order.sizeB2;
+                        const newSizeB3 = oldColor.sizeB3 - order.sizeB3;
+                        DbColors.findOneAndUpdate({idGroup, strictArtikul, color}, {sizeS: newSizeS, sizeM: newSizeM, sizeL: newSizeL, sizeXL: newSizeXL, sizeB1: newSizeB1, sizeB2: newSizeB2, sizeB3: newSizeB3}, {new: true}, function (err, newColor) {
                             if(err) {next(err);}
 
+                            Order.findOneAndRemove({userId: req.session.user}, function (err, order) {
+                                if(err) {next(err);}
+                            });
                         });
-                        
-                    });
+                    }else{
+                        const newSize1 = oldColor.size1 - order.size1;
+                        const newSize2 = oldColor.size2 - order.size2;
+                        const newSize3 = oldColor.size3 - order.size3;
+                        const newSize4 = oldColor.size4 - order.size4;
+                        const newSize5 = oldColor.size5 - order.size5;
+                        DbColorsDonaf.findOneAndUpdate({idGroup, strictArtikul, color}, {size1: newSize1, size2: newSize2, size3: newSize3, size4: newSize4, size5: newSize5}, {new: true}, function (err, newColor) {
+                            if(err) {next(err);}
+
+                            Order.findOneAndRemove({userId: req.session.user}, function (err, order) {
+                                if(err) {next(err);}
+
+                            });
+                            
+                        });
+                    }
+
                 });
             });
             
+            res.send('success')
         });
-        res.send('success')
     });
 
 

@@ -6,9 +6,12 @@ const DbGroup = require('../models/groupTovar').Group;
 const User = require('../models/userReg').User;
 const DbCardText = require('../models/cardText').DbCardText;
 const DbColors = require('../models/colors').DbColors;
+const DbColorsDonaf = require('../models/colorsDonaf').DbColorsDonaf;
 const DbFullOrder = require('../models/fullOrder').FullOrder;
 const Buyer = require('../models/buyer').Buyer;
 const Order = require('../models/order').Order;
+
+
 
 module.exports = function (app) {
 
@@ -148,24 +151,24 @@ module.exports = function (app) {
                                 
                                 imageMagic();
 
-                                        const imgPath = filePath.substr(6); // путь к фотке без public/
-                                        const Images = new DbImg({
-                                            imgPath: imgPath,
-                                            idGroup: idGroup,
-                                            descriptImg: descriptImg,
-                                            isMainImg: isMainImg,
-                                            strictArtikul: strictArtikul
-                                        });
+                                    const imgPath = filePath.substr(6); // путь к фотке без public/
+                                    const Images = new DbImg({
+                                        imgPath: imgPath,
+                                        idGroup: idGroup,
+                                        descriptImg: descriptImg,
+                                        isMainImg: isMainImg,
+                                        strictArtikul: strictArtikul
+                                    });
 
-                                        Images.save(function (err) {
-                                            if (err) {
-                                                console.dir(err);
-                                            } else {
-                                                console.dir('res.send');
-                                                res.send('Success');
+                                    Images.save(function (err) {
+                                        if (err) {
+                                            console.dir(err);
+                                        } else {
+                                            console.dir('res.send');
+                                            res.send('Success');
 
-                                            }
-                                        });
+                                        }
+                                    });
                         })
                     }
                 }); 
@@ -226,15 +229,21 @@ module.exports = function (app) {
             if(err) {next(err);}
             DbCardText.findOne({idGroup, strictArtikul}, function (err, textCard){
                 if(err) {next(err);}
-                DbColors.find({idGroup, strictArtikul}, function (err, colors) {
+                DbGroup.findById(idGroup, function (err, group) {
                     if(err) {next(err);}
-               
-                    res.locals.img = img;
-                    res.locals.includePage = 'inCard';
-                    (textCard)?res.locals.textCard = textCard: res.locals.textCard = false;
-                    res.locals.colors = colors;
-                   
-                    res.render('./admin/cardAdd', {idGroup, artikul: strictArtikul})
+                    var aliasDbColor;
+                    (group.title == 'donafen') ? aliasDbColor = DbColorsDonaf : aliasDbColor = DbColors;
+                    aliasDbColor.find({idGroup, strictArtikul}, function (err, colors) {
+                        if(err) {next(err);}
+                       
+                                res.locals.img = img;
+                                res.locals.includePage = 'inCard';
+                                (textCard)?res.locals.textCard = textCard: res.locals.textCard = false;
+                                res.locals.colors = colors;
+                                res.locals.titleGroup = group.title;
+                            
+                                res.render('./admin/cardAdd', {idGroup, artikul: strictArtikul})
+                    })
                 })
             })
         })
@@ -298,7 +307,9 @@ module.exports = function (app) {
         const sizeM = req.body.sizeM;
         const sizeL = req.body.sizeL;
         const sizeXL = req.body.sizeXL;
-
+        const sizeB1 = req.body.sizeB1;
+        const sizeB2 = req.body.sizeB2;
+        const sizeB3 = req.body.sizeB3;
 
         const ColorCard = new DbColors({
             color: colorCard,
@@ -307,7 +318,10 @@ module.exports = function (app) {
             sizeS: sizeS,
             sizeM:sizeM,
             sizeL:sizeL,
-            sizeXL: sizeXL 
+            sizeXL: sizeXL,
+            sizeB1: sizeB1,
+            sizeB2: sizeB2,
+            sizeB3: sizeB3
          });
 
          ColorCard.save(function (err) {
@@ -316,7 +330,37 @@ module.exports = function (app) {
             } else {
                 console.dir('color saved');
                 res.send('color saved');
+            }
+        });
+    });
 
+    app.post( `/sendDonafenColorCard`, (req, res)=>{
+        const idGroup = req.body.idGroup;
+        const artikulColorCard = req.body.artikul;
+        const colorCard = req.body.colorCard; 
+        const size1 = req.body.size1;
+        const size2 = req.body.size2;
+        const size3 = req.body.size3;
+        const size4 = req.body.size4;
+        const size5 = req.body.size5;
+
+        const DonafColorCard = new DbColorsDonaf({
+            color: colorCard,
+            idGroup: idGroup,
+            strictArtikul: artikulColorCard,
+            size1: size1,
+            size2:size2,
+            size3:size3,
+            size4: size4,
+            size5: size5 
+         });
+
+         DonafColorCard.save(function (err) {
+            if (err) {
+                console.dir(err);
+            } else {
+                console.dir('color saved');
+                res.send('color saved');
             }
         });
     })
@@ -357,8 +401,27 @@ module.exports = function (app) {
         const m = req.body.edM;
         const l = req.body.edL;
         const xl = req.body.edXL;
+        const b1 = req.body.edB1;
+        const b2 = req.body.edB2;
+        const b3 = req.body.edB3;
 
-        DbColors.findOneAndUpdate({idGroup, color: editingColor, strictArtikul: artikul},{sizeS: s, sizeM: m, sizeL: l, sizeXL: xl}, {new: true}, function (err, newColorSizesCard) {
+        DbColors.findOneAndUpdate({idGroup, color: editingColor, strictArtikul: artikul},{sizeS: s, sizeM: m, sizeL: l, sizeXL: xl, sizeB1: b1, sizeB2: b2, sizeB3: b3,}, {new: true}, function (err, newColorSizesCard) {
+            if (err) {next(err);}
+                res.send('edit success');
+        });
+    });
+    
+    app.post(`/sendEditSizesDonafen`, (req, res, next)=>{
+        const idGroup = req.body.idGroup;
+        const artikul = req.body.artikul;
+        const editingColor = req.body.editingColor;
+        const D1 = req.body.ed1;
+        const D2 = req.body.ed2;
+        const D3 = req.body.ed3;
+        const D4 = req.body.ed4;
+        const D5 = req.body.ed5;
+        
+        DbColorsDonaf.findOneAndUpdate({idGroup, color: editingColor, strictArtikul: artikul},{size1: D1, size2: D2, size3: D3, size4: D4, size5: D5}, {new: true}, function (err, newColorSizesCard) {
             if (err) {next(err);}
                 res.send('edit success');
         });
@@ -366,14 +429,19 @@ module.exports = function (app) {
 
     app.post(`/delColor`, (req, res, next)=>{
         const idGroup = req.body.idGroup;
-        const artikul = req.body.artikul;
-        const editingColor = req.body.editingColor;
+        const strictArtikul = req.body.artikul;
+        const color = req.body.editingColor;
         
-        DbColors.findOneAndRemove({idGroup, color: editingColor, strictArtikul: artikul}, function (err, deletedColor) {
-            if (err) {next(err);}
-            if(deletedColor){
-                res.send('delete success');
-            }
+        DbGroup.findById(idGroup, function (err, group) {
+            if(err) {next(err);}
+            var AliasDbColor;
+            (group.title == 'donafen') ? AliasDbColor = DbColorsDonaf : AliasDbColor = DbColors;
+            AliasDbColor.findOneAndRemove({idGroup, color, strictArtikul}, function (err, deletedColor) {
+                    if (err) {next(err);}
+                    if(deletedColor){
+                        res.send('delete success');
+                    }
+            });
         });
     });
 
@@ -404,6 +472,21 @@ module.exports = function (app) {
                 if(err) {next(err);}
                     res.send({user, orders});
             });
+        });
+    });
+
+    app.post(`/cleanUserBascket`, (req, res, next)=>{
+        const userId = req.body.userId;
+        Order.find({userId}, function (err, orders) {
+            if(err) {next(err);}
+                orders.map(order=>{
+                    orderId = order._id;
+                    Order.findByIdAndRemove(orderId, function (err, delOrder){
+                        if(err) {next(err);}
+                        
+                    })
+                })
+            res.send('del')  
         });
     });
 

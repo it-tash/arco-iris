@@ -2,10 +2,8 @@
     <span id="resp">info</span>
 </div>
 
-<!-- <div style="display: flex; width: 400px;;"> -->
     <span class="topics">арт.<%=artikul %></span>
     <span class="topics">СОЗДАТЬ</span>
-<!-- </div> -->
 
 <div  class="wrap-boxes">
 
@@ -34,18 +32,47 @@
      <%}%>
 
         <!-- ----------------------------------------------------------------- -->
+        <%if(titleGroup != 'donafen'){%>
         <div class="box-forms">
             <span class="topics">Добавить цвет</span>
-            <input class="inputs" type="text" name="colorCard" id="colorCardId" placeholder="цвет">
-            <div style="display: flex;">
-                <input class="size-cell-add" type="number" name="sizeS" id="sizeSId" placeholder="S">
-                <input class="size-cell-add" type="number" name="sizeM" id="sizeMId" placeholder="M">
-                <input class="size-cell-add" type="number" name="sizeL" id="sizeLId" placeholder="L">
-                <input class="size-cell-add" type="number" name="sizeXL" id="sizeXLId" placeholder="XL">
+            <input class="inputs" type="text" id="colorCardId" placeholder="цвет">
+            <div  style="display: flex; flex-direction: column;">
+                <div style="display: flex;">
+                    <input class="size-cell-add" type="number" name="sizeS" id="sizeSId" placeholder="S">
+                    <input class="size-cell-add" type="number" name="sizeM" id="sizeMId" placeholder="M">
+                    <input class="size-cell-add" type="number" name="sizeL" id="sizeLId" placeholder="L">
+                    <input class="size-cell-add" type="number" name="sizeXL" id="sizeXLId" placeholder="XL">
+                </div>
+                <div style="display: flex;">   
+                    <input class="size-cell-add" type="number" id="sizeB1" placeholder="XL">
+                    <input class="size-cell-add" type="number" id="sizeB2" placeholder="XXL">
+                    <input class="size-cell-add" type="number" id="sizeB3" placeholder="XXXL">
+                </div>
             </div>
             <button class="button-add" onclick="sendColorCard()">Добавить</button>
 
         </div>
+        <%}else{%>
+            <div class="box-forms">
+                <span class="topics">Добавить цвет</span>
+                <input class="inputs" type="text" id="colorCardId" placeholder="цвет">
+                <div  style="display: flex; flex-direction: column;">
+                    <div style="display: flex;">
+                        <input class="size-cell-add" style="width: 95px;" type="number" id="size1" placeholder="75B-85B">
+                        <input class="size-cell-add" style="width: 95px;" type="number" id="size2" placeholder="75C-85C">
+                        <input class="size-cell-add" style="width: 95px;" type="number" id="size3" placeholder="80C-90C">
+                    </div>
+                    <div style="display: flex;">
+                        <input class="size-cell-add" style="width: 95px;" type="number" id="size4" placeholder="80D-90D">
+                        <input class="size-cell-add" style="width: 95px;" type="number" id="size5" placeholder="85D-100D">
+                    </div>
+
+                </div>
+                <button class="button-add" onclick="sendDonafenColorCard()">Добавить</button>
+    
+            </div>
+
+        <%}%>
 
 </div>
 
@@ -76,32 +103,85 @@
                 <%} %>
                 </select>
             </div>
-  
-            <div style="display: flex;"> 
-
+            
+            <%if(titleGroup != 'donafen'){%>
                 <div style="display: flex; flex-direction: column;">
-                    <label>S</label>
-                    <input class="size-cell" type="number" id="edit-SId" >
+                    <div style="display: flex;"> 
+                        <div style="display: flex; flex-direction: column;">
+                            <label>S</label>
+                            <input class="size-cell" type="number" id="edit-SId" >
+                        </div>
+                        <div style="display: flex; flex-direction: column">
+                            <label>M</label>
+                            <input class="size-cell" type="number" id="edit-MId" >
+                        </div>
+                        <div style="display: flex; flex-direction: column;">
+                            <label>L</label>
+                            <input class="size-cell" type="number" id="edit-LId" >
+                        </div>
+                        <div style="display: flex; flex-direction: column">
+                            <label>XL</label>
+                            <input class="size-cell" type="number" id="edit-XLId" >
+                        </div>
+                    </div>
+
+                    <div style="display: flex;"> 
+                        <div style="display: flex; flex-direction: column">
+                            <label>XL</label>
+                            <input class="size-cell" type="number" id="edit-B1" >
+                        </div>
+                        <div style="display: flex; flex-direction: column">
+                            <label>XXL</label>
+                            <input class="size-cell" type="number" id="edit-B2" >
+                        </div>
+                        <div style="display: flex; flex-direction: column">
+                            <label>XXXL</label>
+                            <input class="size-cell" type="number" id="edit-B3" >
+                        </div>
+                    </div>
                 </div>
-                <div style="display: flex; flex-direction: column">
-                    <label>M</label>
-                    <input class="size-cell" type="number" id="edit-MId" >
+
+                <span id="infoSizeId">info</span>
+                <div>
+                    <button class="button-add" onclick="editSizesCard()">Edit</button>
+                    <button onclick="delColor()">Del</button>
                 </div>
-                <div style="display: flex; flex-direction: column">
-                    <label>L</label>
-                    <input class="size-cell" type="number" id="edit-LId" >
-                </div>
-                <div style="display: flex; flex-direction: column">
-                    <label>XL</label>
-                    <input class="size-cell" type="number" id="edit-XLId" >
-                </div>
-                
-            </div>
-            <span id="infoSizeId">info</span>
-            <div>
-                <button class="button-add" onclick="editSizesCard()">Edit</button>
-                <button onclick="delColor()">Del</button>
-            </div>
+            <%}else{%> 
+                <div style="display: flex; flex-direction: column;">
+                        <div style="display: flex;"> 
+                            <div style="display: flex; flex-direction: column;">
+                                <label>75B-85B</label>
+                                <input class="size-cell" type="number" id="edit-D1" >
+                            </div>
+                            <div style="display: flex; flex-direction: column">
+                                <label>75C-85C</label>
+                                <input class="size-cell" type="number" id="edit-D2" >
+                            </div>
+                            <div style="display: flex; flex-direction: column;">
+                                <label>80C-90C</label>
+                                <input class="size-cell" type="number" id="edit-D3" >
+                            </div>
+                        </div>
+    
+                        <div style="display: flex;"> 
+                            <div style="display: flex; flex-direction: column">
+                                <label>80D-90D</label>
+                                <input class="size-cell" type="number" id="edit-D4" >
+                            </div>
+                            <div style="display: flex; flex-direction: column">
+                                <label>85D-100D</label>
+                                <input class="size-cell" type="number" id="edit-D5" >
+                            </div>
+                        </div>
+                    </div>
+    
+                    <span id="infoSizeId">info</span>
+                    <div>
+                        <button class="button-add" onclick="editSizesDonaf()">Edit</button>
+                        <button onclick="delColor()">Del</button>
+                    </div>
+
+            <%}%> 
         </div>
     <%}%> 
 
@@ -110,26 +190,77 @@
 </div>
 
 <div class="existence"  style="display: flex; flex-wrap: wrap;">
-    <% for(var i=0; i<colors.length;i++) {%>
-        <div style="display: flex; border: 1px solid; margin: 2px;">
-            <span id="existenceColorId<%=i %>" style="border: .5px solid; padding: 0 2px 0 2px; background-color: #777; color: #fff"><%=colors[i].color %></span> 
-            <div style="display: flex; flex-direction: column; border: .2px solid; padding: 0 3px 0 3px">
-                <label for="existenceSId<%=i %>" style="font-size: 9px;" >s</label>
-                <span id="existenceSId<%=i %>" style="line-height: 5px;"><%=colors[i].sizeS %></span>
-            </div> 
-            <div style="display: flex; flex-direction: column; border: .2px solid; padding: 0 3px 0 3px">
-                <label for="existenceMId<%=i %>" style="font-size: 9px;" >m</label>
-                <span id="existenceMId<%=i %>" style="line-height: 5px;"><%=colors[i].sizeM %></span>
-            </div>  
-            <div style="display: flex; flex-direction: column; border: .2px solid; padding: 0 3px 0 3px">
-                <label for="existenceLId<%=i %>" style="font-size: 9px;" >l</label>
-                <span id="existenceLId<%=i %>" style="line-height: 5px;"><%=colors[i].sizeL %></span> 
-             </div> 
-            <div style="display: flex; flex-direction: column; border: .2px solid; padding: 0 3px 0 3px">
-                <label for="existenceXLId<%=i %>" style="font-size: 9px;" >xl</label>
-                <span id="existenceXLId<%=i %>" style="line-height: 5px;"><%=colors[i].sizeXL %></span> 
-            </div> 
-        </div>
+    <%if(titleGroup != 'donafen'){%>
+        <% for(var i=0; i<colors.length;i++) {%>
+            <div style="display: flex; border: 1px solid; margin: 2px;">
+                <span id="existenceColorId<%=i %>" style="border: .5px solid; padding: 0 2px 0 2px; background-color: #777; color: #fff"><%=colors[i].color %></span> 
+                 <%if((colors[i].sizeS*1+colors[i].sizeM*1+colors[i].sizeL*1+colors[i].sizeXL) > 0){%>
+                    <div style="display: flex; flex-direction: column; border: .2px solid; padding: 0 3px 0 3px">
+                        <label for="existenceSId<%=i %>" style="font-size: 9px;" >s</label>
+                        <span id="existenceSId<%=i %>" style="line-height: 5px;"><%=colors[i].sizeS %></span>
+                    </div> 
+                    <div style="display: flex; flex-direction: column; border: .2px solid; padding: 0 3px 0 3px">
+                        <label for="existenceMId<%=i %>" style="font-size: 9px;" >m</label>
+                        <span id="existenceMId<%=i %>" style="line-height: 5px;"><%=colors[i].sizeM %></span>
+                    </div>  
+                    <div style="display: flex; flex-direction: column; border: .2px solid; padding: 0 3px 0 3px">
+                        <label for="existenceLId<%=i %>" style="font-size: 9px;" >l</label>
+                        <span id="existenceLId<%=i %>" style="line-height: 5px;"><%=colors[i].sizeL %></span> 
+                    </div> 
+                    <div style="display: flex; flex-direction: column; border: .2px solid; padding: 0 3px 0 3px">
+                        <label for="existenceXLId<%=i %>" style="font-size: 9px;" >xl</label>
+                        <span id="existenceXLId<%=i %>" style="line-height: 5px;"><%=colors[i].sizeXL %></span> 
+                    </div> 
+                <%} %>
+
+                <%if((colors[i].sizeB1*1+colors[i].sizeB2*1+colors[i].sizeB3*1) > 0){%>
+                    <div style="display: flex; flex-direction: column; border: .2px solid red; padding: 0 3px 0 3px">
+                        <label for="existenceB1<%=i %>" style="font-size: 9px;" >bxl</label>
+                        <span id="existenceB1<%=i %>" style="line-height: 5px;"><%=colors[i].sizeB1 %></span> 
+                    </div> 
+                    <div style="display: flex; flex-direction: column; border: .2px solid red; padding: 0 3px 0 3px">
+                        <label for="existenceB2<%=i %>" style="font-size: 9px;" >xxl</label>
+                        <span id="existenceB2<%=i %>" style="line-height: 5px;"><%=colors[i].sizeB2 %></span> 
+                    </div>
+                    <div style="display: flex; flex-direction: column; border: .2px solid red; padding: 0 3px 0 3px">
+                        <label for="existenceB3<%=i %>" style="font-size: 9px;" >xxxl</label>
+                        <span id="existenceB3<%=i %>" style="line-height: 5px;"><%=colors[i].sizeB3 %></span> 
+                    </div>  
+                <%} %>
+            </div>
+        <%} %>
+    <%}else{ %>
+        <% for(var i=0; i<colors.length;i++) {%>
+            <div style="display: flex; border: 1px solid; margin: 2px;">
+                <span id="existenceColorId<%=i %>" style="border: .5px solid; padding: 0 2px 0 2px; background-color: #777; color: #fff"><%=colors[i].color %></span> 
+                <%if((colors[i].size1*1+colors[i].size2*1+colors[i].size3*1) > 0){%>
+                    <div style="display: flex; flex-direction: column; border: .2px solid; padding: 0 3px 0 3px">
+                        <label for="existenceD1<%=i %>" style="font-size: 9px;" >1</label>
+                        <span id="existenceD1<%=i %>" style="line-height: 5px;"><%=colors[i].size1 %></span>
+                    </div> 
+                    <div style="display: flex; flex-direction: column; border: .2px solid; padding: 0 3px 0 3px">
+                        <label for="existenceD2<%=i %>" style="font-size: 9px;" >2</label>
+                        <span id="existenceD2<%=i %>" style="line-height: 5px;"><%=colors[i].size2 %></span>
+                    </div>  
+                    <div style="display: flex; flex-direction: column; border: .2px solid; padding: 0 3px 0 3px">
+                        <label for="existenceD3<%=i %>" style="font-size: 9px;" >3</label>
+                        <span id="existenceD3<%=i %>" style="line-height: 5px;"><%=colors[i].size3 %></span> 
+                    </div> 
+                <%} %>
+
+                <%if((colors[i].size4*1+colors[i].size5*1) > 0){%>
+                    <div style="display: flex; flex-direction: column; border: .2px solid red; padding: 0 3px 0 3px">
+                        <label for="existenceD4<%=i %>" style="font-size: 9px;" >4</label>
+                        <span id="existenceD4<%=i %>" style="line-height: 5px;"><%=colors[i].size4 %></span> 
+                    </div> 
+                    <div style="display: flex; flex-direction: column; border: .2px solid red; padding: 0 3px 0 3px">
+                        <label for="existenceD5<%=i %>" style="font-size: 9px;" >5</label>
+                        <span id="existenceD5<%=i %>" style="line-height: 5px;"><%=colors[i].size5 %></span> 
+                    </div> 
+                <%} %>
+                
+            </div>
+        <%} %>
     <%} %>
 </div>
 
@@ -144,38 +275,84 @@
     const editM = document.getElementById('edit-MId');
     const editL = document.getElementById('edit-LId');
     const editXL= document.getElementById('edit-XLId');
+    const editB1 = document.getElementById('edit-B1');
+    const editB2 = document.getElementById('edit-B2');
+    const editB3= document.getElementById('edit-B3');
+
+    const edit1 = document.getElementById('edit-D1');
+    const edit2 = document.getElementById('edit-D2');
+    const edit3 = document.getElementById('edit-D3');
+    const edit4 = document.getElementById('edit-D4');
+    const edit5 = document.getElementById('edit-D5');
     
     if(document.getElementById('selectForm')){
         const selectForm = document.getElementById('selectForm');
         const firstColor = selectForm.value;
-    
 
-        axios.post(`/getFirstColorSizes`, {firstColor, idGroup, artikul})
-            .then(response => {
-                editS.value = response.data.sizeS;
-                editM.value = response.data.sizeM; 
-                editL.value = response.data.sizeL;
-                editXL.value = response.data.sizeXL;
-            })
-            .catch(function (err) {
-                alert(err.message);
-            });
+        if('<%=titleGroup %>'  != 'donafen'){
+            axios.post(`/getFirstColorSizes`, {firstColor, idGroup, artikul})
+                .then(response => {
+                    const res = response.data;
+                    editS.value = res.sizeS;
+                    editM.value = res.sizeM; 
+                    editL.value = res.sizeL;
+                    editXL.value = res.sizeXL;
+                    editB1.value = res.sizeB1; 
+                    editB2.value = res.sizeB2;
+                    editB3.value = res.sizeB3;
+                })
+                .catch(function (err) {
+                    alert(err.message);
+                });
+            }else{
+                axios.post(`/getFirstColorDonafen`, {firstColor, idGroup, artikul})
+                .then(response => {
+                    const res = response.data;
+                    edit1.value = res.size1;
+                    edit2.value = res.size2; 
+                    edit3.value = res.size3;
+                    edit4.value = res.size4;
+                    edit5.value = res.size5; 
+                })
+                .catch(function (err) {
+                    alert(err.message);
+                });
+            }
 
         selectForm.onchange = function (e) {
             const infoSizes = document.getElementById('infoSizeId');
             const onchangeColor= selectForm.value;
-            axios.post(`/getOnchangeColorSizes`, {onchangeColor, idGroup, artikul})
-                .then(response => {
-                editS.value = response.data.sizeS;
-                editM.value = response.data.sizeM; 
-                editL.value = response.data.sizeL;
-                editXL.value = response.data.sizeXL;
-                infoSizes.innerText = 'info';
-
-                })
-                .catch(function (err) {
-                    infoSizes.innerText = 'error';
-                });
+            if('<%=titleGroup %>'  != 'donafen'){
+                axios.post(`/getOnchangeColorSizes`, {onchangeColor, idGroup, artikul})
+                    .then(response => {
+                    const res = response.data;
+                    editS.value = res.sizeS;
+                    editM.value = res.sizeM; 
+                    editL.value = res.sizeL;
+                    editXL.value = res.sizeXL;
+                    editB1.value = res.sizeB1; 
+                    editB2.value = res.sizeB2;
+                    editB3.value = res.sizeB3;
+                    infoSizes.innerText = 'info';
+                    })
+                    .catch(function (err) {
+                        infoSizes.innerText = 'error';
+                    });
+                }else{
+                    axios.post(`/getOnchangeColorDonafen`, {onchangeColor, idGroup, artikul})
+                    .then(response => {
+                    const res = response.data;
+                    edit1.value = res.size1;
+                    edit2.value = res.size2; 
+                    edit3.value = res.size3;
+                    edit4.value = res.size4;
+                    edit5.value = res.size5; 
+                    infoSizes.innerText = 'info';
+                    })
+                    .catch(function (err) {
+                        infoSizes.innerText = 'error';
+                    });
+                }
         }
     }//if
     // -----------------------------------------------------------------------------
@@ -226,8 +403,28 @@ function sendColorCard(){
     const sizeM = document.getElementById('sizeMId').value;
     const sizeL = document.getElementById('sizeLId').value;
     const sizeXL = document.getElementById('sizeXLId').value;
+    const sizeB1 = document.getElementById('sizeB1').value;
+    const sizeB2 = document.getElementById('sizeB2').value;
+    const sizeB3 = document.getElementById('sizeB3').value;
 
-    axios.post(`/sendColorCard`, {idGroup, artikul, colorCard, sizeS, sizeM, sizeL, sizeXL})
+    axios.post(`/sendColorCard`, {idGroup, artikul, colorCard, sizeS, sizeM, sizeL, sizeXL, sizeB1, sizeB2, sizeB3})
+        .then(response => {
+        window.location.href = '/openCard/<%=idGroup %>/<%=artikul %> ';
+        })
+        .catch(function (err) {
+            alert(err.message);
+        });
+ }
+
+ function sendDonafenColorCard() {
+    const colorCard = document.getElementById('colorCardId').value;
+    const size1 = document.getElementById('size1').value;
+    const size2 = document.getElementById('size2').value;
+    const size3 = document.getElementById('size3').value;
+    const size4 = document.getElementById('size4').value;
+    const size5 = document.getElementById('size5').value;
+
+    axios.post(`/sendDonafenColorCard`, {idGroup, artikul, colorCard, size1, size2, size3, size4, size5})
         .then(response => {
         window.location.href = '/openCard/<%=idGroup %>/<%=artikul %> ';
         })
@@ -271,15 +468,63 @@ function editSizesCard(){
     const edM=editM.value;
     const edL=editL.value;
     const edXL=editXL.value;
+    const edB1=editB1.value;
+    const edB2=editB2.value;
+    const edB3=editB3.value;
 
-    axios.post(`/sendEditSizesCard`, {idGroup, editingColor, artikul, edS, edM, edL, edXL})
+    axios.post(`/sendEditSizesCard`, {idGroup, editingColor, artikul, edS, edM, edL, edXL, edB1, edB2, edB3})
         .then(response => {
             infoSizes.innerText = response.data;
             if(infoSizes.innerText == 'edit success'){
-                document.getElementById('existenceSId'+ selectForm.selectedIndex).innerHTML = edS;
-                document.getElementById('existenceMId'+ selectForm.selectedIndex).innerHTML = edM;
-                document.getElementById('existenceLId'+ selectForm.selectedIndex).innerHTML = edL;
-                document.getElementById('existenceXLId'+ selectForm.selectedIndex).innerHTML = edXL;
+                if(document.getElementById('existenceSId'+ selectForm.selectedIndex)){
+                    document.getElementById('existenceSId'+ selectForm.selectedIndex).innerHTML = edS;
+                    document.getElementById('existenceMId'+ selectForm.selectedIndex).innerHTML = edM;
+                    document.getElementById('existenceLId'+ selectForm.selectedIndex).innerHTML = edL;
+                    document.getElementById('existenceXLId'+ selectForm.selectedIndex).innerHTML = edXL;
+                }else{
+                    window.location.href = '/openCard/<%=idGroup %>/<%=artikul %> ';
+                }
+                if(document.getElementById('existenceB1'+ selectForm.selectedIndex)){
+                    document.getElementById('existenceB1'+ selectForm.selectedIndex).innerHTML = edB1;
+                    document.getElementById('existenceB2'+ selectForm.selectedIndex).innerHTML = edB2;
+                    document.getElementById('existenceB3'+ selectForm.selectedIndex).innerHTML = edB3;
+                 }else{
+                    window.location.href = '/openCard/<%=idGroup %>/<%=artikul %> ';
+                }
+            }
+        })
+        .catch(function (err) {
+            alert(err.message);
+        });
+}
+
+function editSizesDonaf(){
+    const colorsLength =  document.getElementById('colorsLength').value;
+    const infoSizes = document.getElementById('infoSizeId');
+    const editingColor= selectForm.value;
+    const ed1=edit1.value;
+    const ed2=edit2.value;
+    const ed3=edit3.value;
+    const ed4=edit4.value;
+    const ed5=edit5.value;
+    
+    axios.post(`/sendEditSizesDonafen`, {idGroup, editingColor, artikul, ed1, ed2, ed3, ed4, ed5})
+        .then(response => {
+            infoSizes.innerText = response.data;
+            if(infoSizes.innerText == 'edit success'){
+                if(document.getElementById('existenceD1'+ selectForm.selectedIndex)){
+                    document.getElementById('existenceD1'+ selectForm.selectedIndex).innerHTML = ed1;
+                    document.getElementById('existenceD2'+ selectForm.selectedIndex).innerHTML = ed2;
+                    document.getElementById('existenceD3'+ selectForm.selectedIndex).innerHTML = ed3;
+                }else{
+                    window.location.href = '/openCard/<%=idGroup %>/<%=artikul %> ';
+                }
+                if(document.getElementById('existenceD4'+ selectForm.selectedIndex)){
+                    document.getElementById('existenceD4'+ selectForm.selectedIndex).innerHTML = ed4;
+                    document.getElementById('existenceD5'+ selectForm.selectedIndex).innerHTML = ed5;
+                }else{
+                    window.location.href = '/openCard/<%=idGroup %>/<%=artikul %> ';
+                }
             }
         })
         .catch(function (err) {
@@ -301,9 +546,8 @@ function delColor(){
          .catch(function (err) {
              alert(err.message);
          });
-
-
 }
+
 
 </script>
 

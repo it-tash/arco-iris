@@ -90,44 +90,114 @@
       <div class="cardInfo">
           <span class="topics">Наличие на складе(шт):</span>
           <select id="selectForm"> 
+            <%  var renderingColorsLength = 0; %>
             <% for(var i=0; i<colors.length;i++) {%>
-                <option id="selectColorId" value="<%=colors[i].color %>"><%=colors[i].color %></option> 
+                <% if(colors[i].sizeS*1+colors[i].sizeM*1+colors[i].sizeL*1+colors[i].sizeXL*1+colors[i].sizeB1*1+colors[i].sizeB2*1+colors[i].sizeB3*1 > 0 || colors[i].size1*1+colors[i].size2*1+colors[i].size3*1+colors[i].size4*1+colors[i].size5*1 > 0) {%>
+                  <option id="selectColorId" value="<%=colors[i].color %>"><%=colors[i].color %></option> 
+                  <% renderingColorsLength ++;%>
+                  
+                <%} %>
             <%} %>
           </select>
          
       </div>
+      <% if(renderingColorsLength > 0){ %>
+        <%if(titleGroup != 'donafen'){%>
+            <div id="box-size" class="box-size-cell"> 
+                <div id="box-s" class="oneSizeColumnBox">
+                    <label for="s">S</label>
+                    <button onclick="increase('s')">+</button>
+                    <span id="s" class="size-cell" ></span>
+                    <button onclick="decrease('s')">-</button>
+                </div>
+                <div id="box-m" class="oneSizeColumnBox">
+                    <label for="m">M</label>
+                    <button onclick="increase('m')">+</button>
+                    <span id="m" class="size-cell" ></span>
+                    <button onclick="decrease('m')">-</button>
+                </div>
+                <div id="box-l" class="oneSizeColumnBox">
+                    <label for="l">L</label>
+                    <button onclick="increase('l')">+</button>
+                    <span id="l" class="size-cell"></span>
+                    <button onclick="decrease('l')">-</button>
+                </div>
+                <div id="box-xl" class="oneSizeColumnBox">
+                    <label for="xl">XL</label>
+                    <button onclick="increase('xl')">+</button>
+                    <span id="xl" class="size-cell" ></span>
+                    <button onclick="decrease('xl')">-</button>
+                </div>
+            </div>
+            
+            <span id="titleBatal">Батал:</span>
+            <div id="box-size-bat" class="box-size-cell"> 
+                <div class="oneSizeColumnBox">
+                    <label for="b1">XL</label>
+                    <button onclick="increase('b1')">+</button>
+                    <span id="b1" class="size-cell" ></span>
+                    <button onclick="decrease('b1')">-</button>
+                </div>
+                <div class="oneSizeColumnBox">
+                    <label for="b2">XXL</label>
+                    <button onclick="increase('b2')">+</button>
+                    <span id="b2" class="size-cell" ></span>
+                    <button onclick="decrease('b2')">-</button>
+                </div>
+                <div class="oneSizeColumnBox">
+                    <label for="b3">XXXL</label>
+                    <button onclick="increase('b3')">+</button>
+                    <span id="b3" class="size-cell"></span>
+                    <button onclick="decrease('b3')">-</button>
+                </div>
+            </div>
+        <%}else{ %>
+          <div id="box-size" class="box-size-cell"> 
+              <div class="oneSizeColumnBox">
+                  <label for="D1">75B-85B</label>
+                  <button onclick="increaseDonaf('D1')">+</button>
+                  <span id="D1" class="size-cell" ></span>
+                  <button onclick="decreaseDonaf('D1')">-</button>
+              </div>
+              <div class="oneSizeColumnBox">
+                  <label for="D2">75C-85C</label>
+                  <button onclick="increaseDonaf('D2')">+</button>
+                  <span id="D2" class="size-cell" ></span>
+                  <button onclick="decreaseDonaf('D2')">-</button>
+              </div>
+              <div class="oneSizeColumnBox">
+                  <label for="D3">80C-90C</label>
+                  <button onclick="increaseDonaf('D3')">+</button>
+                  <span id="D3" class="size-cell"></span>
+                  <button onclick="decreaseDonaf('D3')">-</button>
+              </div>
+          </div>
+          
+          <div id="box-size-bat" class="box-size-cell"> 
+              <div class="oneSizeColumnBox">
+                  <label for="D4">80D-90D</label>
+                  <button onclick="increaseDonaf('D4')">+</button>
+                  <span id="D4" class="size-cell" ></span>
+                  <button onclick="decreaseDonaf('D4')">-</button>
+              </div>
+              <div class="oneSizeColumnBox">
+                  <label for="D5">85D-100D</label>
+                  <button onclick="increaseDonaf('D5')">+</button>
+                  <span id="D5" class="size-cell" ></span>
+                  <button onclick="decreaseDonaf('D5')">-</button>
+              </div>
+          </div>
 
-      <div class="box-size-cell" style="display: flex; text-align: center; "> 
-          <div class="oneSizeColumnBox">
-              <label for="s">S</label>
-              <button onclick="increase('s')">+</button>
-              <span id="s" class="size-cell" ></span>
-              <button onclick="decrease('s')">-</button>
-          </div>
-          <div class="oneSizeColumnBox">
-              <label for="m">M</label>
-              <button onclick="increase('m')">+</button>
-              <span id="m" class="size-cell" ></span>
-              <button onclick="decrease('m')">-</button>
-          </div>
-          <div class="oneSizeColumnBox">
-              <label for="l">L</label>
-              <button onclick="increase('l')">+</button>
-              <span id="l" class="size-cell"></span>
-              <button onclick="decrease('l')">-</button>
-          </div>
-          <div class="oneSizeColumnBox">
-              <label for="xl">XL</label>
-              <button onclick="increase('xl')">+</button>
-              <span id="xl" class="size-cell" ></span>
-              <button onclick="decrease('xl')">-</button>
-          </div>
-      </div>
+          <%} %>
+      <%} %>
+      
       <% if(access === 'true'){%>
         <% if(textCard.price){%>
             <% if(colors.length > 0){%>
               <% if(adminSesion === 'false'){%>
-                <button class="logInRegButt" onclick="putInBascket()" style="width: fit-content; font-size: 15px; line-height: 25px; margin-top: 25px; padding: 0 5px 0 5px;">В КОРЗИНУ</button>
+                <% if(renderingColorsLength > 0){%>
+                    <button class="logInRegButt" onclick="putInBascket()" style="width: fit-content; font-size: 15px; line-height: 25px; margin-top: 25px; padding: 0 5px 0 5px;">В КОРЗИНУ</button>
+                <%}%>
               <%}%>
             <%}%>
             <span class="topics" style="margin-top: 20px">Цена: <%=textCard.price %> грн.</span>
@@ -164,13 +234,27 @@
     const firstColor = selectForm.value;
     const idGroup = document.getElementById('idGroup').value;
     const artikul = document.getElementById('artikul').value;
+    const titleGroup =  '<%=titleGroup%>';
 
     const s = document.getElementById('s');
     const m = document.getElementById('m');
     const l = document.getElementById('l');
     const xl = document.getElementById('xl');
+    const b1 = document.getElementById('b1');
+    const b2 = document.getElementById('b2');
+    const b3 = document.getElementById('b3');
+
+    const D1 = document.getElementById('D1');
+    const D2 = document.getElementById('D2');
+    const D3 = document.getElementById('D3');
+    const D4 = document.getElementById('D4');
+    const D5 = document.getElementById('D5');
     const max={};
-    
+
+    const boxSize = document.getElementById('box-size');
+    const boxSizeBat = document.getElementById('box-size-bat');
+    const titleBatal = document.getElementById('titleBatal');
+       
     function increase(size){
       const elemInner = document.getElementById(size);
       
@@ -185,10 +269,23 @@
 
     }
 
+    function increaseDonaf(size){
+      const elemInner = document.getElementById(size);
+      
+      if(elemInner.innerHTML<max[size]) {elemInner.innerHTML = elemInner.innerHTML*1 + 3}
+      
+    }
+
+    function decreaseDonaf(size){
+      const elemInner = document.getElementById(size);
+
+      if(elemInner.innerHTML>0) {elemInner.innerHTML = elemInner.innerHTML*1 - 3}
+
+    }
+
              
     function putInBascket(){
       const colorOrder = selectForm.value;
-      const sInner = s.innerText, mInner = m.innerText, lInner = l.innerText, xlInner = xl.innerText;
       let img = '';
       for(let i=0; i<imgLength; i++){
            const descriptImg = document.getElementById('descriptImg'+i)
@@ -198,42 +295,117 @@
             img = document.getElementById('img'+0).src;
           }
       }
-      axios.post(`/putInBascket`, {img, colorOrder, idGroup, artikul, sInner, mInner, lInner, xlInner})
+      if(titleGroup != 'donafen'){
+        const sInner = s.innerText, mInner = m.innerText, lInner = l.innerText, xlInner = xl.innerText;
+        const b1Inner = b1.innerHTML, b2Inner = b2.innerHTML, b3Inner = b3.innerHTML;
+        axios.post(`/putInBascket`, {img, colorOrder, idGroup, titleGroup, artikul, sInner, mInner, lInner, xlInner, b1Inner, b2Inner, b3Inner})
         .then(response => {
           alert(response.data);
-          
         })
         .catch(function (err) {
               alert(err.message);
         });
+      }else{
+        const D1Inner = D1.innerHTML, D2Inner = D2.innerHTML, D3Inner = D3.innerHTML;
+        const D4Inner = D4.innerHTML, D5Inner = D5.innerHTML;
+        axios.post(`/putInBascketDonafen`, {img, colorOrder, idGroup, titleGroup, artikul, D1Inner, D2Inner, D3Inner, D4Inner, D5Inner})
+        .then(response => {
+          alert(response.data);
+        })
+        .catch(function (err) {
+              alert(err.message);
+        });
+      }
+     
     }
 
     
     if(colorsLength > 0){
+      if(titleGroup != 'donafen'){
         axios.post(`/getFirstColorSizes`, {firstColor, idGroup, artikul})
           .then(response => {
-            s.innerText = max.s = response.data.sizeS;
-            m.innerText = max.m = response.data.sizeM; 
-            l.innerText = max.l = response.data.sizeL;
-            xl.innerText = max.xl = response.data.sizeXL;
+            const res = response.data;
+            
+            ((res.sizeS*1+res.sizeM*1+res.sizeL*1+res.sizeXL*1) > 0)?boxSize.className = "box-size-cell":boxSize.className = "displNone";
+            
+            ((res.sizeB1*1+res.sizeB2*1+res.sizeB3*1) > 0)?boxSizeBat.className = "box-size-cell":boxSizeBat.className = "displNone";
+            ((res.sizeB1*1+res.sizeB2*1+res.sizeB3*1) > 0)?titleBatal.className = "titleBatal":titleBatal.className = "displNone";
+
+            s.innerText = max.s = res.sizeS || 0;
+            m.innerText = max.m = res.sizeM || 0; 
+            l.innerText = max.l = res.sizeL || 0;
+            xl.innerText = max.xl = res.sizeXL || 0;
+            b1.innerHTML = max.b1 = res.sizeB1 || 0;
+            b2.innerHTML = max.b2 = res.sizeB2 || 0;
+            b3.innerHTML = max.b3 = res.sizeB3 || 0;
           })
           .catch(function (err) {
                 alert(err.message);
           });
+        }else{
+          axios.post(`/getFirstColorDonafen`, {firstColor, idGroup, artikul})
+          .then(response => {
+            const res = response.data;
+            
+            ((res.size1*1+res.size2*1+res.size3*1) > 0)?boxSize.className = "box-size-cell":boxSize.className = "displNone";
+            
+            ((res.size4*1+res.size5*1) > 0)?boxSizeBat.className = "box-size-cell":boxSizeBat.className = "displNone";
+
+            D1.innerText = max.D1 = res.size1 || 0;
+            D2.innerText = max.D2 = res.size2 || 0; 
+            D3.innerText = max.D3 = res.size3 || 0;
+            D4.innerText = max.D4 = res.size4 || 0;
+            D5.innerHTML = max.D5 = res.size5 || 0;
+           
+          })
+          .catch(function (err) {
+                alert(err.message);
+          });
+        }
     }
 
    selectForm.onchange = function (e) {
       const onchangeColor= selectForm.value;
-      axios.post(`/getOnchangeColorSizes`, {onchangeColor, idGroup, artikul})
-                .then(response => {
-                  s.innerText = max.s = response.data.sizeS;
-                  m.innerText = max.m = response.data.sizeM; 
-                  l.innerText = max.l = response.data.sizeL;
-                  xl.innerText = max.xl = response.data.sizeXL;
-                })
-                .catch(function (err) {
-                      alert(err.message);
-                });
+      if(titleGroup != 'donafen'){
+        axios.post(`/getOnchangeColorSizes`, {onchangeColor, idGroup, artikul})
+          .then(response => {
+            const res = response.data;
+            
+            ((res.sizeS*1+res.sizeM*1+res.sizeL*1+res.sizeXL*1) > 0)?boxSize.className = "box-size-cell":boxSize.className = "displNone";
+            ((res.sizeB1*1+res.sizeB2*1+res.sizeB3*1) > 0)?boxSizeBat.className = "box-size-cell":boxSizeBat.className = "displNone";
+            ((res.sizeB1*1+res.sizeB2*1+res.sizeB3*1) > 0)?titleBatal.className = "titleBatal":titleBatal.className = "displNone";
+            
+            s.innerText = max.s = res.sizeS || 0;
+            m.innerText = max.m = res.sizeM || 0; 
+            l.innerText = max.l = res.sizeL || 0;
+            xl.innerText = max.xl = res.sizeXL || 0;
+            b1.innerHTML = max.b1 = res.sizeB1 || 0;
+            b2.innerHTML = max.b2 = res.sizeB2 || 0;
+            b3.innerHTML = max.b3 = res.sizeB3 || 0;
+          })
+          .catch(function (err) {
+                alert(err.message);
+          });
+        }else{
+          axios.post(`/getOnchangeColorDonafen`, {onchangeColor, idGroup, artikul})
+          .then(response => {
+            const res = response.data;
+            
+            ((res.size1*1+res.size2*1+res.size3*1) > 0)?boxSize.className = "box-size-cell":boxSize.className = "displNone";
+            
+            ((res.size4*1+res.size5*1) > 0)?boxSizeBat.className = "box-size-cell":boxSizeBat.className = "displNone";
+
+            D1.innerText = max.D1 = res.size1 || 0;
+            D2.innerText = max.D2 = res.size2 || 0; 
+            D3.innerText = max.D3 = res.size3 || 0;
+            D4.innerText = max.D4 = res.size4 || 0;
+            D5.innerHTML = max.D5 = res.size5 || 0;
+           
+          })
+          .catch(function (err) {
+                alert(err.message);
+          });
+        }
     }
 </script>
 

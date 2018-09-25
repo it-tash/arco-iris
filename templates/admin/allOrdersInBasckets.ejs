@@ -4,28 +4,29 @@
 
 <body>
 <%- include ../common/shapka %>
+<link rel="stylesheet" href="/public/styleAdminpanelOrders.css">
+
 <h2 style="margin: 10px; text-align: center">Формирующиеся заказы в корзинах</h2>
 <input type="hidden" id="unicUsersIdsLength" value="<%=unicUsersIds.length%>">
 
 
-<div style="display: flex; flex-direction: row-reverse; width:98%; margin: auto; flex-wrap: wrap-reverse;">
+<div class="wraper-box">
     
     <% for(let i=0; i<unicUsersIds.length;i++) {%>
     
         <input type="hidden" id="unicUsersIds<%=i%>" value="<%=unicUsersIds[i] %>">
 
-        <div style="display: flex;flex-direction: column;flex-grow: 1; align-items: center; border: 1px solid; border-radius: 7px; font-size: 20px;">
+        <div class="fullOrder-box">
         
-            <div style="display: flex; flex-direction:column; text-align: center; padding: 5px ;border: 1px solid; border-radius: 4px;">
+            <div class="userInfo-box">
                 <span id="bascketUserName<%=i%>"></span>
                 <span id="bascketUserTown<%=i%>"></span>
                 <span id="bascketUserTel<%=i%>"></span>
                 <span id="bascketUserEmail<%=i%>"></span>
-                <span>--------------</span> 
-
-                <div id="inBascketUserBox<%=i%>" style="display:flex; flex-direction:column;"></div>
-
+                <button class="fioletButton" onclick="cleanUserBascket('<%=unicUsersIds[i] %>')">Очистить</button>
+                
             </div>
+            <div id="inBascketUserBox<%=i%>" class="orders-box"></div>
         </div>
 
     <%} %>
@@ -47,23 +48,49 @@
                 document.getElementById('bascketUserTel'+i).innerHTML = user.telNo;
                 document.getElementById('bascketUserEmail'+i).innerHTML = user.email;
                 orders.map(order =>{
+                    const orderBox = document.createElement('div');
+                    orderBox.className = "oneOrder-box";
+                    
                     const spanArtikul = document.createElement('span');
-                    // spanArtikul.className = "------";
                     spanArtikul.innerHTML = order.strictArtikul;
-                    box.appendChild(spanArtikul);
+                    orderBox.appendChild(spanArtikul);
 
                     const spanColor = document.createElement('span');
                     spanColor.innerHTML = order.color;
-                    box.appendChild(spanColor);
+                    orderBox.appendChild(spanColor);
 
                     const spanSize = document.createElement('span');
-                    spanSize.innerHTML = "S:" + order.sizeS + " M:" + order.sizeM + " L:" + order.sizeL + " XL:" + order.sizeXL;
-                    box.appendChild(spanSize); 
+                    if(order.titleGroup != 'donafen'){
+                       if((order.sizeS+order.sizeM+order.sizeL+order.sizeXL)>0) {spanSize.innerHTML = "S:" + order.sizeS + " M:" + order.sizeM + " L:" + order.sizeL + " XL:" + order.sizeXL;}
+                       if((order.sizeB1+order.sizeB2+order.sizeB3)>0) {spanSize.innerHTML += " XL:" + order.sizeB1 + " XXL:" + order.sizeB2 + " XXXL:" + order.sizeB3;}
+                    }else{
+                        if((order.size1+order.size2+order.size3)>0) {spanSize.innerHTML = "75B-85B:" + order.size1 + " 75C-85C:" + order.size2 + " 80C-90C:" +  order.size3;}
+                        if((order.size4+order.size5)>0) {spanSize.innerHTML += " 80D-90D:" + order.size4 + " 85D-100D:" + order.size5;}
+                    }
+                    orderBox.appendChild(spanSize); 
+
+                    box.appendChild(orderBox);
                 });
             })
             .catch(function (err) {
                     alert(err.message);
             });
+
+            function cleanUserBascket(userId){
+                // const userId = document.getElementById(unicUsersIds+i).value;
+
+                axios.post(`/cleanUserBascket`, {userId})
+                .then(response => {
+                  let resp = response.data;
+                  if(resp = 'del'){
+                      window.location.href = `/allOrdersInBasckets`;
+                  }
+                
+                })
+                .catch(function (err) {
+                      alert(err.message);
+                });
+            }
     }
         
 </script>

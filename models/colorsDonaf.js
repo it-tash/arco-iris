@@ -15,31 +15,23 @@ const schema = new db.Schema({
         type: String,
         require: true,
     },
-    sizeS:{
+    size1:{
         type: Number,
         default: 0
     },
-    sizeM:{
+    size2:{
         type: Number,
         default: 0
     },
-    sizeL:{
+    size3:{
         type: Number,
         default: 0
     },
-    sizeXL:{
+    size4:{
         type: Number,
         default: 0
     },
-    sizeB1:{
-        type: Number,
-        default: 0
-    },
-    sizeB2:{
-        type: Number,
-        default: 0
-    },
-    sizeB3:{
+    size5:{
         type: Number,
         default: 0
     }
@@ -47,4 +39,4 @@ const schema = new db.Schema({
 });
 
 
-exports.DbColors = db.model('DbColors', schema);
+exports.DbColorsDonaf = db.model('DbColorsDonaf', schema);

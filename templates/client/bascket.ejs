@@ -17,10 +17,10 @@
         <div id="mainBox">
 
             <div style="display: none; flex-direction: column; box-shadow: 0 0 30px red; border-radius: 10px;" id="infoBox" >
-                <div id="infoChange" style="margin: 20px 20px 0 20px;">
+                <div id="infoChange" style="margin: 20px 20px 0 20px; color:#333; font-family:'Courier New', Courier, monospace;">
                     <span style="align-self: center;">Уменьшилось кол-во:</span>
                 </div>
-                <button id="butOk" style="margin: 0 0 20px 20px; width: fit-content; border-radius: 7px;" onclick=" document.getElementById('infoBox').innerHTML = ''">ok</button>
+                <button id="butOk" style="margin: 0 0 20px 20px; width: fit-content; border-radius: 7px;" onclick=" document.getElementById('infoBox').style = 'display: none;'">ok</button>
             </div>
             
             <div id="box-orders" style=" display: flex; flex-wrap: wrap; justify-content: flex-start; margin: 30px 0 30px 0;" >
@@ -32,8 +32,9 @@
                 <% for(var i=0; i<bascket.length;i++) {%>
 
                     <input type="hidden" id="idGroup<%=i%>" value="<%=bascket[i].idGroup%>">
+                    <input type="hidden" id="titleGroup<%=i%>" value="<%=bascket[i].titleGroup%>">
 
-                    <div class="inCatalogImgBox" style="align-items: flex-start; margin-top: 10px; border: 1px solid; border-radius: 4px; padding: 10px;">
+                    <div class="oneOrder-box" style="align-items: flex-start; margin-top: 10px; border: 1px solid; border-radius: 4px; padding: 10px;">
                         <div style="display: flex; ">
                             <div  style="align-self: flex-start;">
                                 <img id="img<%=i%>" style="width: 50px;" src="<%=bascket[i].img %>" >
@@ -49,61 +50,112 @@
                             </div>
                         </div>
 
-                        <div class="box-size-cell" style="display: flex; align-self: flex-start; margin-top: 10px; "> 
-                                
-                                <div style="display: flex; flex-direction: column">
+                        <div class="box-size-cell" style="align-self: flex-start; margin-top: 10px; flex-direction: column">
+                          <% if(bascket[i].titleGroup != 'donafen'){%>      
+                            <div id="norma-box<%=i%>">     
+                                <div class="oneSizeColumnBox">
                                     <label >S</label>
-                                    <div style="display: flex">
-
+                                    <button onclick="increase('s', '<%=i%>')">+</button> 
                                     <span id="s<%=i%>" class="size-cell" ><%=bascket[i].sizeS%></span>
                                     <input type="hidden" id="maxs<%=i%>">
-
-                                    <div style="display: flex; flex-direction: column;">
-                                        <button onclick="increase('s', '<%=i%>')">+</button> 
-                                        <button onclick="decrease('s', '<%=i%>')">-</button>
-                                    </div>
-                                    </div>
+                                    <button onclick="decrease('s', '<%=i%>')">-</button>
                                 </div>
-                                <div style="display: flex; flex-direction: column">
-                                    <label for="m">M</label>
-                                    <div style="display: flex">
+                                <div class="oneSizeColumnBox">
+                                    <label>M</label>
+                                    <button onclick="increase('m', '<%=i%>')">+</button>
                                     <span id="m<%=i%>" class="size-cell" ><%=bascket[i].sizeM%></span>
                                     <input type="hidden" id="maxm<%=i%>">
-
-                                    <div style="display: flex; flex-direction: column;">
-                                        <button onclick="increase('m', '<%=i%>')">+</button>
-                                        <button onclick="decrease('m', '<%=i%>')">-</button>
-                                    </div>
-                                    </div>
+                                    <button onclick="decrease('m', '<%=i%>')">-</button>
                                 </div>
-                                <div style="display: flex; flex-direction: column">
-                                    <label for="l">L</label>
-                                    <div style="display: flex">
+                                <div class="oneSizeColumnBox">
+                                    <label>L</label>
+                                    <button onclick="increase('l', '<%=i%>')">+</button>
                                     <span id="l<%=i%>" class="size-cell" ><%=bascket[i].sizeL%></span>
                                     <input type="hidden" id="maxl<%=i%>">
-
-                                    <div style="display: flex; flex-direction: column;">
-                                        <button onclick="increase('l', '<%=i%>')">+</button>
-                                        <button onclick="decrease('l', '<%=i%>')">-</button>
-                                    </div>
-                                    </div>
+                                    <button onclick="decrease('l', '<%=i%>')">-</button>
                                 </div>
-                                <div style="display: flex; flex-direction: column">
-                                    <label for="xl">XL</label>
-                                    <div style="display: flex">
+                                <div class="oneSizeColumnBox">
+                                    <label>XL</label>
+                                    <button onclick="increase('xl', '<%=i%>')">+</button>
                                     <span id="xl<%=i%>" class="size-cell" ><%=bascket[i].sizeXL%></span>
                                     <input type="hidden" id="maxxl<%=i%>">
-
-                                    <div style="display: flex; flex-direction: column;">
-                                        <button onclick="increase('xl', '<%=i%>')">+</button>
-                                        <button onclick="decrease('xl', '<%=i%>')">-</button>
-                                    </div>
-                                    </div>
+                                    <button onclick="decrease('xl', '<%=i%>')">-</button>
                                 </div>
                             </div>
 
-                
-                    
+                            <!-- -----------------------batal------------------------ -->
+                            <span id="titleBatalbascket">Батал:</span>
+                            <div id="batal-box<%=i%>">    
+                                <div class="oneSizeColumnBox">
+                                    <label>XL</label>
+                                    <button onclick="increase('b1', '<%=i%>')">+</button>
+                                    <span id="b1<%=i%>" class="size-cell" ><%=bascket[i].sizeB1%></span>
+                                    <input type="hidden" id="maxb1<%=i%>">
+                                    <button onclick="decrease('b1', '<%=i%>')">-</button>
+                                </div>
+                                <div class="oneSizeColumnBox">
+                                    <label>XXL</label>
+                                    <button onclick="increase('b2', '<%=i%>')">+</button>
+                                    <span id="b2<%=i%>" class="size-cell" ><%=bascket[i].sizeB2%></span>
+                                    <input type="hidden" id="maxb2<%=i%>">
+                                    <button onclick="decrease('b2', '<%=i%>')">-</button>
+                                </div>
+                                <div class="oneSizeColumnBox">
+                                    <label>XXXL</label>
+                                    <button onclick="increase('b3', '<%=i%>')">+</button>
+                                    <span id="b3<%=i%>" class="size-cell" ><%=bascket[i].sizeB3%></span>
+                                    <input type="hidden" id="maxb3<%=i%>">
+                                    <button onclick="decrease('b3', '<%=i%>')">-</button>
+                                </div>
+                            </div>
+                            <!-- --------end batal box-------- -->
+                            <%}else{%>
+                                <!-- --------donafen box-------- -->
+                                <div id="norma-box-Donaf<%=i%>">     
+                                        <div class="oneSizeColumnBox">
+                                            <label >75B-85B</label>
+                                            <button onclick="increaseDonafen('D1', '<%=i%>')">+</button> 
+                                            <span id="D1<%=i%>" class="size-cell" ><%=bascket[i].size1%></span>
+                                            <input type="hidden" id="maxD1<%=i%>">
+                                            <button onclick="decreaseDonafen('D1', '<%=i%>')">-</button>
+                                        </div>
+                                        <div class="oneSizeColumnBox">
+                                            <label>75C-85C</label>
+                                            <button onclick="increaseDonafen('D2', '<%=i%>')">+</button>
+                                            <span id="D2<%=i%>" class="size-cell" ><%=bascket[i].size2%></span>
+                                            <input type="hidden" id="maxD2<%=i%>">
+                                            <button onclick="decreaseDonafen('D2', '<%=i%>')">-</button>
+                                        </div>
+                                        <div class="oneSizeColumnBox">
+                                            <label>80C-90C</label>
+                                            <button onclick="increaseDonafen('D3', '<%=i%>')">+</button>
+                                            <span id="D3<%=i%>" class="size-cell" ><%=bascket[i].size3%></span>
+                                            <input type="hidden" id="maxD3<%=i%>">
+                                            <button onclick="decreaseDonafen('D3', '<%=i%>')">-</button>
+                                        </div>
+                                    </div>
+        
+                                    <!-- -----------------------batal-Donafen----------------------- -->
+                                    <div id="batal-box-Donaf<%=i%>">    
+                                        <div class="oneSizeColumnBox">
+                                            <label>80D-90D</label>
+                                            <button onclick="increaseDonafen('D4', '<%=i%>')">+</button>
+                                            <span id="D4<%=i%>" class="size-cell" ><%=bascket[i].size4%></span>
+                                            <input type="hidden" id="maxD4<%=i%>">
+                                            <button onclick="decreaseDonafen('D4', '<%=i%>')">-</button>
+                                        </div>
+                                        <div class="oneSizeColumnBox">
+                                            <label>85D-100D</label>
+                                            <button onclick="increaseDonafen('D5', '<%=i%>')">+</button>
+                                            <span id="D5<%=i%>" class="size-cell" ><%=bascket[i].size5%></span>
+                                            <input type="hidden" id="maxD5<%=i%>">
+                                            <button onclick="decreaseDonafen('D5', '<%=i%>')">-</button>
+                                        </div>
+                                    </div>
+
+                            <%} %>
+                        </div> <!-- --------end sizes cells box-------- -->
+
                     </div>
                         <%} %>
             <%} %>   
@@ -158,6 +210,7 @@
             
             function bascketState(){
                 const collectedBascketArr = [];
+               
                 for(let i = 0; i < bascketLength; i++){
                     const collectedOrder = {};
                     collectedOrder.idGroup = document.getElementById('idGroup'+i).value;
@@ -165,10 +218,22 @@
                     collectedOrder.color = document.getElementById('color'+i).innerHTML;
                     collectedOrder.price = document.getElementById('price'+i).innerHTML;
                     collectedOrder.totalSum = document.getElementById('totalSum').innerHTML;
-                    collectedOrder.sizeS = document.getElementById('s'+i).innerHTML;
-                    collectedOrder.sizeM = document.getElementById('m'+i).innerHTML;
-                    collectedOrder.sizeL = document.getElementById('l'+i).innerHTML;
-                    collectedOrder.sizeXL = document.getElementById('xl'+i).innerHTML;
+                    collectedOrder.titleGroup = document.getElementById('titleGroup'+i).value;
+                    if(collectedOrder.titleGroup != 'donafen'){
+                        collectedOrder.sizeS = document.getElementById('s'+i).innerHTML;
+                        collectedOrder.sizeM = document.getElementById('m'+i).innerHTML;
+                        collectedOrder.sizeL = document.getElementById('l'+i).innerHTML;
+                        collectedOrder.sizeXL = document.getElementById('xl'+i).innerHTML;
+                        collectedOrder.sizeB1 = document.getElementById('b1'+i).innerHTML;
+                        collectedOrder.sizeB2 = document.getElementById('b2'+i).innerHTML;
+                        collectedOrder.sizeB3 = document.getElementById('b3'+i).innerHTML;
+                    }else{
+                        collectedOrder.size1 = document.getElementById('D1'+i).innerHTML;
+                        collectedOrder.size2 = document.getElementById('D2'+i).innerHTML;
+                        collectedOrder.size3 = document.getElementById('D3'+i).innerHTML;
+                        collectedOrder.size4 = document.getElementById('D4'+i).innerHTML;
+                        collectedOrder.size5 = document.getElementById('D5'+i).innerHTML;
+                    }
                     collectedBascketArr.push(collectedOrder);
                 }
                 return collectedBascketArr;
@@ -207,7 +272,12 @@
                const _bascket = bascketState();
                let _totalSum = 0;
                 _bascket.map((order, indx) => {
-                    const sum = (order.sizeS*1+order.sizeM*1+order.sizeL*1+order.sizeXL*1) * order.price*1;
+                    let sum;
+                    if(order.titleGroup != 'donafen'){
+                        sum = (order.sizeS*1+order.sizeM*1+order.sizeL*1+order.sizeXL*1+order.sizeB1*1+order.sizeB2*1+order.sizeB3*1) * order.price*1;
+                    }else{
+                        sum = (order.size1*1+order.size2*1+order.size3*1+order.size4*1+order.size5*1) * order.price*1;
+                    }
                     _totalSum = _totalSum + sum;
                     document.getElementById('sum'+indx).innerHTML = 'сумма ' + sum + ' грн.';
                     document.getElementById('totalSum').innerHTML = _totalSum;
@@ -228,72 +298,107 @@
                 changeSum();
             }
 
-            getLatestBase()
+             function increaseDonafen(size, i){
+                const elemInner = document.getElementById(size+i);
+                const max = document.getElementById('max'+size+i);
+                if(elemInner.innerHTML < max.value){elemInner.innerHTML = elemInner.innerHTML*1 + 3;}
+                changeSum();
+            }
 
+            function decreaseDonafen(size, i){
+                
+                const elemInner = document.getElementById(size+i);
+                if(elemInner.innerHTML>0) {elemInner.innerHTML = elemInner.innerHTML*1 - 3}
+                changeSum();
+            }
+
+           getLatestBase()
 
            function getLatestBase(){
-                
                 const _bascket = bascketState();
                 let totalSum = 0;
-               
+
                 _bascket.map((objOrder, indx) => {
+                    const boxSize = document.getElementById('norma-box'+indx);
+                    const boxSizeBat = document.getElementById('batal-box'+indx);
+                    const normaDonaf = document.getElementById('norma-box-Donaf'+indx);
+                    const batalDonaf = document.getElementById('batal-box-Donaf'+indx);
+                    const titleBatal = document.getElementById('titleBatalbascket');
                     const idGroup = objOrder.idGroup;
                     const artikul = objOrder.strictArtikul;
                     const color = objOrder.color;
-                    axios.post(`/getLatestBase`, {idGroup, artikul, color})
-                            .then(response => {
-                                const base = response.data.obj;
-                                const price = response.data.price;
-                                const sum = (objOrder.sizeS*1+objOrder.sizeM*1+objOrder.sizeL*1+objOrder.sizeXL*1) * price*1;
-                                totalSum = totalSum+sum;
+                    const titleGroup = objOrder.titleGroup;
+                    axios.post(`/getLatestBase`, {idGroup, titleGroup, artikul, color})
+                    .then(response => {
+                        const base = response.data.obj;
+                        const price = response.data.price;
+                        let sum;
+                        
+                        if(titleGroup != 'donafen'){
+                            ((base.sizeS*1+base.sizeM*1+base.sizeL*1+base.sizeXL*1) > 0)?boxSize.className = "box-size-cell":boxSize.className = "displNone";
+                            ((base.sizeB1*1+base.sizeB2*1+base.sizeB3*1) > 0)?boxSizeBat.className = "box-size-cell":boxSizeBat.className = "displNone";
+                            ((base.sizeB1*1+base.sizeB2*1+base.sizeB3*1) > 0)?titleBatal.className = "titleBatal":titleBatal.className = "displNone";
 
-                                document.getElementById('maxs'+indx).value = base.sizeS;
-                                document.getElementById('maxm'+indx).value = base.sizeM;
-                                document.getElementById('maxl'+indx).value = base.sizeL;
-                                document.getElementById('maxxl'+indx).value = base.sizeXL;
+                            sum = (objOrder.sizeS*1+objOrder.sizeM*1+objOrder.sizeL*1+objOrder.sizeXL*1+objOrder.sizeB1*1+objOrder.sizeB2*1+objOrder.sizeB3*1) * price*1;
+                            
+                            totalSum = totalSum+sum;
+                            document.getElementById('maxs'+indx).value = base.sizeS;
+                            document.getElementById('maxm'+indx).value = base.sizeM;
+                            document.getElementById('maxl'+indx).value = base.sizeL;
+                            document.getElementById('maxxl'+indx).value = base.sizeXL;
+                            document.getElementById('maxb1'+indx).value = base.sizeB1;
+                            document.getElementById('maxb2'+indx).value = base.sizeB2;
+                            document.getElementById('maxb3'+indx).value = base.sizeB3;
+                        }else{
+                            ((base.size1*1+base.size2*1+base.size3*1) > 0)?normaDonaf.className = "box-size-cell":normaDonaf.className = "displNone";
+                            ((base.size4*1+base.size5*1) > 0)?batalDonaf.className = "box-size-cell":batalDonaf.className = "displNone";
+                            sum = (objOrder.size1*1+objOrder.size2*1+objOrder.size3*1+objOrder.size4*1+objOrder.size5*1) * price*1;
+                            totalSum = totalSum+sum;
+                            document.getElementById('maxD1'+indx).value = base.size1;
+                            document.getElementById('maxD2'+indx).value = base.size2;
+                            document.getElementById('maxD3'+indx).value = base.size3;
+                            document.getElementById('maxD4'+indx).value = base.size4;
+                            document.getElementById('maxD5'+indx).value = base.size5;
+                        }
 
-                                document.getElementById('price'+indx).innerHTML = price;
-                                document.getElementById('sum'+indx).innerHTML = 'сумма ' + sum + ' грн.';
-                                document.getElementById('totalSum').innerHTML = totalSum;
-                                return base;
+                        document.getElementById('price'+indx).innerHTML = price;
+                        document.getElementById('sum'+indx).innerHTML = 'сумма ' + sum + ' грн.';
+                        document.getElementById('totalSum').innerHTML = totalSum;
+                        return base;
 
-                            }).then((base)=>{
-                                
-                                if(base.sizeS*1 < objOrder.sizeS*1){
-                                    const diference = objOrder.sizeS*1 - base.sizeS*1
-                                    document.getElementById('s'+indx).innerHTML = base.sizeS*1;
-                                    document.getElementById('infoBox').style = 'display: flex; flex-direction: column; box-shadow: 0 0 30px red; border-radius: 10px;';
-                                    document.getElementById('infoChange').innerHTML += '<br>' + objOrder.strictArtikul+' '+objOrder.color+' S'+'на '+diference+'шт.';
-                                    var timerId = setTimeout(function(){ changeSum();}, 500);
-                                }
-                                if(base.sizeM*1 < objOrder.sizeM*1){
-                                    const diference = objOrder.sizeM*1 - base.sizeM*1;
-                                    document.getElementById('m'+indx).innerHTML = base.sizeM;
-                                    document.getElementById('infoBox').style = 'display: flex; flex-direction: column; box-shadow: 0 0 30px red; border-radius: 10px;';
-                                    document.getElementById('infoChange').innerHTML += '<br>' + objOrder.strictArtikul+' '+objOrder.color+' M'+'на '+diference+'шт.';
-                                    var timerId = setTimeout(function(){ changeSum();}, 500);
-                                }
-                                if(base.sizeL*1 < objOrder.sizeL*1){
-                                    const diference = objOrder.sizeL*1 - base.sizeL*1;
-                                    document.getElementById('l'+indx).innerHTML = base.sizeL;
-                                    document.getElementById('infoBox').style = 'display: flex; flex-direction: column; box-shadow: 0 0 30px red; border-radius: 10px;';
-                                    document.getElementById('infoChange').innerHTML += '<br>' + objOrder.strictArtikul+' '+objOrder.color+' L'+'на '+diference+'шт.';
-                                    var timerId = setTimeout(function(){ changeSum();}, 500);
-                                }
-                                if(base.sizeXL*1 < objOrder.sizeXL*1){
-                                    const diference = objOrder.sizeXL*1 - base.sizeXL*1;
-                                    document.getElementById('xl'+indx).innerHTML = base.sizeXL;
-                                    document.getElementById('infoBox').style = 'display: flex; flex-direction: column; box-shadow: 0 0 30px red; border-radius: 10px;';
-                                    document.getElementById('infoChange').innerHTML += '<br>' + objOrder.strictArtikul+' '+objOrder.color+' XL'+'на '+diference+'шт.';
-                                    var timerId = setTimeout(function(){ changeSum();}, 500);
-                                }
-                            })
-                                .catch(function (err) {
-                                    alert(err.message);
-                                });
-                            })
-                      
-                    }
+                    }).then((base)=>{
+                        let baseSize, bascketSize, elemId, size;
+                        for(let i=0; i<12; i++){
+                            if(i==0){baseSize=base.sizeS*1; bascketSize=objOrder.sizeS*1; elemId='s'; size='S';}
+                            if(i==1){baseSize=base.sizeM*1; bascketSize=objOrder.sizeM*1; elemId='m'; size='M';}
+                            if(i==2){baseSize=base.sizeL*1; bascketSize=objOrder.sizeL*1; elemId='l'; size='L';}
+                            if(i==3){baseSize=base.sizeXL*1; bascketSize=objOrder.sizeXL*1; elemId='xl'; size='XL';}
+                            if(i==4){baseSize=base.sizeB1*1; bascketSize=objOrder.sizeB1*1; elemId='b1'; size='XL-batal';}
+                            if(i==5){baseSize=base.sizeB2*1; bascketSize=objOrder.sizeB2*1; elemId='b2'; size='XXL';}
+                            if(i==6){baseSize=base.sizeB3*1; bascketSize=objOrder.sizeB3*1; elemId='b3'; size='XXXL';}
+
+                            if(i==7){baseSize=base.size1*1; bascketSize=objOrder.size1*1; elemId='D1'; size='75B-85B';}
+                            if(i==8){baseSize=base.size2*1; bascketSize=objOrder.size2*1; elemId='D2'; size='75C-85C';}
+                            if(i==9){baseSize=base.size3*1; bascketSize=objOrder.size3*1; elemId='D3'; size='80C-90C';}
+                            if(i==10){baseSize=base.size4*1; bascketSize=objOrder.size4*1; elemId='D4'; size='80D-90D';}
+                            if(i==11){baseSize=base.size5*1; bascketSize=objOrder.size5*1; elemId='D5'; size='85D-100D';}
+
+                            if(baseSize < bascketSize){
+                                const diference = bascketSize - baseSize;
+                                document.getElementById(elemId+indx).innerHTML = baseSize;
+                                document.getElementById('infoBox').style = 'display: flex; flex-direction: column; box-shadow: 0 0 30px red; border-radius: 10px;';
+                                document.getElementById('infoChange').innerHTML += '<br>' + objOrder.strictArtikul+' '+objOrder.color+' '+size+' '+'на '+diference+'шт.';
+                                var timerId = setTimeout(function(){ changeSum();}, 500);
+                             }
+                        }
+                        
+                    })
+                        .catch(function (err) {
+                            alert(err.message);
+                        });
+                    })
+                
+                }
 
 // _bascket.map(async (objOrder, indx) => {
 //         try {
