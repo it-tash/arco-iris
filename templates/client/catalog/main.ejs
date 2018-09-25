@@ -1,16 +1,46 @@
 <!DOCTYPE html>
 <html lang="ru">
 
-    <%- include ../../common/head %>
+    <head>
+        <% if(catalogName == "Бюстгалтеры и комплекты Donafen" ){%>
+            <title>Каталог Donafen, женское нижнее белье оптом. Бюстгалтеры, комплекты нижнего белья, трусы, стринги</title>
+        <%}else if(catalogName == "Купальники"){%>
+            <title>Каталог купальников. Купить купальники оптом</title>
+        <%}else if(catalogName == "Изделия из сатина"){%>
+            <title>Arco Iris сатин. Одежда для сна, домашняя одежда, ночные рубашки, атласные халаты, пеньюары купить оптом.</title>
+        <%}else if(catalogName == "Боди"){%>
+            <title> Arco Iris боди, бодики, кружевные комбидрессы, трикотажные боди купить оптом</title>
+        <%}else if(catalogName == "Трикотаж"){%>
+            <title>Arco Iris трикотаж, домашняя одежда оптом, трикотажные пижамы, халаты от производителя</title>
+        <%}else{%>
+            <title>Arco Iris женское белье и домашняя одежда оптом</title>
+        <%} %>
+
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
+
+        <script
+        src="https://code.jquery.com/jquery-2.2.4.js"
+        integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="
+        crossorigin="anonymous"></script>
+    
+        <link rel="stylesheet" href="/public/style.css">
+        <link rel="stylesheet" href="/public/styleMobile.css">
+        <link rel="stylesheet" href="/public/styleCardAdd.css">
+    
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    
+    
+    </head>
 
     <body>
 
         <%- include ../../common/shapka %>
 
-        <!--<button type="button" class="btn btn-outline-dark">Войти</button>-->
-
-        <!--<button type="button" class="btn btn-outline-dark" onclick="location.href='/actionInRegForm'">Регистрация</button>-->
-
+       
         <%- include ../registrForm %>
         <%- include ../enterForm %>
         <%- include ../logInRegButtons %>
