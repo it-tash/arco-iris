@@ -310,27 +310,38 @@ module.exports = function (app) {
         const sizeB1 = req.body.sizeB1;
         const sizeB2 = req.body.sizeB2;
         const sizeB3 = req.body.sizeB3;
-
-        const ColorCard = new DbColors({
-            color: colorCard,
-            idGroup: idGroup,
-            strictArtikul: artikulColorCard,
-            sizeS: sizeS,
-            sizeM:sizeM,
-            sizeL:sizeL,
-            sizeXL: sizeXL,
-            sizeB1: sizeB1,
-            sizeB2: sizeB2,
-            sizeB3: sizeB3
-         });
-
-         ColorCard.save(function (err) {
-            if (err) {
-                console.dir(err);
-            } else {
-                console.dir('color saved');
-                res.send('color saved');
+        
+        DbColors.find({idGroup, strictArtikul: artikulColorCard}, function(err, artikulCardsFound){
+            if(err) {next(err);}
+            let colorRepeat = false;
+            if(artikulCardsFound){
+                artikulCardsFound.map((oneCard)=>{
+                    if(oneCard.color == colorCard){colorRepeat = true;}
+                })
             }
+            if(colorRepeat == false){
+                const ColorCard = new DbColors({
+                    color: colorCard,
+                    idGroup: idGroup,
+                    strictArtikul: artikulColorCard,
+                    sizeS: sizeS,
+                    sizeM:sizeM,
+                    sizeL:sizeL,
+                    sizeXL: sizeXL,
+                    sizeB1: sizeB1,
+                    sizeB2: sizeB2,
+                    sizeB3: sizeB3
+                });
+
+                ColorCard.save(function (err) {
+                    if (err) {
+                        console.dir(err);
+                    } else {
+                        console.dir('color saved');
+                        res.send('color saved');
+                    }
+                });
+            }else{res.send('цвет уже существует');}
         });
     });
 
@@ -344,26 +355,37 @@ module.exports = function (app) {
         const size4 = req.body.size4;
         const size5 = req.body.size5;
 
-        const DonafColorCard = new DbColorsDonaf({
-            color: colorCard,
-            idGroup: idGroup,
-            strictArtikul: artikulColorCard,
-            size1: size1,
-            size2:size2,
-            size3:size3,
-            size4: size4,
-            size5: size5 
-         });
-
-         DonafColorCard.save(function (err) {
-            if (err) {
-                console.dir(err);
-            } else {
-                console.dir('color saved');
-                res.send('color saved');
+        DbColorsDonaf.find({idGroup, strictArtikul: artikulColorCard}, function(err, artikulCardsFound){
+            if(err) {next(err);}
+            let colorRepeat = false;
+            if(artikulCardsFound){
+                artikulCardsFound.map((oneCard)=>{
+                    if(oneCard.color == colorCard){colorRepeat = true;}
+                })
             }
+            if(colorRepeat == false){
+                const DonafColorCard = new DbColorsDonaf({
+                    color: colorCard,
+                    idGroup: idGroup,
+                    strictArtikul: artikulColorCard,
+                    size1: size1,
+                    size2:size2,
+                    size3:size3,
+                    size4: size4,
+                    size5: size5 
+                });
+
+                DonafColorCard.save(function (err) {
+                    if (err) {
+                        console.dir(err);
+                    } else {
+                        console.dir('color saved');
+                        res.send('color saved');
+                    }
+                });
+            }else{res.send('цвет уже существует');}
         });
-    })
+    });
 
     // ------------------edit--------------------------
 

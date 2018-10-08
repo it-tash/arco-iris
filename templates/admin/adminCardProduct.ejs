@@ -409,7 +409,11 @@ function sendColorCard(){
 
     axios.post(`/sendColorCard`, {idGroup, artikul, colorCard, sizeS, sizeM, sizeL, sizeXL, sizeB1, sizeB2, sizeB3})
         .then(response => {
-        window.location.href = '/openCard/<%=idGroup %>/<%=artikul %> ';
+            if(response.data == 'цвет уже существует'){
+                alert(response.data)
+            }else{
+                window.location.href = '/openCard/<%=idGroup %>/<%=artikul %> ';
+            }
         })
         .catch(function (err) {
             alert(err.message);
@@ -426,7 +430,11 @@ function sendColorCard(){
 
     axios.post(`/sendDonafenColorCard`, {idGroup, artikul, colorCard, size1, size2, size3, size4, size5})
         .then(response => {
-        window.location.href = '/openCard/<%=idGroup %>/<%=artikul %> ';
+            if(response.data == 'цвет уже существует'){
+                alert(response.data)
+            }else{
+                window.location.href = '/openCard/<%=idGroup %>/<%=artikul %> ';
+            }
         })
         .catch(function (err) {
             alert(err.message);
