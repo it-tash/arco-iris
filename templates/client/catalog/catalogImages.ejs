@@ -4,9 +4,9 @@
 
     <div class="inCatalogImgBox" style="margin-top: 10px">
 
-        <img src="<%=img[i].imgPath %>" onclick="location.href='/openCardProduct/<%=img[i].idGroup %>/<%=img[i].strictArtikul %>'">
-        <span><%=img[i].descriptImg%></span>
-        <span>арт.<%=img[i].strictArtikul%></span>
+        <img style="box-shadow: 10px 5px 15px #555; cursor: pointer; margin-bottom: 5px; " src="<%=img[i].imgPath %>" onclick="location.href='/openCardProduct/<%=img[i].idGroup %>/<%=img[i].strictArtikul %>'">
+        <span><b><%=img[i].descriptImg%></b></span>
+        <span><b>арт.<%=img[i].strictArtikul%></b></span>
 
         <% if(userName !== 'Гость'){%>
             <span><%=img[i].price%> грн.</span>
